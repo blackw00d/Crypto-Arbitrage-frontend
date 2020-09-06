@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <img src="img\image\logo.png" width="150" height="150" style="float: left; margin-left: 10px">
+      <img src="../assets/img/logo.png" width="150" height="150" style="float: left; margin-left: 10px">
       Crypto Arbitrage
       <div id="top_menu">
         <ul>
@@ -15,9 +15,9 @@
       </div>
     </div>
     <div class="lang">
-      <a href="index_arb.php/?action=out">Выход</a>
-      <a><img src="img/image/ru.png" height="15" width="20"></a>
-      <a><img src="img/image/en.png" height="15" width="20"></a>
+      <a href="#">Выход</a>
+      <a><img src="../assets/img/ru.png" height="15" width="20"></a>
+      <a><img src="../assets/img/en.png" height="15" width="20"></a>
     </div>
   </div>
 </template>
@@ -29,5 +29,52 @@ export default {
 </script>
 
 <style scoped>
-
+#top_menu{
+    width:100%;
+    height:59px;
+    background:url(../assets/img/nav/top_menu_bg.jpg) repeat-x;
+    font:12px/18px Tahoma, Arial, Helvetica, sans-serif;
+}
+#top_menu ul{
+    list-style:none;
+    margin:0 auto;
+    width: 750px;
+}
+#top_menu li{
+    list-style:none;
+    display:block;
+    float:left;
+    height:59px;
+    line-height:59px;
+}
+#top_menu li a{
+    display:block;
+    float:left;
+    color:#a7a7a7;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:bold;
+    line-height:59px;
+    text-decoration:none;
+    padding:0 20px;
+}
+#top_menu li a:hover{
+    color:#fff;
+    background:url(../assets/img/nav/top_menu_h.jpg) no-repeat bottom;
+}
+#top_menu li a.current{
+    display:block;
+    float:left;
+    background:url(../assets/img/nav/top_menu_h.jpg) no-repeat bottom;
+    color:#fff;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:bold;
+    line-height:59px;
+    text-decoration:none;
+    padding:0 20px;
+}
+#top_menu li a:hover.current{
+    color:#fff;
+}
 </style>
