@@ -6,12 +6,18 @@
 </template>
 
 <style>
-  @import "assets/css/style.css";
+@import "assets/css/style.css";
 </style>
 
 <script>
-  import Nav from "@/components/nav";
-  export default {
-    components: {Nav}
-  }
+import Nav from "@/components/nav";
+
+export default {
+  data() {
+    return {
+      activeLink: 6
+    }
+  },
+  components: {Nav}
+}
 </script>
