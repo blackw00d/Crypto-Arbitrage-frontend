@@ -1,12 +1,15 @@
 <template>
   <div id="arbitrage">
-    <table class="arb_menu_style" style="float: right;">
+    <table class="arb_menu_style">
       <tbody>
       <tr>
-        <td style="border: none" width="120"><a onclick="show('table_exchange')">По монетам</a></td>
-        <td style="border: none" width="120"><a onclick="show('table_profit')">По профиту</a></td>
-        <td style="border: none"><a onclick="show('arb_menu')">По биржам</a></td>
-        <td style="border: none" width="120"></td>
+        <td><a @click="show('table_exchange')" v-on:click="setActive('money')"
+               :class="{ activelink: isActive('money') }">По монетам</a></td>
+        <td><a @click="show('table_profit')" v-on:click="setActive('profit')"
+               :class="{ activelink: isActive('profit') }">По профиту</a></td>
+        <td><a @click="show('arb_menu')" v-on:click="setActive('menu')" :class="{ activelink: isActive('menu') }">По
+          биржам</a></td>
+        <td></td>
       </tr>
       </tbody>
     </table>
@@ -15,107 +18,107 @@
       <table class="arb_menu_table">
         <tbody>
         <tr>
-          <td><a onclick="show('binance_bittrex')">Binance / Bittrex</a></td>
-          <td><a onclick="show('binance_hitbtc')">Binance / HitBTC</a></td>
-          <td><a onclick="show('binance_kucoin')">Binance / Kucoin</a></td>
-          <td><a onclick="show('binance_livecoin')">Binance / Livecoin</a></td>
-          <td><a onclick="show('binance_poloniex')">Binance / Poloniex</a></td>
-          <td><a onclick="show('binance_kraken')">Binance / Kraken</a></td>
-          <td><a onclick="show('binance_okex')">Binance / OKex</a></td>
-          <td><a onclick="show('binance_gateio')">Binance / Gate.io</a></td>
-          <td><a onclick="show('binance_bitz')">Binance / Bit-Z</a></td>
+          <td><a @click="show('binance_bittrex')">Binance / Bittrex</a></td>
+          <td><a @click="show('binance_hitbtc')">Binance / HitBTC</a></td>
+          <td><a @click="show('binance_kucoin')">Binance / Kucoin</a></td>
+          <td><a @click="show('binance_livecoin')">Binance / Livecoin</a></td>
+          <td><a @click="show('binance_poloniex')">Binance / Poloniex</a></td>
+          <td><a @click="show('binance_kraken')">Binance / Kraken</a></td>
+          <td><a @click="show('binance_okex')">Binance / OKex</a></td>
+          <td><a @click="show('binance_gateio')">Binance / Gate.io</a></td>
+          <td><a @click="show('binance_bitz')">Binance / Bit-Z</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('binance_huobi')">Binance / Huobi</a></td>
-          <td><a onclick="show('binance_coinex')">Binance / Coinex</a></td>
-          <td><a onclick="show('binance_bibox')">Binance / Bibox</a></td>
-          <td><a onclick="show('bittrex_hitbtc')">Bittrex / HitBTC</a></td>
-          <td><a onclick="show('bittrex_kucoin')">Bittrex / Kucoin</a></td>
-          <td><a onclick="show('bittrex_livecoin')">Bittrex / Livecoin</a></td>
-          <td><a onclick="show('bittrex_poloniex')">Bittrex / Poloniex</a></td>
-          <td><a onclick="show('bittrex_kraken')">Bittrex / Kraken</a></td>
-          <td><a onclick="show('bittrex_okex')">Bittrex / OKex</a></td>
+          <td><a @click="show('binance_huobi')">Binance / Huobi</a></td>
+          <td><a @click="show('binance_coinex')">Binance / Coinex</a></td>
+          <td><a @click="show('binance_bibox')">Binance / Bibox</a></td>
+          <td><a @click="show('bittrex_hitbtc')">Bittrex / HitBTC</a></td>
+          <td><a @click="show('bittrex_kucoin')">Bittrex / Kucoin</a></td>
+          <td><a @click="show('bittrex_livecoin')">Bittrex / Livecoin</a></td>
+          <td><a @click="show('bittrex_poloniex')">Bittrex / Poloniex</a></td>
+          <td><a @click="show('bittrex_kraken')">Bittrex / Kraken</a></td>
+          <td><a @click="show('bittrex_okex')">Bittrex / OKex</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('bittrex_gateio')">Bittrex / Gate.io</a></td>
-          <td><a onclick="show('bittrex_bitz')">Bittrex / Bit-Z</a></td>
-          <td><a onclick="show('bittrex_huobi')">Bittrex / Huobi</a></td>
-          <td><a onclick="show('bittrex_coinex')">Bittrex / Coinex</a></td>
-          <td><a onclick="show('bittrex_bibox')">Bittrex / Bibox</a></td>
-          <td><a onclick="show('poloniex_hitbtc')">Poloniex / HitBTC</a></td>
-          <td><a onclick="show('poloniex_kucoin')">Poloniex / Kucoin</a></td>
-          <td><a onclick="show('poloniex_livecoin')">Poloniex / Livecoin</a></td>
-          <td><a onclick="show('poloniex_kraken')">Poloniex / Kraken</a></td>
+          <td><a @click="show('bittrex_gateio')">Bittrex / Gate.io</a></td>
+          <td><a @click="show('bittrex_bitz')">Bittrex / Bit-Z</a></td>
+          <td><a @click="show('bittrex_huobi')">Bittrex / Huobi</a></td>
+          <td><a @click="show('bittrex_coinex')">Bittrex / Coinex</a></td>
+          <td><a @click="show('bittrex_bibox')">Bittrex / Bibox</a></td>
+          <td><a @click="show('poloniex_hitbtc')">Poloniex / HitBTC</a></td>
+          <td><a @click="show('poloniex_kucoin')">Poloniex / Kucoin</a></td>
+          <td><a @click="show('poloniex_livecoin')">Poloniex / Livecoin</a></td>
+          <td><a @click="show('poloniex_kraken')">Poloniex / Kraken</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('poloniex_okex')">Poloniex / OKex</a></td>
-          <td><a onclick="show('poloniex_gateio')">Poloniex / Gate.io</a></td>
-          <td><a onclick="show('poloniex_bitz')">Poloniex / Bit-Z</a></td>
-          <td><a onclick="show('poloniex_huobi')">Poloniex / Huobi</a></td>
-          <td><a onclick="show('poloniex_coinex')">Poloniex / Coinex</a></td>
-          <td><a onclick="show('poloniex_bibox')">Poloniex / Bibox</a></td>
+          <td><a @click="show('poloniex_okex')">Poloniex / OKex</a></td>
+          <td><a @click="show('poloniex_gateio')">Poloniex / Gate.io</a></td>
+          <td><a @click="show('poloniex_bitz')">Poloniex / Bit-Z</a></td>
+          <td><a @click="show('poloniex_huobi')">Poloniex / Huobi</a></td>
+          <td><a @click="show('poloniex_coinex')">Poloniex / Coinex</a></td>
+          <td><a @click="show('poloniex_bibox')">Poloniex / Bibox</a></td>
 
-          <td><a onclick="show('hitbtc_kucoin')">HitBTC / Kucoin</a></td>
-          <td><a onclick="show('hitbtc_livecoin')">HitBTC / Livecoin</a></td>
-          <td><a onclick="show('hitbtc_kraken')">HitBTC / Kraken</a></td>
+          <td><a @click="show('hitbtc_kucoin')">HitBTC / Kucoin</a></td>
+          <td><a @click="show('hitbtc_livecoin')">HitBTC / Livecoin</a></td>
+          <td><a @click="show('hitbtc_kraken')">HitBTC / Kraken</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('hitbtc_okex')">HitBTC / OKex</a></td>
-          <td><a onclick="show('hitbtc_gateio')">HitBTC / Gate.io</a></td>
-          <td><a onclick="show('hitbtc_bitz')">HitBTC / Bit-Z</a></td>
-          <td><a onclick="show('hitbtc_huobi')">HitBTC / Huobi</a></td>
-          <td><a onclick="show('hitbtc_coinex')">HitBTC / Coinex</a></td>
-          <td><a onclick="show('hitbtc_bibox')">HitBTC / Bibox</a></td>
+          <td><a @click="show('hitbtc_okex')">HitBTC / OKex</a></td>
+          <td><a @click="show('hitbtc_gateio')">HitBTC / Gate.io</a></td>
+          <td><a @click="show('hitbtc_bitz')">HitBTC / Bit-Z</a></td>
+          <td><a @click="show('hitbtc_huobi')">HitBTC / Huobi</a></td>
+          <td><a @click="show('hitbtc_coinex')">HitBTC / Coinex</a></td>
+          <td><a @click="show('hitbtc_bibox')">HitBTC / Bibox</a></td>
 
-          <td><a onclick="show('kucoin_livecoin')">Kucoin / Livecoin</a></td>
-          <td><a onclick="show('kucoin_kraken')">Kucoin / Kraken</a></td>
-          <td><a onclick="show('kucoin_okex')">Kucoin / OKex</a></td>
+          <td><a @click="show('kucoin_livecoin')">Kucoin / Livecoin</a></td>
+          <td><a @click="show('kucoin_kraken')">Kucoin / Kraken</a></td>
+          <td><a @click="show('kucoin_okex')">Kucoin / OKex</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('kucoin_gateio')">Kucoin / Gate.io</a></td>
-          <td><a onclick="show('kucoin_bitz')">Kucoin / Bit-Z</a></td>
-          <td><a onclick="show('kucoin_huobi')">Kucoin / Huobi</a></td>
-          <td><a onclick="show('kucoin_coinex')">Kucoin / Coinex</a></td>
-          <td><a onclick="show('kucoin_bibox')">Kucoin / Bibox</a></td>
+          <td><a @click="show('kucoin_gateio')">Kucoin / Gate.io</a></td>
+          <td><a @click="show('kucoin_bitz')">Kucoin / Bit-Z</a></td>
+          <td><a @click="show('kucoin_huobi')">Kucoin / Huobi</a></td>
+          <td><a @click="show('kucoin_coinex')">Kucoin / Coinex</a></td>
+          <td><a @click="show('kucoin_bibox')">Kucoin / Bibox</a></td>
 
-          <td><a onclick="show('livecoin_kraken')">Livecoin / Kraken</a></td>
-          <td><a onclick="show('livecoin_okex')">Livecoin / OKex</a></td>
-          <td><a onclick="show('livecoin_gateio')">Livecoin / Gate.io</a></td>
-          <td><a onclick="show('livecoin_bitz')">Livecoin / Bit-Z</a></td>
+          <td><a @click="show('livecoin_kraken')">Livecoin / Kraken</a></td>
+          <td><a @click="show('livecoin_okex')">Livecoin / OKex</a></td>
+          <td><a @click="show('livecoin_gateio')">Livecoin / Gate.io</a></td>
+          <td><a @click="show('livecoin_bitz')">Livecoin / Bit-Z</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('livecoin_huobi')">Livecoin / Huobi</a></td>
-          <td><a onclick="show('livecoin_coinex')">Livecoin / Coinex</a></td>
-          <td><a onclick="show('livecoin_bibox')">Livecoin / Bibox</a></td>
+          <td><a @click="show('livecoin_huobi')">Livecoin / Huobi</a></td>
+          <td><a @click="show('livecoin_coinex')">Livecoin / Coinex</a></td>
+          <td><a @click="show('livecoin_bibox')">Livecoin / Bibox</a></td>
 
-          <td><a onclick="show('kraken_okex')">Kraken / OKex</a></td>
-          <td><a onclick="show('kraken_gateio')">Kraken / Gate.io</a></td>
-          <td><a onclick="show('kraken_bitz')">Kraken / Bit-Z</a></td>
-          <td><a onclick="show('kraken_huobi')">Kraken / Huobi</a></td>
-          <td><a onclick="show('kraken_coinex')">Kraken / Coinex</a></td>
-          <td><a onclick="show('kraken_bibox')">Kraken / Bibox</a></td>
+          <td><a @click="show('kraken_okex')">Kraken / OKex</a></td>
+          <td><a @click="show('kraken_gateio')">Kraken / Gate.io</a></td>
+          <td><a @click="show('kraken_bitz')">Kraken / Bit-Z</a></td>
+          <td><a @click="show('kraken_huobi')">Kraken / Huobi</a></td>
+          <td><a @click="show('kraken_coinex')">Kraken / Coinex</a></td>
+          <td><a @click="show('kraken_bibox')">Kraken / Bibox</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('okex_gateio')">OKex / Gate.io</a></td>
-          <td><a onclick="show('okex_bitz')">OKex / Bit-Z</a></td>
-          <td><a onclick="show('okex_huobi')">OKex / Huobi</a></td>
-          <td><a onclick="show('okex_coinex')">OKex / Coinex</a></td>
-          <td><a onclick="show('okex_bibox')">OKex / Bibox</a></td>
+          <td><a @click="show('okex_gateio')">OKex / Gate.io</a></td>
+          <td><a @click="show('okex_bitz')">OKex / Bit-Z</a></td>
+          <td><a @click="show('okex_huobi')">OKex / Huobi</a></td>
+          <td><a @click="show('okex_coinex')">OKex / Coinex</a></td>
+          <td><a @click="show('okex_bibox')">OKex / Bibox</a></td>
 
-          <td><a onclick="show('gateio_bitz')">Gate.io / Bit-Z</a></td>
-          <td><a onclick="show('gateio_huobi')">Gate.io / Huobi</a></td>
-          <td><a onclick="show('gateio_coinex')">Gate.io / Coinex</a></td>
-          <td><a onclick="show('gateio_bibox')">Gate.io / Bibox</a></td>
+          <td><a @click="show('gateio_bitz')">Gate.io / Bit-Z</a></td>
+          <td><a @click="show('gateio_huobi')">Gate.io / Huobi</a></td>
+          <td><a @click="show('gateio_coinex')">Gate.io / Coinex</a></td>
+          <td><a @click="show('gateio_bibox')">Gate.io / Bibox</a></td>
         </tr>
         <tr>
-          <td><a onclick="show('bitz_huobi')">Bit-Z / Huobi</a></td>
-          <td><a onclick="show('bitz_coinex')">Bit-Z / Coinex</a></td>
-          <td><a onclick="show('bitz_bibox')">Bit-Z / Bibox</a></td>
+          <td><a @click="show('bitz_huobi')">Bit-Z / Huobi</a></td>
+          <td><a @click="show('bitz_coinex')">Bit-Z / Coinex</a></td>
+          <td><a @click="show('bitz_bibox')">Bit-Z / Bibox</a></td>
 
-          <td><a onclick="show('huobi_coinex')">Huobi / Coinex</a></td>
-          <td><a onclick="show('huobi_bibox')">Huobi / Bibox</a></td>
+          <td><a @click="show('huobi_coinex')">Huobi / Coinex</a></td>
+          <td><a @click="show('huobi_bibox')">Huobi / Bibox</a></td>
 
-          <td><a onclick="show('coinex_bibox')">Coinex / Bibox</a></td>
+          <td><a @click="show('coinex_bibox')">Coinex / Bibox</a></td>
         </tr>
         </tbody>
       </table>
@@ -3240,8 +3243,8 @@
       </thead>
       <tbody>
       <tr>
-        <td id="ADA_td" class="td_icon" onmouseover="signs('ADA')" onmouseout="sign_out('ADA')">
-          <a id="ADA_on" class="ADA_on" onclick="activate('ADA',2)">ADA</a></td>
+        <td id="ADA_td" class="td_icon" @mouseover="signs('ADA')" @mouseout="sign_out('ADA')">
+          <a id="ADA_on" class="ADA_on" @click="activate('ADA',2)">ADA</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/ada/btc" title="Kraken"
                                                   target="_blank">0.0000090900</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=ada_btc" title="OKex"
@@ -3266,8 +3269,8 @@
         <td>1.82</td>
       </tr>
       <tr>
-        <td id="ALGO_td" class="td_icon" onmouseover="signs('ALGO')" onmouseout="sign_out('ALGO')">
-          <a id="ALGO_on" class="ALGO_on" onclick="activate('ALGO',6)">ALGO</a></td>
+        <td id="ALGO_td" class="td_icon" @mouseover="signs('ALGO')" @mouseout="sign_out('ALGO')">
+          <a id="ALGO_on" class="ALGO_on" @click="activate('ALGO',6)">ALGO</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/algo/btc" title="Kraken"
                                                   target="_blank">0.0000339200</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/algo_btc/exchange/" title="Huobi"
@@ -3310,8 +3313,8 @@
         <td>0.03</td>
       </tr>
       <tr>
-        <td id="ANT_td" class="td_icon" onmouseover="signs('ANT')" onmouseout="sign_out('ANT')">
-          <a id="ANT_on" class="ANT_on" onclick="activate('ANT',3)">ANT</a></td>
+        <td id="ANT_td" class="td_icon" @mouseover="signs('ANT')" @mouseout="sign_out('ANT')">
+          <a id="ANT_on" class="ANT_on" @click="activate('ANT',3)">ANT</a></td>
         <td style="background-color: #00FF00;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-ANT"
                                                   title="Bittrex" target="_blank">0.0004516700</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/ant_btc/exchange/" title="Huobi"
@@ -3333,8 +3336,8 @@
         <td>0.31</td>
       </tr>
       <tr>
-        <td id="ARDR_td" class="td_icon" onmouseover="signs('ARDR')" onmouseout="sign_out('ARDR')">
-          <a id="ARDR_on" class="ARDR_on" onclick="activate('ARDR',3)">ARDR</a></td>
+        <td id="ARDR_td" class="td_icon" @mouseover="signs('ARDR')" @mouseout="sign_out('ARDR')">
+          <a id="ARDR_on" class="ARDR_on" @click="activate('ARDR',3)">ARDR</a></td>
         <td style="background-color: #00FF00;"><a href="https://hitbtc.com/exchange/ARDR-to-BTC" title="HitBTC"
                                                   target="_blank">0.0000053210</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-ARDR"
@@ -3356,8 +3359,8 @@
         <td>0.37</td>
       </tr>
       <tr>
-        <td id="ATOM_td" class="td_icon" onmouseover="signs('ATOM')" onmouseout="sign_out('ATOM')">
-          <a id="ATOM_on" class="ATOM_on" onclick="activate('ATOM',13)">ATOM</a></td>
+        <td id="ATOM_td" class="td_icon" @mouseover="signs('ATOM')" @mouseout="sign_out('ATOM')">
+          <a id="ATOM_on" class="ATOM_on" @click="activate('ATOM',13)">ATOM</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/atom/btc" title="Kraken"
                                                   target="_blank">0.0004977000</a></td>
         <td style="background-color: #FF6666;"><a href="https://poloniex.com/exchange#BTC_ATOM" title="Poloniex"
@@ -3449,8 +3452,8 @@
         <td>0.03</td>
       </tr>
       <tr>
-        <td id="BAT_td" class="td_icon" onmouseover="signs('BAT')" onmouseout="sign_out('BAT')">
-          <a id="BAT_on" class="BAT_on" onclick="activate('BAT',8)">BAT</a></td>
+        <td id="BAT_td" class="td_icon" @mouseover="signs('BAT')" @mouseout="sign_out('BAT')">
+          <a id="BAT_on" class="BAT_on" @click="activate('BAT',8)">BAT</a></td>
         <td style="background-color: #00FF00;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-BAT"
                                                   title="Bittrex" target="_blank">0.0000244600</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=bat_btc" title="OKex"
@@ -3507,8 +3510,8 @@
         <td>0.02</td>
       </tr>
       <tr>
-        <td id="BCH_td" class="td_icon" onmouseover="signs('BCH')" onmouseout="sign_out('BCH')">
-          <a id="BCH_on" class="BCH_on" onclick="activate('BCH',16)">BCH</a></td>
+        <td id="BCH_td" class="td_icon" @mouseover="signs('BCH')" @mouseout="sign_out('BCH')">
+          <a id="BCH_on" class="BCH_on" @click="activate('BCH',16)">BCH</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.coinex.com/exchange?currency=btc&amp;dest=bch"
                                                   title="Coinex" target="_blank">0.0222842395</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/bch_btc/exchange/" title="Huobi"
@@ -3631,8 +3634,8 @@
         <td>0.26</td>
       </tr>
       <tr>
-        <td id="BSV_td" class="td_icon" onmouseover="signs('BSV')" onmouseout="sign_out('BSV')">
-          <a id="BSV_on" class="BSV_on" onclick="activate('BSV',4)">BSV</a></td>
+        <td id="BSV_td" class="td_icon" @mouseover="signs('BSV')" @mouseout="sign_out('BSV')">
+          <a id="BSV_on" class="BSV_on" @click="activate('BSV',4)">BSV</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/BSV-BTC" title="Kucoin"
                                                   target="_blank">0.0160019994</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/bsv_btc/exchange/" title="Huobi'"
@@ -3671,8 +3674,8 @@
         <td>0.27</td>
       </tr>
       <tr>
-        <td id="COMP_td" class="td_icon" onmouseover="signs('COMP')" onmouseout="sign_out('COMP')">
-          <a id="COMP_on" class="COMP_on" onclick="activate('COMP',4)">COMP</a></td>
+        <td id="COMP_td" class="td_icon" @mouseover="signs('COMP')" @mouseout="sign_out('COMP')">
+          <a id="COMP_on" class="COMP_on" @click="activate('COMP',4)">COMP</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/comp/btc" title="Kraken"
                                                   target="_blank">0.0162240006</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=comp_btc" title="OKex"
@@ -3701,8 +3704,8 @@
         <td>0.04</td>
       </tr>
       <tr>
-        <td id="CRO_td" class="td_icon" onmouseover="signs('CRO')" onmouseout="sign_out('CRO')">
-          <a id="CRO_on" class="CRO_on" onclick="activate('CRO',2)">CRO</a></td>
+        <td id="CRO_td" class="td_icon" @mouseover="signs('CRO')" @mouseout="sign_out('CRO')">
+          <a id="CRO_on" class="CRO_on" @click="activate('CRO',2)">CRO</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.huobipro.com/cro_btc/exchange/" title="Huobi"
                                                   target="_blank">0.0000147500</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-CRO"
@@ -3747,8 +3750,8 @@
         <td>0.22</td>
       </tr>
       <tr>
-        <td id="DOT_td" class="td_icon" onmouseover="signs('DOT')" onmouseout="sign_out('DOT')">
-          <a id="DOT_on" class="DOT_on" onclick="activate('DOT',5)">DOT</a></td>
+        <td id="DOT_td" class="td_icon" @mouseover="signs('DOT')" @mouseout="sign_out('DOT')">
+          <a id="DOT_on" class="DOT_on" @click="activate('DOT',5)">DOT</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/dot/eth" title="Kraken"
                                                   target="_blank">0.0132480003</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=dot_eth" title="OKex"
@@ -3794,8 +3797,8 @@
         <td>0.11</td>
       </tr>
       <tr>
-        <td id="ENJ_td" class="td_icon" onmouseover="signs('ENJ')" onmouseout="sign_out('ENJ')">
-          <a id="ENJ_on" class="ENJ_on" onclick="activate('ENJ',3)">ENJ</a></td>
+        <td id="ENJ_td" class="td_icon" @mouseover="signs('ENJ')" @mouseout="sign_out('ENJ')">
+          <a id="ENJ_on" class="ENJ_on" @click="activate('ENJ',3)">ENJ</a></td>
         <td style="background-color: #00FF00;"><a href="https://hitbtc.com/exchange/ENJ-to-BTC" title="HitBTC"
                                                   target="_blank">0.0000150260</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-ENJ"
@@ -3817,8 +3820,8 @@
         <td>0.03</td>
       </tr>
       <tr>
-        <td id="EOS_td" class="td_icon" onmouseover="signs('EOS')" onmouseout="sign_out('EOS')">
-          <a id="EOS_on" class="EOS_on" onclick="activate('EOS',13)">EOS</a></td>
+        <td id="EOS_td" class="td_icon" @mouseover="signs('EOS')" @mouseout="sign_out('EOS')">
+          <a id="EOS_on" class="EOS_on" @click="activate('EOS',13)">EOS</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/eos/btc" title="Kraken"
                                                   target="_blank">0.0002853000</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=eos_btc" title="OKex"
@@ -3910,8 +3913,8 @@
         <td>0.02</td>
       </tr>
       <tr>
-        <td id="ETC_td" class="td_icon" onmouseover="signs('ETC')" onmouseout="sign_out('ETC')">
-          <a id="ETC_on" class="ETC_on" onclick="activate('ETC',5)">ETC</a></td>
+        <td id="ETC_td" class="td_icon" @mouseover="signs('ETC')" @mouseout="sign_out('ETC')">
+          <a id="ETC_on" class="ETC_on" @click="activate('ETC',5)">ETC</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/ETC-BTC" title="Kucoin"
                                                   target="_blank">0.0004831000</a></td>
         <td style="background-color: #FF6666;"><a href="https://trade.kraken.com/markets/kraken/etc/btc" title="Kraken"
@@ -3947,8 +3950,8 @@
         <td>1.05</td>
       </tr>
       <tr>
-        <td id="ETH_td" class="td_icon" onmouseover="signs('ETH')" onmouseout="sign_out('ETH')">
-          <a id="ETH_on" class="ETH_on" onclick="activate('ETH',38)">ETH</a></td>
+        <td id="ETH_td" class="td_icon" @mouseover="signs('ETH')" @mouseout="sign_out('ETH')">
+          <a id="ETH_on" class="ETH_on" @click="activate('ETH',38)">ETH</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/ETH-BTC" title="Kucoin"
                                                   target="_blank">0.0340300016</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=eth_btc" title="OKex"
@@ -4245,8 +4248,8 @@
         <td>0.10</td>
       </tr>
       <tr>
-        <td id="GNT_td" class="td_icon" onmouseover="signs('GNT')" onmouseout="sign_out('GNT')">
-          <a id="GNT_on" class="GNT_on" onclick="activate('GNT',2)">GNT</a></td>
+        <td id="GNT_td" class="td_icon" @mouseover="signs('GNT')" @mouseout="sign_out('GNT')">
+          <a id="GNT_on" class="GNT_on" @click="activate('GNT',2)">GNT</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.okex.com/spot/trade#product=gnt_btc" title="OKex"
                                                   target="_blank">0.0000108100</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-GNT"
@@ -4271,8 +4274,8 @@
         <td>0.13</td>
       </tr>
       <tr>
-        <td id="ICX_td" class="td_icon" onmouseover="signs('ICX')" onmouseout="sign_out('ICX')">
-          <a id="ICX_on" class="ICX_on" onclick="activate('ICX',2)">ICX</a></td>
+        <td id="ICX_td" class="td_icon" @mouseover="signs('ICX')" @mouseout="sign_out('ICX')">
+          <a id="ICX_on" class="ICX_on" @click="activate('ICX',2)">ICX</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/icx/btc" title="Kraken"
                                                   target="_blank">0.0000410800</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/icx_btc/exchange/" title="Huobi"
@@ -4307,8 +4310,8 @@
         <td>0.13</td>
       </tr>
       <tr>
-        <td id="KMD_td" class="td_icon" onmouseover="signs('KMD')" onmouseout="sign_out('KMD')">
-          <a id="KMD_on" class="KMD_on" onclick="activate('KMD',2)">KMD</a></td>
+        <td id="KMD_td" class="td_icon" @mouseover="signs('KMD')" @mouseout="sign_out('KMD')">
+          <a id="KMD_on" class="KMD_on" @click="activate('KMD',2)">KMD</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.huobipro.com/kmd_btc/exchange/" title="Huobi"
                                                   target="_blank">0.0000599000</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-KMD"
@@ -4323,8 +4326,8 @@
         <td>0.20</td>
       </tr>
       <tr>
-        <td id="KNC_td" class="td_icon" onmouseover="signs('KNC')" onmouseout="sign_out('KNC')">
-          <a id="KNC_on" class="KNC_on" onclick="activate('KNC',3)">KNC</a></td>
+        <td id="KNC_td" class="td_icon" @mouseover="signs('KNC')" @mouseout="sign_out('KNC')">
+          <a id="KNC_on" class="KNC_on" @click="activate('KNC',3)">KNC</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/knc/btc" title="Kraken"
                                                   target="_blank">0.0001221000</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=knc_btc" title="OKex"
@@ -4346,8 +4349,8 @@
         <td>0.07</td>
       </tr>
       <tr>
-        <td id="LEND_td" class="td_icon" onmouseover="signs('LEND')" onmouseout="sign_out('LEND')">
-          <a id="LEND_on" class="LEND_on" onclick="activate('LEND',2)">LEND</a></td>
+        <td id="LEND_td" class="td_icon" @mouseover="signs('LEND')" @mouseout="sign_out('LEND')">
+          <a id="LEND_on" class="LEND_on" @click="activate('LEND',2)">LEND</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/LEND-BTC" title="Kucoin"
                                                   target="_blank">0.0000530800</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/lend_btc/exchange/" title="Huobi'"
@@ -4362,8 +4365,8 @@
         <td>0.15</td>
       </tr>
       <tr>
-        <td id="LINK_td" class="td_icon" onmouseover="signs('LINK')" onmouseout="sign_out('LINK')">
-          <a id="LINK_on" class="LINK_on" onclick="activate('LINK',15)">LINK</a></td>
+        <td id="LINK_td" class="td_icon" @mouseover="signs('LINK')" @mouseout="sign_out('LINK')">
+          <a id="LINK_on" class="LINK_on" @click="activate('LINK',15)">LINK</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/link/eth" title="Kraken"
                                                   target="_blank">0.0341107100</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=link_eth" title="OKex"
@@ -4489,8 +4492,8 @@
         <td>0.19</td>
       </tr>
       <tr>
-        <td id="LTC_td" class="td_icon" onmouseover="signs('LTC')" onmouseout="sign_out('LTC')">
-          <a id="LTC_on" class="LTC_on" onclick="activate('LTC',13)">LTC</a></td>
+        <td id="LTC_td" class="td_icon" @mouseover="signs('LTC')" @mouseout="sign_out('LTC')">
+          <a id="LTC_on" class="LTC_on" @click="activate('LTC',13)">LTC</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/LTC-BTC" title="Kucoin"
                                                   target="_blank">0.0047129998</a></td>
         <td style="background-color: #FF6666;"><a href="https://poloniex.com/exchange#BTC_LTC" title="Poloniex"
@@ -4582,8 +4585,8 @@
         <td>0.02</td>
       </tr>
       <tr>
-        <td id="MANA_td" class="td_icon" onmouseover="signs('MANA')" onmouseout="sign_out('MANA')">
-          <a id="MANA_on" class="MANA_on" onclick="activate('MANA',2)">MANA</a></td>
+        <td id="MANA_td" class="td_icon" @mouseover="signs('MANA')" @mouseout="sign_out('MANA')">
+          <a id="MANA_on" class="MANA_on" @click="activate('MANA',2)">MANA</a></td>
         <td style="background-color: #00FF00;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-MANA"
                                                   title="Bittrex" target="_blank">0.0000075300</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/mana_btc/exchange/" title="Huobi"
@@ -4608,8 +4611,8 @@
         <td>0.20</td>
       </tr>
       <tr>
-        <td id="OMG_td" class="td_icon" onmouseover="signs('OMG')" onmouseout="sign_out('OMG')">
-          <a id="OMG_on" class="OMG_on" onclick="activate('OMG',6)">OMG</a></td>
+        <td id="OMG_td" class="td_icon" @mouseover="signs('OMG')" @mouseout="sign_out('OMG')">
+          <a id="OMG_on" class="OMG_on" @click="activate('OMG',6)">OMG</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/OMG-BTC" title="Kucoin"
                                                   target="_blank">0.0003792200</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/omg_btc/exchange/" title="Huobi'"
@@ -4662,8 +4665,8 @@
         <td>0.02</td>
       </tr>
       <tr>
-        <td id="QTUM_td" class="td_icon" onmouseover="signs('QTUM')" onmouseout="sign_out('QTUM')">
-          <a id="QTUM_on" class="QTUM_on" onclick="activate('QTUM',3)">QTUM</a></td>
+        <td id="QTUM_td" class="td_icon" @mouseover="signs('QTUM')" @mouseout="sign_out('QTUM')">
+          <a id="QTUM_on" class="QTUM_on" @click="activate('QTUM',3)">QTUM</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/qtum/btc" title="Kraken"
                                                   target="_blank">0.0002353000</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/qtum_btc/exchange/" title="Huobi"
@@ -4685,8 +4688,8 @@
         <td>0.12</td>
       </tr>
       <tr>
-        <td id="REP_td" class="td_icon" onmouseover="signs('REP')" onmouseout="sign_out('REP')">
-          <a id="REP_on" class="REP_on" onclick="activate('REP',2)">REP</a></td>
+        <td id="REP_td" class="td_icon" @mouseover="signs('REP')" @mouseout="sign_out('REP')">
+          <a id="REP_on" class="REP_on" @click="activate('REP',2)">REP</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.bibox.com/exchange?coinPair=REP_BTC" title="Bibox"
                                                   target="_blank">0.0015161900</a></td>
         <td style="background-color: #FF6666;"><a href="https://trade.kraken.com/markets/kraken/rep/btc" title="Kraken"
@@ -4711,8 +4714,8 @@
         <td>0.12</td>
       </tr>
       <tr>
-        <td id="TRX_td" class="td_icon" onmouseover="signs('TRX')" onmouseout="sign_out('TRX')">
-          <a id="TRX_on" class="TRX_on" onclick="activate('TRX',10)">TRX</a></td>
+        <td id="TRX_td" class="td_icon" @mouseover="signs('TRX')" @mouseout="sign_out('TRX')">
+          <a id="TRX_on" class="TRX_on" @click="activate('TRX',10)">TRX</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/TRX-BTC" title="Kucoin"
                                                   target="_blank">0.0000030440</a></td>
         <td style="background-color: #FF6666;"><a href="https://poloniex.com/exchange#BTC_TRX" title="Poloniex"
@@ -4803,8 +4806,8 @@
         <td>0.30</td>
       </tr>
       <tr>
-        <td id="WAVES_td" class="td_icon" onmouseover="signs('WAVES')" onmouseout="sign_out('WAVES')">
-          <a id="WAVES_on" class="WAVES_on" onclick="activate('WAVES',5)">WAVES</a></td>
+        <td id="WAVES_td" class="td_icon" @mouseover="signs('WAVES')" @mouseout="sign_out('WAVES')">
+          <a id="WAVES_on" class="WAVES_on" @click="activate('WAVES',5)">WAVES</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.huobipro.com/waves_btc/exchange/" title="Huobi"
                                                   target="_blank">0.0002361600</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-WAVES"
@@ -4850,8 +4853,8 @@
         <td>0.06</td>
       </tr>
       <tr>
-        <td id="XEM_td" class="td_icon" onmouseover="signs('XEM')" onmouseout="sign_out('XEM')">
-          <a id="XEM_on" class="XEM_on" onclick="activate('XEM',7)">XEM</a></td>
+        <td id="XEM_td" class="td_icon" @mouseover="signs('XEM')" @mouseout="sign_out('XEM')">
+          <a id="XEM_on" class="XEM_on" @click="activate('XEM',7)">XEM</a></td>
         <td style="background-color: #00FF00;"><a href="https://Gate.io/trade/xem_btc" title="Gate.io" target="_blank">0.0000119820</a>
         </td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/xem_btc/exchange/" title="Huobi"
@@ -4901,8 +4904,8 @@
         <td>0.13</td>
       </tr>
       <tr>
-        <td id="XLM_td" class="td_icon" onmouseover="signs('XLM')" onmouseout="sign_out('XLM')">
-          <a id="XLM_on" class="XLM_on" onclick="activate('XLM',6)">XLM</a></td>
+        <td id="XLM_td" class="td_icon" @mouseover="signs('XLM')" @mouseout="sign_out('XLM')">
+          <a id="XLM_on" class="XLM_on" @click="activate('XLM',6)">XLM</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/XLM-BTC" title="Kucoin"
                                                   target="_blank">0.0000074900</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/xlm_btc/exchange/" title="Huobi'"
@@ -4945,8 +4948,8 @@
         <td>0.13</td>
       </tr>
       <tr>
-        <td id="XMR_td" class="td_icon" onmouseover="signs('XMR')" onmouseout="sign_out('XMR')">
-          <a id="XMR_on" class="XMR_on" onclick="activate('XMR',3)">XMR</a></td>
+        <td id="XMR_td" class="td_icon" @mouseover="signs('XMR')" @mouseout="sign_out('XMR')">
+          <a id="XMR_on" class="XMR_on" @click="activate('XMR',3)">XMR</a></td>
         <td style="background-color: #00FF00;"><a href="https://trade.kraken.com/markets/kraken/xmr/btc" title="Kraken"
                                                   target="_blank">0.0078330003</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.huobipro.com/xmr_btc/exchange/" title="Huobi"
@@ -4968,8 +4971,8 @@
         <td>0.02</td>
       </tr>
       <tr>
-        <td id="XRP_td" class="td_icon" onmouseover="signs('XRP')" onmouseout="sign_out('XRP')">
-          <a id="XRP_on" class="XRP_on" onclick="activate('XRP',10)">XRP</a></td>
+        <td id="XRP_td" class="td_icon" @mouseover="signs('XRP')" @mouseout="sign_out('XRP')">
+          <a id="XRP_on" class="XRP_on" @click="activate('XRP',10)">XRP</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.okex.com/spot/trade#product=xrp_eth" title="OKex"
                                                   target="_blank">0.0006830000</a></td>
         <td style="background-color: #FF6666;"><a href="https://bittrex.com/Market/Index?MarketName=ETH-XRP"
@@ -5040,8 +5043,8 @@
         <td>0.03</td>
       </tr>
       <tr>
-        <td id="XTZ_td" class="td_icon" onmouseover="signs('XTZ')" onmouseout="sign_out('XTZ')">
-          <a id="XTZ_on" class="XTZ_on" onclick="activate('XTZ',7)">XTZ</a></td>
+        <td id="XTZ_td" class="td_icon" @mouseover="signs('XTZ')" @mouseout="sign_out('XTZ')">
+          <a id="XTZ_on" class="XTZ_on" @click="activate('XTZ',7)">XTZ</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.kucoin.com/#/trade.pro/XTZ-BTC" title="Kucoin"
                                                   target="_blank">0.0002471600</a></td>
         <td style="background-color: #FF6666;"><a href="https://trade.kraken.com/markets/kraken/xtz/btc" title="Kraken"
@@ -5111,8 +5114,8 @@
         <td>0.11</td>
       </tr>
       <tr>
-        <td id="ZIL_td" class="td_icon" onmouseover="signs('ZIL')" onmouseout="sign_out('ZIL')">
-          <a id="ZIL_on" class="ZIL_on" onclick="activate('ZIL',5)">ZIL</a></td>
+        <td id="ZIL_td" class="td_icon" @mouseover="signs('ZIL')" @mouseout="sign_out('ZIL')">
+          <a id="ZIL_on" class="ZIL_on" @click="activate('ZIL',5)">ZIL</a></td>
         <td style="background-color: #00FF00;"><a href="https://www.huobipro.com/zil_btc/exchange/" title="Huobi"
                                                   target="_blank">0.0000014961</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.coinex.com/exchange?currency=btc&amp;dest=zil"
@@ -5148,8 +5151,8 @@
         <td>0.73</td>
       </tr>
       <tr>
-        <td id="ZRX_td" class="td_icon" onmouseover="signs('ZRX')" onmouseout="sign_out('ZRX')">
-          <a id="ZRX_on" class="ZRX_on" onclick="activate('ZRX',5)">ZRX</a></td>
+        <td id="ZRX_td" class="td_icon" @mouseover="signs('ZRX')" @mouseout="sign_out('ZRX')">
+          <a id="ZRX_on" class="ZRX_on" @click="activate('ZRX',5)">ZRX</a></td>
         <td style="background-color: #00FF00;"><a href="https://bittrex.com/Market/Index?MarketName=BTC-ZRX"
                                                   title="Bittrex" target="_blank">0.0000444800</a></td>
         <td style="background-color: #FF6666;"><a href="https://www.okex.com/spot/trade#product=zrx_btc" title="OKex"
@@ -5669,41 +5672,44 @@
 export default {
   name: "arbitrage",
   data() {
-    return {};
+    return {activelink: 'profit'}
   },
-  created() {
-    function activate(text, item) {
-      var b = document.getElementById(text + "_td");
-      for (var i = 1; i < item; i++) {
-        var a = document.getElementById(text + i);
-        if (a.className == "visible") {
+  methods: {
+    isActive: function (link) {
+      return this.activelink === link
+    },
+    setActive: function (link) {
+      this.activelink = link
+    },
+    activate(text, item) {
+      let b = document.getElementById(text + "_td")
+      for (let i = 1; i < item; i++) {
+        let a = document.getElementById(text + i)
+        if (a.className === "visible") {
           a.className = "hidden";
-          b.setAttribute("rowspan", "1");
+          b.setAttribute("rowspan", "1")
         } else {
           a.className = "visible";
-          b.setAttribute("rowspan", item);
+          b.setAttribute("rowspan", item)
         }
       }
       b.style.backgroundImage = "";
-    }
-
-    function signs(text) {
-      var a = document.getElementById(text + 1);
-      var b = document.getElementById(text + "_td");
-      if (a.className == "visible") {
-        b.style.backgroundImage = "url('minus.png')";
+    },
+    signs(text) {
+      let a = document.getElementById(text + 1)
+      let b = document.getElementById(text + "_td")
+      if (a.className === "visible") {
+        b.style.backgroundImage = "url(" + require("../assets/img/minus.png") + ")"
       } else {
-        b.style.backgroundImage = "url('plus.png')";
+        b.style.backgroundImage = "url(" + require("../assets/img/plus.png") + ")"
       }
-    }
-
-    function sign_out(text) {
-      var b = document.getElementById(text + "_td");
-      b.style.backgroundImage = "";
-    }
-
-    function show(text) {
-      var arr = {
+    },
+    sign_out(text) {
+      let b = document.getElementById(text + "_td")
+      b.style.backgroundImage = ""
+    },
+    show(text) {
+      let arr = {
         table_exchange: 'table_exchange',
         table_profit: 'table_profit',
         arb_menu: 'visible',
@@ -5785,29 +5791,124 @@ export default {
         bitz_bibox: 'arbitrage_table-visible',
         huobi_bibox: 'arbitrage_table-visible',
         coinex_bibox: 'arbitrage_table-visible',
-      };
-
-      var arr2 = ['binance_bittrex', 'binance_hitbtc', 'binance_kucoin', 'binance_livecoin', 'binance_poloniex', 'binance_kraken', 'binance_okex', 'binance_gateio', 'binance_bitz', 'binance_huobi', 'binance_coinex', 'bittrex_hitbtc', 'bittrex_kucoin', 'bittrex_livecoin', 'bittrex_poloniex', 'bittrex_kraken', 'bittrex_okex', 'bittrex_gateio', 'bittrex_bitz', 'bittrex_huobi', 'bittrex_coinex', 'poloniex_hitbtc', 'poloniex_kucoin', 'poloniex_livecoin', 'poloniex_kraken', 'poloniex_okex', 'poloniex_gateio', 'poloniex_bitz', 'poloniex_huobi', 'poloniex_coinex', 'hitbtc_kucoin', 'hitbtc_livecoin', 'hitbtc_kraken', 'hitbtc_okex', 'hitbtc_gateio', 'hitbtc_bitz', 'hitbtc_huobi', 'hitbtc_coinex', 'kucoin_livecoin', 'kucoin_kraken', 'kucoin_okex', 'kucoin_gateio', 'kucoin_bitz', 'kucoin_huobi', 'kucoin_coinex', 'livecoin_kraken', 'livecoin_okex', 'livecoin_gateio', 'livecoin_bitz', 'livecoin_huobi', 'livecoin_coinex', 'kraken_okex', 'kraken_gateio', 'kraken_bitz', 'kraken_huobi', 'kraken_coinex', 'okex_gateio', 'okex_bitz', 'okex_huobi', 'okex_coinex', 'gateio_bitz', 'gateio_huobi', 'gateio_coinex', 'bitz_huobi', 'bitz_coinex', 'huobi_coinex', 'binance_bibox', 'bittrex_bibox', 'poloniex_bibox', 'hitbtc_bibox', 'kucoin_bibox', 'livecoin_bibox', 'kraken_bibox', 'okex_bibox', 'gateio_bibox', 'bitz_bibox', 'huobi_bibox', 'coinex_bibox'];
-      for (var i in arr) {
-        document.getElementById(i).className = 'hidden';
       }
-      if (arr2.indexOf(text) != -1) {
-        document.getElementById('arb_menu').className = arr['arb_menu'];
+
+      let arr2 = ['binance_bittrex', 'binance_hitbtc', 'binance_kucoin', 'binance_livecoin', 'binance_poloniex', 'binance_kraken', 'binance_okex', 'binance_gateio', 'binance_bitz', 'binance_huobi', 'binance_coinex', 'bittrex_hitbtc', 'bittrex_kucoin', 'bittrex_livecoin', 'bittrex_poloniex', 'bittrex_kraken', 'bittrex_okex', 'bittrex_gateio', 'bittrex_bitz', 'bittrex_huobi', 'bittrex_coinex', 'poloniex_hitbtc', 'poloniex_kucoin', 'poloniex_livecoin', 'poloniex_kraken', 'poloniex_okex', 'poloniex_gateio', 'poloniex_bitz', 'poloniex_huobi', 'poloniex_coinex', 'hitbtc_kucoin', 'hitbtc_livecoin', 'hitbtc_kraken', 'hitbtc_okex', 'hitbtc_gateio', 'hitbtc_bitz', 'hitbtc_huobi', 'hitbtc_coinex', 'kucoin_livecoin', 'kucoin_kraken', 'kucoin_okex', 'kucoin_gateio', 'kucoin_bitz', 'kucoin_huobi', 'kucoin_coinex', 'livecoin_kraken', 'livecoin_okex', 'livecoin_gateio', 'livecoin_bitz', 'livecoin_huobi', 'livecoin_coinex', 'kraken_okex', 'kraken_gateio', 'kraken_bitz', 'kraken_huobi', 'kraken_coinex', 'okex_gateio', 'okex_bitz', 'okex_huobi', 'okex_coinex', 'gateio_bitz', 'gateio_huobi', 'gateio_coinex', 'bitz_huobi', 'bitz_coinex', 'huobi_coinex', 'binance_bibox', 'bittrex_bibox', 'poloniex_bibox', 'hitbtc_bibox', 'kucoin_bibox', 'livecoin_bibox', 'kraken_bibox', 'okex_bibox', 'gateio_bibox', 'bitz_bibox', 'huobi_bibox', 'coinex_bibox']
+      for (let i in arr) {
+        document.getElementById(i).className = 'hidden'
+      }
+      if (arr2.indexOf(text) !== -1) {
+        document.getElementById('arb_menu').className = arr['arb_menu']
       }
       /*Скрываем открытые строки в таблице по монетам*/
-      if (text == 'arb_menu') {
-        var tab = document.getElementById("table_exchange").getElementsByClassName("visible");
+      if (text === 'arb_menu') {
+        let tab = document.getElementById("table_exchange").getElementsByClassName("visible")
         while (tab.length > 0) {
-          document.getElementById(tab[0].id.replace(/[0-9]/g, '') + "_td").setAttribute('rowspan', '1');
-          tab[0].className = "hidden";
+          document.getElementById(tab[0].id.replace(/[0-9]/g, '') + "_td").setAttribute('rowspan', '1')
+          tab[0].className = "hidden"
         }
       }
-      document.getElementById(text).className = arr[text];
+      document.getElementById(text).className = arr[text]
     }
   }
 }
 </script>
 
 <style scoped>
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  display: none;
+}
+
+.arb_menu_table td:hover {
+  background: #f3bd48; /* Цвет фона при наведении */
+  color: #fff; /* Цвет текста при наведении */
+}
+
+.activetable {
+  background: #f3bd48; /* Цвет фона при наведении */
+  color: #fff; /* Цвет текста при наведении */
+}
+
+.arb_menu_style {
+  float: right;
+}
+
+.arb_menu_style a:hover {
+  color: red;
+}
+
+.activelink {
+  color: red;
+}
+
+.arb_menu_style td {
+  border: none;
+  width: 120px;
+}
+
+.arb_menu_table {
+  border-collapse: collapse; /* Убираем двойные линии между ячейками */
+  font-size: 13px;
+  margin: auto;
+}
+
+.arb_menu_table td {
+  padding: 3px; /* Поля вокруг содержимого таблицы */
+  border: 1px solid black; /* Параметры рамки */
+  text-align: center;
+  height: 20px;
+}
+
+.td_icon {
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+  background-position: left 15% center;
+}
+
+.table_exchange {
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: center;
+}
+
+.table_exchange td {
+  width: 111px;
+}
+
+.table_profit {
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: center;
+}
+
+.table_profit td {
+  width: 111px;
+}
+
+.arbitrage_table-visible { /* Таблицы арбитража */
+  display: table;
+  margin: 0 auto;
+}
+
+.arbitrage_table-visible table {
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.arbitrage_table-visible td {
+  border: 1px solid black;
+}
 
 </style>

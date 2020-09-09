@@ -26,13 +26,7 @@
 <script>
 
 export default {
-  name: "nav",
-  data() {
-    return {
-    }
-  },
-  methods: {
-  }
+  name: "nav"
 }
 </script>
 

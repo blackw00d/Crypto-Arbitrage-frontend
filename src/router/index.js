@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import balance from '../views/balance'
 import trading from '../views/trading'
-import arbitrage from "@/views/arbitrage";
+import arbitrage from "../views/arbitrage";
+import tracking from "../views/tracking";
+import listing from "../views/listing";
 
 Vue.use(VueRouter)
 
@@ -22,6 +24,16 @@ Vue.use(VueRouter)
     path: '/trading',
     name: 'trading',
     component: trading
+  },
+  {
+    path: '/tracking',
+    name: 'tracking',
+    component: tracking
+  },
+  {
+    path: '/listing',
+    name: 'listing',
+    component: listing
   },
   {
     path: '/arbitrage',

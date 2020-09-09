@@ -56,22 +56,43 @@
             <td id="table0" class="td_del" @click="del('table0')" style="visibility: hidden;">удалить</td>
             <td>Bittrex</td>
             <td>USDT-BCH</td>
-            <td class="bd_td"><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
-                                     value="12" maxlength="10" size="5"></td>
-            <td class="bd_td"><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
-                                     value="12" maxlength="10" size="5"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="12" maxlength="10" size="5"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="12" maxlength="10" size="5"></td>
             <td>226.692</td>
-            <td class="bd_td"><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
-                                     value="0" maxlength="10" size="5"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="0" maxlength="10" size="5"></td>
             <td><input type="checkbox"></td>
-            <td class="bd_td"><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
-                                     value="0" maxlength="10" size="5"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="0" maxlength="10" size="5"></td>
             <td><input type="checkbox"></td>
-            <td class="bd_td"><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
-                                     value="1" maxlength="10" size="5"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="1" maxlength="10" size="5"></td>
             <td><input type="checkbox"></td>
             <td>12</td>
             <td>12</td>
+          </tr>
+          <tr class="tr_bd" @mouseover="ontable(1);" @mouseout="offtable(1);">
+            <td id="table1" class="td_del" @click="del('table1')" style="visibility: hidden;">удалить</td>
+            <td>Bittrex</td>
+            <td>USDT-BTC</td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="100" maxlength="10" size="5"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="10192" maxlength="10" size="5"></td>
+            <td>10192.5</td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="10" maxlength="10" size="5"></td>
+            <td><input type="checkbox" checked=""></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="20" maxlength="10" size="5"></td>
+            <td><input type="checkbox"></td>
+            <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                       value="1" maxlength="10" size="5"></td>
+            <td><input type="checkbox"></td>
+            <td>9172.8</td>
+            <td>12230.4</td>
           </tr>
           </tbody>
         </table>
@@ -86,14 +107,6 @@
 export default {
   name: "trading",
   methods: {
-    edit(item) {
-      let text = "<td onkeyup=\"edit_keypad(this);\" ondblclick=\"edit_mouse(this);\" style=\"outline: 2px solid red; outline-offset: -2px;\"><input type=\"text\" class=\"write\" style=\"height: ' + $(item).height() + 'px;background: ' + window.getComputedStyle(item.parentElement).backgroundColor + ';\" onkeyup=\"this.value=this.value.replace(/[^\\\\d\\\\.]+/g,\\'\\')\" value=\"' + $(this).text() + '\" maxlength=\"10\" size=5 autofocus></td>"
-      item.target.replaceWith(text)
-      // item.target.replace('<td onkeyup="edit_keypad(this);" ondblclick="edit_mouse(this);" style="outline: 2px solid red; outline-offset: -2px;"><input type="text" class="write" style="height: ' + $(item).height() + 'px;background: ' + window.getComputedStyle(item.parentElement).backgroundColor + ';" onkeyup="this.value=this.value.replace(/[^\\d\\.]+/g,\'\')" value="' + $(this).text() + '" maxlength="10" size=5 autofocus></td>')
-      // item.target.replaceWith(function () {
-      //   return '<td onkeyup="edit_keypad(this);" ondblclick="edit_mouse(this);" style="outline: 2px solid red; outline-offset: -2px;"><input type="text" class="write" style="height: ' + $(item).height() + 'px;background: ' + window.getComputedStyle(item.parentElement).backgroundColor + ';" onkeyup="this.value=this.value.replace(/[^\\d\\.]+/g,\'\')" value="' + $(this).text() + '" maxlength="10" size=5 autofocus></td>'
-      // })
-    },
     del(item) {
       document.getElementById(item).parentElement.remove()
     },
@@ -117,10 +130,10 @@ export default {
 .write {
   font-size: 12px;
   border: none;
-  width: 100%;
   height: 31px;
   background: rgb(222, 232, 228);
-  outline: none;
+  outline: 2px solid red;
+  outline-offset: 1px;
 }
 
 #trading_div {
