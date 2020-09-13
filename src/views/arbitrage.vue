@@ -5672,9 +5672,19 @@
 export default {
   name: "arbitrage",
   data() {
-    return {activelink: 'profit'}
+    return {
+      activelink: 'profit',
+      listarbitrage: []
+    }
+  },
+  created() {
+    this.loadlistarbitrage()
   },
   methods: {
+    async loadlistarbitrage(){
+      this.listarbitrage = await fetch('${this.$store.getters.getServerUrl}/arbitrage').then(responce => responce.json())
+      console.log(this.listarbitrage)
+    },
     isActive: function (link) {
       return this.activelink === link
     },
