@@ -1,67 +1,64 @@
 <template>
   <div id="balances">
     <div class="container">
-      <div class="box" style="margin-left: 660px; margin-top: 350px;">NEO<br>Amount: 2.114857<br>BTC: 0.00362064<br>USD:
-        37.09
+      <div v-for="coin in BalanceArray" class="box">
+        {{ coin[0] }}<br>Amount: {{ coin[1][0] }}<br>BTC: {{ getScore(coin[1][1], 10) }}<br>USD: {{ getScore(coin[1][2], 2) }}
       </div>
-      <div class="box" style="margin-left: 638px; margin-top: 469px;">BNB<br>Amount: 1.16882193<br>BTC: 0.00250946<br>USD:
-        25.71
-      </div>
-      <div class="box" style="margin-left: 578px; margin-top: 574px;">GAS<br>Amount: 0.30356939<br>BTC: 0.0000475<br>USD:
-        0.49
-      </div>
-      <div class="box" style="margin-left: 485px; margin-top: 653px;">WAVES<br>Amount: 2.06446<br>BTC: 0.00047648<br>USD:
-        4.88
-      </div>
-      <div class="box" style="margin-left: 370px; margin-top: 694px;">ONG<br>Amount: 0.00337655<br>BTC: 0.00000005<br>USD:
-        0.00
-      </div>
-      <div class="box" style="margin-left: 249px; margin-top: 694px;">CBM<br>Amount: 3666.6<br>BTC: 0.<br>USD: 0.00
-      </div>
-      <div class="box" style="margin-left: 135px; margin-top: 653px;">SXP<br>Amount: 0.01689267<br>BTC: 0.00000283<br>USD:
-        0.03
-      </div>
-      <div class="box" style="margin-left: 41px; margin-top: 574px;">BTC<br>Amount: 0.00000552<br>BTC: 0.00000552<br>USD:
-        0.06
-      </div>
-      <div class="box" style="margin-left: -19px; margin-top: 469px;">BTXCRD<br>Amount: 1500.03291301<br>BTC: 0.<br>USD:
-        0.00
-      </div>
-      <div class="box" style="margin-left: -40px; margin-top: 350px;">ETC<br>Amount: 5.07471364<br>BTC: 0.0025506<br>USD:
-        26.13
-      </div>
-      <div class="box" style="margin-left: -19px; margin-top: 230px;">OMG<br>Amount: 0.2458149<br>BTC: 0.00009413<br>USD:
-        0.96
-      </div>
-      <div class="box" style="margin-left: 41px; margin-top: 125px;">USDT<br>Amount: 16.41488615<br>BTC: 0.00160256<br>USD:
-        16.41
-      </div>
-      <div class="box" style="margin-left: 134px; margin-top: 46px;">XEM<br>Amount: 78.53675461<br>BTC: 0.00092502<br>USD:
-        9.47
-      </div>
-      <div class="box" style="margin-left: 249px; margin-top: 5px;">XRP<br>Amount: 62.69351647<br>BTC: 0.00146445<br>USD:
-        14.99
-      </div>
-      <div class="box" style="margin-left: 370px; margin-top: 5px;">DOGE<br>Amount: 71.<br>BTC: 0.00001917<br>USD: 0.20
-      </div>
-      <div class="box" style="margin-left: 485px; margin-top: 46px;">STR<br>Amount: 0.04878572<br>BTC: 0.00000036<br>USD:
-        0.00
-      </div>
-      <div class="box" style="margin-left: 578px; margin-top: 125px;">SC<br>Amount: 399.4<br>BTC: 0.00012781<br>USD:
-        1.31
-      </div>
-      <div class="box" style="margin-left: 638px; margin-top: 230px;">BTT<br>Amount: 500.<br>BTC: 0.<br>USD: 0.00</div>
-      <div class="box_center" style="margin-left: 280px; margin-top: 330px;">TOTAL<br><br>BTC: 0.0134466<br>USD: 137.718<br>
+      <div class="box_center" style="margin-left: 280px; margin-top: 330px;">
+        TOTAL<br><br>BTC: {{ totalbtc }}<br>USD: {{ getScore(totalusd, 2) }}<br>
       </div>
     </div>
-
-
+    {{ this.drawCircle(".box", 50, 350, 90, 310, 350) }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "balance"
+  name: "balance",
+  data() {
+    return {
+      listbalance: [],
+      totalbtc: 0,
+      totalusd: 0
+    }
+  },
+  created() {
+    this.loadlistbalance()
+  },
+  computed: {
+    BalanceArray: function () {
+      let balance = []
+      if (typeof this.listbalance.balance === 'undefined' || this.listbalance.length === 0) {
+        return balance
+      }
+      balance = this.listbalance.balance.split(",").map(pair => pair.split(":"))
+      balance.forEach((val) => {
+        val[1] = val[1].split("-")
+      })
+      this.totalbtc = this.listbalance.totalbtc
+      this.totalusd = this.listbalance.totalusd
+      return balance
+    },
+  },
+  methods: {
+    async loadlistbalance() {
+      this.listbalance = await fetch("http://127.0.0.1:8000/balance").then(responce => responce.json())
+    },
+    getScore(val, p) {
+      return parseFloat(val).toFixed(p)
+    },
+    drawCircle(selector, center, radius, angle, x, y) {
+      let total = $(selector).length
+      let alpha = Math.PI * 2 / total
+      $(selector).each(function (index) {
+        let theta = alpha * index
+        let pointx = Math.floor(Math.cos(theta) * radius)
+        var pointy = Math.floor(Math.sin(theta) * radius)
+        $(this).css('margin-left', pointx + x + 'px')
+        $(this).css('margin-top', pointy + y + 'px')
+      })
+    }
+  }
 }
 </script>
 
