@@ -2,10 +2,10 @@
   <div id="balances">
     <div class="container">
       <div v-for="coin in BalanceArray" class="box">
-        {{ coin[0] }}<br>Amount: {{ coin[1][0] }}<br>BTC: {{ getScore(coin[1][1], 10) }}<br>USD: {{ getScore(coin[1][2], 2) }}
+        {{ coin[0] }}<br>Amount: {{ getScore(coin[1][0],1) }}<br>BTC: {{ getScore(coin[1][1], 7) }}<br>USD: {{ getScore(coin[1][2], 2) }}
       </div>
       <div class="box_center" style="margin-left: 280px; margin-top: 330px;">
-        TOTAL<br><br>BTC: {{ totalbtc }}<br>USD: {{ getScore(totalusd, 2) }}<br>
+        TOTAL<br><br>BTC: {{ getScore(totalbtc,7) }}<br>USD: {{ getScore(totalusd, 2) }}<br>
       </div>
     </div>
     {{ this.drawCircle(".box", 50, 350, 90, 310, 350) }}

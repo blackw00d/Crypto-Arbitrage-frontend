@@ -386,13 +386,13 @@ export default {
     },
     coinArray: function () {
       const coinarr = this.ArbitrageArray[1].sort((function (a, b) {
-        if (a.name < b.name) return -1;
-        else if (a.name > b.name) return 1;
-        return 0;
+        if (a.name < b.name) return -1
+        else if (a.name > b.name) return 1
+        return 0
       })).sort((function (a, b) {
-        if (a.name === b.name && a.profit > b.profit) return -1;
-        else if (a.name === b.name && a.profit < b.profit) return 1;
-        return 0;
+        if (a.name === b.name && a.profit > b.profit) return -1
+        else if (a.name === b.name && a.profit < b.profit) return 1
+        return 0
       }))
       if (coinarr.length === 0) return []
       let index = 0
