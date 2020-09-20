@@ -44,10 +44,10 @@
     </div>
 
     <template v-for="(exchange, exchange_name) in exchange">
-      <div :id="exchange_name" v-bind:class="[isActive(exchange_name) ? 'table-visible' : 'table']">
-        <div :id="exchange_name+'_div'" v-bind:class="[isActive(exchange_name) ? 'exchange_lite_div' : 'hidden']">
+      <div :id="exchange_name" :class="[isActive(exchange_name) ? 'table-visible' : 'table']">
+        <div :id="exchange_name+'_div'" :class="[isActive(exchange_name) ? 'exchange_lite_div' : 'hidden']">
           <table :id="exchange_name+'_table'" border='1'
-                 v-bind:class="[isActive(exchange_name) ? 'exchange_lite' : 'hidden']">
+                 :class="[isActive(exchange_name) ? 'exchange_lite' : 'hidden']">
             <thead>
             <tr>
               <th>Pair</th>
@@ -60,7 +60,7 @@
             <tbody>
             <template v-for="(coins, coin_name) in exchange">
               <template v-for="(coin, index) in coins">
-                <tr :id="exchange_name+coin_name+index" :class="'hidden'">
+                <tr :id="exchange_name+coin_name+index" class="hidden">
                   <td>{{ coin.name }}</td>
                   <td>{{ coin.price < 1 ? getScore(coin.price, 9) : getScore(coin.price, 2) }}</td>
                   <td>{{ coin.ask < 1 ? getScore(coin.ask, 9) : getScore(coin.ask, 2) }}</td>
@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     async loadlistexchange() {
-      this.listexchange = await fetch("http://127.0.0.1:8000/exchange").then(responce => responce.json())
+      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`).then(responce => responce.json())
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)

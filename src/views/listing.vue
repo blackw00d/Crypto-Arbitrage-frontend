@@ -29,10 +29,11 @@ export default {
   },
   created() {
     this.loadlisting()
+    console.log(`${this.$store.getters.getServerUrl}`,1)
   },
   methods: {
     async loadlisting() {
-      this.listing = await fetch("http://127.0.0.1:8000/listing").then(responce => responce.json())
+      this.listing = await fetch(`${this.$store.getters.getServerUrl}/listing`).then(responce => responce.json())
     },
     GetDate(date) {
       let str = date.split('-')

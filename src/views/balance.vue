@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     async loadlistbalance() {
-      this.listbalance = await fetch("http://127.0.0.1:8000/balance").then(responce => responce.json())
+      this.listbalance = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`).then(responce => responce.json())
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)

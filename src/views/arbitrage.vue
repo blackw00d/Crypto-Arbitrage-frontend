@@ -3,122 +3,122 @@
     <table class="arb_menu_style">
       <tbody>
       <tr>
-        <td><a v-on:click="setActive('coin');setActiveTable('')" :class="{ activelink: isActive('coin') }">По
+        <td><a @click="setActive('coin');setActiveTable('')" :class="{ activelink: isActive('coin') }">По
           монетам</a></td>
-        <td><a v-on:click="setActive('profit');setActiveTable('')" :class="{ activelink: isActive('profit') }">По
+        <td><a @click="setActive('profit');setActiveTable('')" :class="{ activelink: isActive('profit') }">По
           профиту</a></td>
-        <td><a v-on:click="setActive('menu');setActiveTable('')" :class="{ activelink: isActive('menu') }">По
+        <td><a @click="setActive('menu');setActiveTable('')" :class="{ activelink: isActive('menu') }">По
           биржам</a></td>
         <td></td>
       </tr>
       </tbody>
     </table>
     <br><br><br>
-    <div id="arb_menu" ref="arb_menu" v-bind:class="[isActive('menu') ? 'visible' : 'hidden']">
+    <div id="arb_menu" ref="arb_menu" :class="[isActive('menu') ? 'visible' : 'hidden']">
       <table class="arb_menu_table">
         <tbody>
         <tr>
-          <td><a v-on:click="setActiveTable('binance_bittrex')">Binance / Bittrex</a></td>
-          <td><a v-on:click="setActiveTable('binance_hitbtc')">Binance / HitBTC</a></td>
-          <td><a v-on:click="setActiveTable('binance_kucoin')">Binance / Kucoin</a></td>
-          <td><a v-on:click="setActiveTable('binance_livecoin')">Binance / Livecoin</a></td>
-          <td><a v-on:click="setActiveTable('binance_poloniex')">Binance / Poloniex</a></td>
-          <td><a v-on:click="setActiveTable('binance_kraken')">Binance / Kraken</a></td>
-          <td><a v-on:click="setActiveTable('binance_okex')">Binance / OKex</a></td>
-          <td><a v-on:click="setActiveTable('binance_gateio')">Binance / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('binance_bitz')">Binance / Bit-Z</a></td>
+          <td><a @click="setActiveTable('binance_bittrex')">Binance / Bittrex</a></td>
+          <td><a @click="setActiveTable('binance_hitbtc')">Binance / HitBTC</a></td>
+          <td><a @click="setActiveTable('binance_kucoin')">Binance / Kucoin</a></td>
+          <td><a @click="setActiveTable('binance_livecoin')">Binance / Livecoin</a></td>
+          <td><a @click="setActiveTable('binance_poloniex')">Binance / Poloniex</a></td>
+          <td><a @click="setActiveTable('binance_kraken')">Binance / Kraken</a></td>
+          <td><a @click="setActiveTable('binance_okex')">Binance / OKex</a></td>
+          <td><a @click="setActiveTable('binance_gateio')">Binance / Gate.io</a></td>
+          <td><a @click="setActiveTable('binance_bitz')">Binance / Bit-Z</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('binance_huobi')">Binance / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('binance_coinex')">Binance / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('binance_bibox')">Binance / Bibox</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_hitbtc')">Bittrex / HitBTC</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_kucoin')">Bittrex / Kucoin</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_livecoin')">Bittrex / Livecoin</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_poloniex')">Bittrex / Poloniex</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_kraken')">Bittrex / Kraken</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_okex')">Bittrex / OKex</a></td>
+          <td><a @click="setActiveTable('binance_huobi')">Binance / Huobi</a></td>
+          <td><a @click="setActiveTable('binance_coinex')">Binance / Coinex</a></td>
+          <td><a @click="setActiveTable('binance_bibox')">Binance / Bibox</a></td>
+          <td><a @click="setActiveTable('bittrex_hitbtc')">Bittrex / HitBTC</a></td>
+          <td><a @click="setActiveTable('bittrex_kucoin')">Bittrex / Kucoin</a></td>
+          <td><a @click="setActiveTable('bittrex_livecoin')">Bittrex / Livecoin</a></td>
+          <td><a @click="setActiveTable('bittrex_poloniex')">Bittrex / Poloniex</a></td>
+          <td><a @click="setActiveTable('bittrex_kraken')">Bittrex / Kraken</a></td>
+          <td><a @click="setActiveTable('bittrex_okex')">Bittrex / OKex</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('bittrex_gateio')">Bittrex / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_bitz')">Bittrex / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_huobi')">Bittrex / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_coinex')">Bittrex / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('bittrex_bibox')">Bittrex / Bibox</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_hitbtc')">Poloniex / HitBTC</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_kucoin')">Poloniex / Kucoin</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_livecoin')">Poloniex / Livecoin</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_kraken')">Poloniex / Kraken</a></td>
+          <td><a @click="setActiveTable('bittrex_gateio')">Bittrex / Gate.io</a></td>
+          <td><a @click="setActiveTable('bittrex_bitz')">Bittrex / Bit-Z</a></td>
+          <td><a @click="setActiveTable('bittrex_huobi')">Bittrex / Huobi</a></td>
+          <td><a @click="setActiveTable('bittrex_coinex')">Bittrex / Coinex</a></td>
+          <td><a @click="setActiveTable('bittrex_bibox')">Bittrex / Bibox</a></td>
+          <td><a @click="setActiveTable('poloniex_hitbtc')">Poloniex / HitBTC</a></td>
+          <td><a @click="setActiveTable('poloniex_kucoin')">Poloniex / Kucoin</a></td>
+          <td><a @click="setActiveTable('poloniex_livecoin')">Poloniex / Livecoin</a></td>
+          <td><a @click="setActiveTable('poloniex_kraken')">Poloniex / Kraken</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('poloniex_okex')">Poloniex / OKex</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_gateio')">Poloniex / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_bitz')">Poloniex / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_huobi')">Poloniex / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_coinex')">Poloniex / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('poloniex_bibox')">Poloniex / Bibox</a></td>
+          <td><a @click="setActiveTable('poloniex_okex')">Poloniex / OKex</a></td>
+          <td><a @click="setActiveTable('poloniex_gateio')">Poloniex / Gate.io</a></td>
+          <td><a @click="setActiveTable('poloniex_bitz')">Poloniex / Bit-Z</a></td>
+          <td><a @click="setActiveTable('poloniex_huobi')">Poloniex / Huobi</a></td>
+          <td><a @click="setActiveTable('poloniex_coinex')">Poloniex / Coinex</a></td>
+          <td><a @click="setActiveTable('poloniex_bibox')">Poloniex / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('hitbtc_kucoin')">HitBTC / Kucoin</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_livecoin')">HitBTC / Livecoin</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_kraken')">HitBTC / Kraken</a></td>
+          <td><a @click="setActiveTable('hitbtc_kucoin')">HitBTC / Kucoin</a></td>
+          <td><a @click="setActiveTable('hitbtc_livecoin')">HitBTC / Livecoin</a></td>
+          <td><a @click="setActiveTable('hitbtc_kraken')">HitBTC / Kraken</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('hitbtc_okex')">HitBTC / OKex</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_gateio')">HitBTC / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_bitz')">HitBTC / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_huobi')">HitBTC / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_coinex')">HitBTC / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('hitbtc_bibox')">HitBTC / Bibox</a></td>
+          <td><a @click="setActiveTable('hitbtc_okex')">HitBTC / OKex</a></td>
+          <td><a @click="setActiveTable('hitbtc_gateio')">HitBTC / Gate.io</a></td>
+          <td><a @click="setActiveTable('hitbtc_bitz')">HitBTC / Bit-Z</a></td>
+          <td><a @click="setActiveTable('hitbtc_huobi')">HitBTC / Huobi</a></td>
+          <td><a @click="setActiveTable('hitbtc_coinex')">HitBTC / Coinex</a></td>
+          <td><a @click="setActiveTable('hitbtc_bibox')">HitBTC / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('kucoin_livecoin')">Kucoin / Livecoin</a></td>
-          <td><a v-on:click="setActiveTable('kucoin_kraken')">Kucoin / Kraken</a></td>
-          <td><a v-on:click="setActiveTable('kucoin_okex')">Kucoin / OKex</a></td>
+          <td><a @click="setActiveTable('kucoin_livecoin')">Kucoin / Livecoin</a></td>
+          <td><a @click="setActiveTable('kucoin_kraken')">Kucoin / Kraken</a></td>
+          <td><a @click="setActiveTable('kucoin_okex')">Kucoin / OKex</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('kucoin_gateio')">Kucoin / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('kucoin_bitz')">Kucoin / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('kucoin_huobi')">Kucoin / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('kucoin_coinex')">Kucoin / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('kucoin_bibox')">Kucoin / Bibox</a></td>
+          <td><a @click="setActiveTable('kucoin_gateio')">Kucoin / Gate.io</a></td>
+          <td><a @click="setActiveTable('kucoin_bitz')">Kucoin / Bit-Z</a></td>
+          <td><a @click="setActiveTable('kucoin_huobi')">Kucoin / Huobi</a></td>
+          <td><a @click="setActiveTable('kucoin_coinex')">Kucoin / Coinex</a></td>
+          <td><a @click="setActiveTable('kucoin_bibox')">Kucoin / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('livecoin_kraken')">Livecoin / Kraken</a></td>
-          <td><a v-on:click="setActiveTable('livecoin_okex')">Livecoin / OKex</a></td>
-          <td><a v-on:click="setActiveTable('livecoin_gateio')">Livecoin / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('livecoin_bitz')">Livecoin / Bit-Z</a></td>
+          <td><a @click="setActiveTable('livecoin_kraken')">Livecoin / Kraken</a></td>
+          <td><a @click="setActiveTable('livecoin_okex')">Livecoin / OKex</a></td>
+          <td><a @click="setActiveTable('livecoin_gateio')">Livecoin / Gate.io</a></td>
+          <td><a @click="setActiveTable('livecoin_bitz')">Livecoin / Bit-Z</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('livecoin_huobi')">Livecoin / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('livecoin_coinex')">Livecoin / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('livecoin_bibox')">Livecoin / Bibox</a></td>
+          <td><a @click="setActiveTable('livecoin_huobi')">Livecoin / Huobi</a></td>
+          <td><a @click="setActiveTable('livecoin_coinex')">Livecoin / Coinex</a></td>
+          <td><a @click="setActiveTable('livecoin_bibox')">Livecoin / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('kraken_okex')">Kraken / OKex</a></td>
-          <td><a v-on:click="setActiveTable('kraken_gateio')">Kraken / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('kraken_bitz')">Kraken / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('kraken_huobi')">Kraken / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('kraken_coinex')">Kraken / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('kraken_bibox')">Kraken / Bibox</a></td>
+          <td><a @click="setActiveTable('kraken_okex')">Kraken / OKex</a></td>
+          <td><a @click="setActiveTable('kraken_gateio')">Kraken / Gate.io</a></td>
+          <td><a @click="setActiveTable('kraken_bitz')">Kraken / Bit-Z</a></td>
+          <td><a @click="setActiveTable('kraken_huobi')">Kraken / Huobi</a></td>
+          <td><a @click="setActiveTable('kraken_coinex')">Kraken / Coinex</a></td>
+          <td><a @click="setActiveTable('kraken_bibox')">Kraken / Bibox</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('okex_gateio')">OKex / Gate.io</a></td>
-          <td><a v-on:click="setActiveTable('okex_bitz')">OKex / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('okex_huobi')">OKex / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('okex_coinex')">OKex / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('okex_bibox')">OKex / Bibox</a></td>
+          <td><a @click="setActiveTable('okex_gateio')">OKex / Gate.io</a></td>
+          <td><a @click="setActiveTable('okex_bitz')">OKex / Bit-Z</a></td>
+          <td><a @click="setActiveTable('okex_huobi')">OKex / Huobi</a></td>
+          <td><a @click="setActiveTable('okex_coinex')">OKex / Coinex</a></td>
+          <td><a @click="setActiveTable('okex_bibox')">OKex / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('gateio_bitz')">Gate.io / Bit-Z</a></td>
-          <td><a v-on:click="setActiveTable('gateio_huobi')">Gate.io / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('gateio_coinex')">Gate.io / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('gateio_bibox')">Gate.io / Bibox</a></td>
+          <td><a @click="setActiveTable('gateio_bitz')">Gate.io / Bit-Z</a></td>
+          <td><a @click="setActiveTable('gateio_huobi')">Gate.io / Huobi</a></td>
+          <td><a @click="setActiveTable('gateio_coinex')">Gate.io / Coinex</a></td>
+          <td><a @click="setActiveTable('gateio_bibox')">Gate.io / Bibox</a></td>
         </tr>
         <tr>
-          <td><a v-on:click="setActiveTable('bitz_huobi')">Bit-Z / Huobi</a></td>
-          <td><a v-on:click="setActiveTable('bitz_coinex')">Bit-Z / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('bitz_bibox')">Bit-Z / Bibox</a></td>
+          <td><a @click="setActiveTable('bitz_huobi')">Bit-Z / Huobi</a></td>
+          <td><a @click="setActiveTable('bitz_coinex')">Bit-Z / Coinex</a></td>
+          <td><a @click="setActiveTable('bitz_bibox')">Bit-Z / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('huobi_coinex')">Huobi / Coinex</a></td>
-          <td><a v-on:click="setActiveTable('huobi_bibox')">Huobi / Bibox</a></td>
+          <td><a @click="setActiveTable('huobi_coinex')">Huobi / Coinex</a></td>
+          <td><a @click="setActiveTable('huobi_bibox')">Huobi / Bibox</a></td>
 
-          <td><a v-on:click="setActiveTable('coinex_bibox')">Coinex / Bibox</a></td>
+          <td><a @click="setActiveTable('coinex_bibox')">Coinex / Bibox</a></td>
         </tr>
         </tbody>
       </table>
@@ -127,7 +127,7 @@
 
     <!--    По Таблицам-->
     <div v-for="(items, index) in listarbitrage" :id="index" :ref="index"
-         v-bind:class="[isActiveTable(index) ? 'arbitrage_table-visible' : 'hidden']">
+         :class="[isActiveTable(index) ? 'arbitrage_table-visible' : 'hidden']">
       <table cellpadding="2">
         <tr align="center">
           <td>Name</td>
@@ -160,7 +160,7 @@
 
     <!--    По Монетам -->
     <table border="1" id="table_exchange" ref="table_exchange"
-           v-bind:class="[isActive('coin') ? 'table_exchange' : 'hidden']"
+           :class="[isActive('coin') ? 'table_exchange' : 'hidden']"
            align="center">
       <thead>
       <tr>
@@ -255,8 +255,7 @@
     </table>
 
     <!--    По Профиту -->
-    <table border="1" id="table_profit" ref="table_profit"
-           v-bind:class="[isActive('profit') ? 'table_profit' : 'hidden']"
+    <table border="1" id="table_profit" ref="table_profit" :class="[isActive('profit') ? 'table_profit' : 'hidden']"
            align="center">
       <thead>
       <tr>
@@ -303,6 +302,7 @@
       </template>
       </tbody>
     </table>
+
   </div>
 </template>
 
@@ -419,7 +419,7 @@ export default {
   },
   methods: {
     async loadlistarbitrage() {
-      this.listarbitrage = await fetch("http://127.0.0.1:8000/arbitrage").then(responce => responce.json())
+      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`).then(responce => responce.json())
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
