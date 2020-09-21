@@ -29,15 +29,17 @@ export default {
   },
   created() {
     this.loadlisting()
-    console.log(`${this.$store.getters.getServerUrl}`,1)
   },
   methods: {
     async loadlisting() {
-      this.listing = await fetch(`${this.$store.getters.getServerUrl}/listing`).then(responce => responce.json())
+      const requestOptions = {
+        headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
+      }
+      this.listing = await fetch(`${this.$store.getters.getServerUrl}/listing`, requestOptions).then(responce => responce.json())
     },
     GetDate(date) {
       let str = date.split('-')
-      return str[2] +"-"+ str[1] +"-"+ str[0]
+      return str[2] + "-" + str[1] + "-" + str[0]
     }
   }
 }

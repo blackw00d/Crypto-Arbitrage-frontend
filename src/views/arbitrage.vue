@@ -419,7 +419,10 @@ export default {
   },
   methods: {
     async loadlistarbitrage() {
-      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`).then(responce => responce.json())
+      const requestOptions = {
+        headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
+      }
+      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(responce => responce.json())
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)

@@ -4,29 +4,44 @@
       <img src="../assets/img/logo.png" alt="Crypto Arbitrage">
       <span>Crypto Arbitrage</span>
       <div id="top_menu">
-        <ul>
-          <li id="exc"><router-link to="exchange">Exchange</router-link></li>
-          <li id="list"><router-link to="listing">Coin listing</router-link></li>
-          <li id="arb"><router-link to="arbitrage">Arbitrage</router-link></li>
-          <li id="track"><router-link to="tracking">Tracking</router-link></li>
-          <li id="trade"><router-link to="trading">Trading BOT</router-link></li>
-          <li id="balance"><router-link to="balance">Balance</router-link></li>
+        <ul v-if="accessToken">
+          <li id="exc">
+            <router-link to="exchange">Exchange</router-link>
+          </li>
+          <li id="list">
+            <router-link to="listing">Coin listing</router-link>
+          </li>
+          <li id="arb">
+            <router-link to="arbitrage">Arbitrage</router-link>
+          </li>
+          <li id="track">
+            <router-link to="tracking">Tracking</router-link>
+          </li>
+          <li id="trade">
+            <router-link to="trading">Trading BOT</router-link>
+          </li>
+          <li id="balance">
+            <router-link to="balance">Balance</router-link>
+          </li>
         </ul>
       </div>
     </div>
-    <div class="login">
-      <span>Привет, User</span><br>
-      <a href="#">Выход
-        <i class="fas fa-sign-out-alt"></i>
-      </a>
+    <div class="login" v-if="accessToken!=null">
+      <span>Привет, {{ username }}</span><br>
+      <router-link :to = "{ name:'logout' }">Выход <i class="fas fa-sign-out-alt"></i></router-link>
+    </div>
+    <div class="login" v-else>
+      <router-link :to = "{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link>
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 
 export default {
-  name: "nav"
+  name: "nav",
+  computed: mapState(['accessToken', 'username'])
 }
 </script>
 
@@ -84,7 +99,7 @@ export default {
 }
 
 .top {
-  font-family: myfont,serif;
+  font-family: myfont, serif;
   font-size: 120px;
   text-align: center;
   margin-bottom: 50px;

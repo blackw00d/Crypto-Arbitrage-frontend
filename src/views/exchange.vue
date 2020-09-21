@@ -127,7 +127,10 @@ export default {
   },
   methods: {
     async loadlistexchange() {
-      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`).then(responce => responce.json())
+      const requestOptions = {
+        headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
+      }
+      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`, requestOptions).then(responce => responce.json())
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
