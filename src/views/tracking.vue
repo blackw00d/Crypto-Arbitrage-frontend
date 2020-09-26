@@ -28,7 +28,7 @@
         </tbody>
       </table>
       <br><br>
-      <Track :listtracking="listtracking"/>
+      <Track :listtracking="listtracking" @reLoad="loadlisttracking"/>
     </div>
   </div>
 </template>
@@ -36,6 +36,7 @@
 <script>
 import Trackmenu from "../components/trackmenu";
 import Track from "../components/track";
+import router from "@/router";
 
 export default {
   name: "tracking",
@@ -59,7 +60,7 @@ export default {
         },
         body: JSON.stringify(this.$store.state.username)
       }
-      this.listtracking = await fetch(`${this.$store.getters.getServerUrl}/tracking`, requestOptions).then(responce => responce.json())
+      this.listtracking = await fetch(`${this.$store.getters.getServerUrl}/tracking`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
     },
   }
 }

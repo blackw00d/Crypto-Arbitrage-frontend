@@ -88,10 +88,7 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${data["id"]}`, requestOptions).then(responce => {
-        responce.json()
-        tracking.$emit('reLoad')
-      })
+      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${data["id"]}`, requestOptions).then()
     },
     async dellisttracking(id) {
       const requestOptions = {
@@ -101,14 +98,12 @@ export default {
           Authorization: `Bearer ${this.$store.state.accessToken}`
         },
       }
-      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${id}`, requestOptions).then(responce => {
-        responce.json()
-      })
+      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${id}`, requestOptions).then(responce => this.$emit('reLoad'))
     },
     del(item) {
+      $('#message').html("")
       let data = document.getElementById(item).parentElement.children[11].innerHTML
       this.dellisttracking(data)
-      document.getElementById(item).parentElement.remove()
     },
     ontable(item) {
       document.getElementById('table' + item).style.setProperty('visibility', 'visible')

@@ -9,6 +9,7 @@ import listing from "../views/listing";
 import exchange from "../views/exchange";
 import login from "../views/login";
 import logout from "../views/logout";
+import error from "@/views/error";
 
 Vue.use(VueRouter)
 
@@ -74,7 +75,15 @@ const routes = [
     {
         path: '/logout',
         name: 'logout',
-        component: logout
+        component: logout,
+        meta: {
+            requiresLogin: true
+        }
+    },
+    {
+        path: '/error',
+        name: 'error',
+        component: error
     }
 ]
 

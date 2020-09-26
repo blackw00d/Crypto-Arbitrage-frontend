@@ -99,10 +99,7 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/trading/change/${data["id"]}`, requestOptions).then(responce => {
-        responce.json()
-        trading.$emit('reLoad')
-      })
+      fetch(`${this.$store.getters.getServerUrl}/trading/change/${data["id"]}`, requestOptions).then()
     },
     async dellisttrading(id) {
       const requestOptions = {
@@ -112,9 +109,7 @@ export default {
           Authorization: `Bearer ${this.$store.state.accessToken}`
         },
       }
-      fetch(`${this.$store.getters.getServerUrl}/trading/change/${id}`, requestOptions).then(responce => {
-        responce.json()
-      })
+      fetch(`${this.$store.getters.getServerUrl}/trading/change/${id}`, requestOptions).then()
     },
     del(item) {
       let data = document.getElementById(item).parentElement.children[14].innerHTML

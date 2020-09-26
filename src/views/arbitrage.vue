@@ -308,6 +308,8 @@
 
 <script>
 
+import router from "@/router";
+
 export default {
   name: "arbitrage",
   data() {
@@ -422,7 +424,7 @@ export default {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(responce => responce.json())
+      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)

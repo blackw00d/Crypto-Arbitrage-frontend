@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
   name: "balance",
   data() {
@@ -51,7 +53,7 @@ export default {
         },
         body: JSON.stringify(this.$store.state.username)
       }
-      this.listbalance = await fetch(`${this.$store.getters.getServerUrl}/balance`, requestOptions).then(responce => responce.json())
+      this.listbalance = await fetch(`${this.$store.getters.getServerUrl}/balance`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)

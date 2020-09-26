@@ -37,6 +37,7 @@
 <script>
 import Trade from "../components/trade";
 import TradeMenu from "../components/trademenu";
+import router from "@/router";
 
 export default {
   name: "trading",
@@ -60,7 +61,7 @@ export default {
         },
         body: JSON.stringify(this.$store.state.username)
       }
-      this.listtrading = await fetch(`${this.$store.getters.getServerUrl}/trading`, requestOptions).then(responce => responce.json())
+      this.listtrading = await fetch(`${this.$store.getters.getServerUrl}/trading`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
     }
   }
 }

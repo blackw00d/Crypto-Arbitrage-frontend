@@ -7,7 +7,7 @@
           <td>
             <select :id="coin_name" @change="selecting_track(coin_name)">
               <option selected>{{ coin_name }}</option>
-              <option v-for="coin in coins">{{ coin.name }}</option>
+              <option v-for="coin in coins" :data-price="coin.price" :data-volume="coin.volume">{{ coin.name }}</option>
             </select>
           </td>
         </template>
@@ -46,7 +46,8 @@ export default {
         if (!(coin in exchange)) exchange[coin] = []
         exchange[coin].push({
           name: this.listexchange[i].name,
-          price: this.listexchange[i].price
+          price: this.listexchange[i].price,
+          volume: parseFloat(this.listexchange[i].volume).toFixed(0)
         })
       }
       return exchange
@@ -64,11 +65,11 @@ export default {
         user: this.$store.state.username,
         exchange: arr[0],
         pair: arr[1],
-        price: 0,
+        price: arr[2],
         pricechangevalue: 0,
         pricechangeprocent: 0,
         priceactive: 0,
-        volume: 0,
+        volume: arr[3],
         volumechangevalue: 0,
         volumechangeprocent: 0,
         volumeactive: 0
@@ -87,9 +88,11 @@ export default {
       })
     },
     selecting_track(item) {
-      let el = document.getElementById(item)
-      let option = el.options[el.selectedIndex].text
-      this.sendexchange([this.exchange, option])
+      let el = $("#"+item).children('option:selected')
+      let pair = el.text() ? el.text() : ''
+      let price = el.attr('data-price') ? el.attr('data-price') : 0
+      let volume = el.attr('data-volume') ? el.attr('data-volume') : 0
+      this.sendexchange([this.exchange, pair, price, volume])
     },
   }
 }

@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
   name: 'login',
   data() {
@@ -42,13 +44,16 @@ export default {
         password: this.password
       })
           .then(data => {
-            if (data!==undefined && data.error)
+            if (data !== undefined && data.error)
               this.incorrectAuth = true
             else
               this.$router.push({name: 'balance'})
           })
           .catch(err => {
-            this.incorrectAuth = true
+            if (err.toString() === 'TypeError: Failed to fetch')
+              router.push('error')
+            else
+              this.incorrectAuth = true
           })
     }
   }

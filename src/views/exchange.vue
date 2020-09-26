@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
   name: "exchange",
   data() {
@@ -130,7 +132,7 @@ export default {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`, requestOptions).then(responce => responce.json())
+      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
