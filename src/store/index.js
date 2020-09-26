@@ -8,6 +8,7 @@ const store = new Vuex.Store({
         backendUrl: "http://127.0.0.1:8000",
         accessToken: null,
         refreshToken: null,
+        timeToken: null,
         username: ""
     },
     mutations: {
@@ -21,11 +22,13 @@ const store = new Vuex.Store({
         updateStorage(state, {access, refresh, username}) {
             state.accessToken = access
             state.refreshToken = refresh
+            state.timeToken = new Date().setDate(new Date().getMinutes()+1440)
             state.username = username
         },
         destroyToken(state) {
             state.accessToken = null
             state.refreshToken = null
+            state.timeToken = null
             state.username = ""
         }
     },
@@ -70,7 +73,7 @@ const store = new Vuex.Store({
             return state.backendUrl
         },
         loggedIn(state) {
-            return state.accessToken != null
+            return (state.accessToken != null && state.timeToken > new Date().setDate(new Date().getMinutes()))
         }
     }
 })

@@ -37,12 +37,18 @@ const routes = [
     {
         path: '/trading',
         name: 'trading',
-        component: trading
+        component: trading,
+        meta: {
+            requiresLogin: true
+        }
     },
     {
         path: '/tracking',
         name: 'tracking',
-        component: tracking
+        component: tracking,
+        meta: {
+            requiresLogin: true
+        }
     },
     {
         path: '/listing',

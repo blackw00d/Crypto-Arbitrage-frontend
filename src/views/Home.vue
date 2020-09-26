@@ -46,7 +46,6 @@ export default {
 </script>
 
 <style scoped>
-/*Price*/
 
 @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700,800');
 @import url('https://fonts.googleapis.com/css?family=Sahitya:400,700');

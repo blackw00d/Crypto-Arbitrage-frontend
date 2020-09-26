@@ -5,7 +5,7 @@
         {{ coin[0] }}<br>Amount: {{ getScore(coin[1][0], 1) }}<br>BTC: {{ getScore(coin[1][1], 7) }}<br>USD:
         {{ getScore(coin[1][2], 2) }}
       </div>
-      <div class="box_center" style="margin-left: 280px; margin-top: 330px;">
+      <div class="box_center">
         TOTAL<br><br>BTC: {{ getScore(totalbtc, 7) }}<br>USD: {{ getScore(totalusd, 2) }}<br>
       </div>
     </div>
@@ -44,7 +44,12 @@ export default {
   methods: {
     async loadlistbalance() {
       const requestOptions = {
-        headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.$store.state.accessToken}`
+        },
+        body: JSON.stringify(this.$store.state.username)
       }
       this.listbalance = await fetch(`${this.$store.getters.getServerUrl}/balance`, requestOptions).then(responce => responce.json())
     },
@@ -113,6 +118,8 @@ export default {
   display: -webkit-box;
   -webkit-box-pack: center;
   -webkit-box-align: center;
+  margin-left: 280px;
+  margin-top: 330px;
 }
 
 .box:hover {
@@ -120,6 +127,7 @@ export default {
   z-index: 1;
   height: 150px;
   width: 150px;
-  font-size: 13px;
+  font-size: 15px;
+  transform: translate(-20px, -20px)
 }
 </style>
