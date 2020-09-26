@@ -9,7 +9,7 @@ import listing from "../views/listing";
 import exchange from "../views/exchange";
 import login from "../views/login";
 import logout from "../views/logout";
-import error from "@/views/error";
+import error from "@/components/error";
 
 Vue.use(VueRouter)
 
@@ -81,9 +81,13 @@ const routes = [
         }
     },
     {
-        path: '/error',
+        path: '/404',
         name: 'error',
         component: error
+    },
+    {
+        path: '*',
+        redirect: '/404'
     }
 ]
 
