@@ -102,6 +102,7 @@ export default {
     }
   },
   created() {
+    if (!this.$store.state.timeToken) router.push('login')
     this.loadlistexchange()
   },
   computed: {

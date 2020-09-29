@@ -16,7 +16,9 @@ new Vue({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresLogin)) {
-        if (!store.getters.loggedIn) {
+        const log = store.state.accessToken != null && store.state.timeToken > new Date().setDate(new Date().getMinutes())
+        if (!log) {
+            store.commit('destroyToken')
             next({name: 'login'})
         } else {
             next()

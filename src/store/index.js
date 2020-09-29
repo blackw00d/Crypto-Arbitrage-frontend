@@ -66,13 +66,12 @@ const store = new Vuex.Store({
             })
         }
     },
-    modules: {}
-    ,
+    modules: {},
     getters: {
         getServerUrl: state => {
             return state.backendUrl
         },
-        loggedIn(state) {
+        loggedIn: state =>  {
             return (state.accessToken != null && state.timeToken > new Date().setDate(new Date().getMinutes()))
         }
     }
