@@ -3,10 +3,14 @@
     <div class="container text-dark">
       <div class="row justify-content-md-center">
         <div class="col-md-5 p-3 login justify-content-md-center">
-          <h1 class="h3 mb-3 font-weight-normal text-center">Авторизация</h1>
+          <h1 class="h3 mb-3 font-weight-normal text-center">Регистрация</h1>
 
-          <p v-if="incorrectAuth">Неверное имя пользователя или пароль - попробуйте снова</p>
-          <form v-on:submit.prevent="login">
+          <p v-if="incorrectAuth">{{ incorrectAuth }}</p>
+          <form v-on:submit.prevent="auth">
+            <div class="form-group">
+              <input type="email" name="username" id="email" v-model="email" class="form-control"
+                     placeholder="Email">
+            </div>
             <div class="form-group">
               <input type="text" name="username" id="user" v-model="username" class="form-control"
                      placeholder="Имя пользователя">
@@ -15,7 +19,12 @@
               <input type="password" name="password" id="pass" v-model="password" class="form-control"
                      placeholder="Пароль">
             </div>
-            <button type="submit" class="btn btn-lg btn-primary btn-block justify-content-md-center">Войти</button>
+            <div class="form-group">
+              <input type="password" name="re_password" id="re_pass" v-model="re_password" class="form-control"
+                     placeholder="Повторите пароль">
+            </div>
+            <button type="submit" class="btn btn-lg btn-primary btn-block justify-content-md-center">Создать аккаунт
+            </button>
           </form>
 
         </div>
@@ -31,30 +40,45 @@ export default {
   name: 'login',
   data() {
     return {
+      email: '',
       username: '',
       password: '',
-      incorrectAuth: false,
+      re_password: '',
+      incorrectAuth: '',
     }
   },
   methods: {
-    login() {
-      this.incorrectAuth = false
-      this.$store.dispatch('userLogin', {
-        username: this.username,
-        password: this.password
-      })
-          .then(data => {
-            if (data !== undefined && data.error)
-              this.incorrectAuth = true
-            else
-              this.$router.push({name: 'balance'})
-          })
-          .catch(err => {
-            if (err.toString() === 'TypeError: Failed to fetch')
-              router.push('error')
-            else
-              this.incorrectAuth = true
-          })
+    async auth() {
+      this.incorrectAuth = ''
+      const requestOptions = {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: this.email,
+          username: this.username,
+          password: this.password,
+          re_password: this.re_password,
+        })
+      }
+      await fetch(`${this.$store.getters.getServerUrl}/auth/users/`, requestOptions).then(
+          response => response.json().then(
+              data => ({
+                data: data,
+                status: response.status
+              })
+          ).then(res => {
+                if (res.status === 400) {
+                  if (res.data.username)
+                    this.incorrectAuth += 'Имя пользователя занято'
+                  if (res.data.password)
+                    this.incorrectAuth += 'Пароль должен быть не менее 8 символов'
+                }
+                if (res.status === 201)
+                  router.push({name: 'login'})
+              }
+          ).catch(() => router.push('error')))
     }
   }
 }

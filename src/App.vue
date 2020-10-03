@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Nav/>
+    <NavBar/>
     <router-view/>
-    <Footer/>
+    <FooterBar/>
   </div>
 </template>
 
@@ -30,10 +30,10 @@ body::-webkit-scrollbar {
 </style>
 
 <script>
-import Nav from "@/components/nav";
-import Footer from "@/components/footer";
+import NavBar from "@/components/nav";
+import FooterBar from "@/components/footer";
 
 export default {
-  components: {Footer, Nav}
+  components: {FooterBar, NavBar}
 }
 </script>
