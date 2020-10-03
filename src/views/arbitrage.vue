@@ -425,51 +425,57 @@ export default {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
-    },
-    getScore(val, p) {
-      return parseFloat(val).toFixed(p)
-    },
-    isActive: function (link) {
-      return this.activelink === link
-    },
-    setActive: function (link) {
-      this.activelink = link
-    },
-    isActiveTable: function (table) {
-      return this.activetable === table
-    },
-    setActiveTable: function (table) {
-      this.activetable = table
-    },
-    activate(text, item) {
-      let b = document.getElementById(text + "_td")
-      for (let i = 1; i < item; i++) {
-        let a = document.getElementById(text + i)
-        if (a.className === "visible") {
-          a.className = "hidden";
-          b.setAttribute("rowspan", "1")
-        } else {
-          a.className = "visible";
-          b.setAttribute("rowspan", item)
-        }
-      }
-      b.style.backgroundImage = "";
-    },
-    signs(text) {
-      let a = document.getElementById(text + 1)
-      let b = document.getElementById(text + "_td")
+      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            return data
+          })
+      ).catch(() => router.push('error'))
+  },
+  getScore(val, p) {
+    return parseFloat(val).toFixed(p)
+  },
+  isActive: function (link) {
+    return this.activelink === link
+  },
+  setActive: function (link) {
+    this.activelink = link
+  },
+  isActiveTable: function (table) {
+    return this.activetable === table
+  },
+  setActiveTable: function (table) {
+    this.activetable = table
+  },
+  activate(text, item) {
+    let b = document.getElementById(text + "_td")
+    for (let i = 1; i < item; i++) {
+      let a = document.getElementById(text + i)
       if (a.className === "visible") {
-        b.style.backgroundImage = "url(" + require("../assets/img/minus.png") + ")"
+        a.className = "hidden";
+        b.setAttribute("rowspan", "1")
       } else {
-        b.style.backgroundImage = "url(" + require("../assets/img/plus.png") + ")"
+        a.className = "visible";
+        b.setAttribute("rowspan", item)
       }
-    },
-    sign_out(text) {
-      let b = document.getElementById(text + "_td")
-      b.style.backgroundImage = ""
     }
+    b.style.backgroundImage = "";
+  },
+  signs(text) {
+    let a = document.getElementById(text + 1)
+    let b = document.getElementById(text + "_td")
+    if (a.className === "visible") {
+      b.style.backgroundImage = "url(" + require("../assets/img/minus.png") + ")"
+    } else {
+      b.style.backgroundImage = "url(" + require("../assets/img/plus.png") + ")"
+    }
+  },
+  sign_out(text) {
+    let b = document.getElementById(text + "_td")
+    b.style.backgroundImage = ""
   }
+}
 }
 </script>
 

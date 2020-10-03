@@ -13,3 +13,18 @@ new Vue({
     },
     render: h => h(App)
 }).$mount('#app')
+
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresLogin)) {
+        const log = store.state.accessToken != null && store.state.timeToken > new Date().setDate(new Date().getMinutes())
+        if (!log) {
+            store.commit('destroyToken')
+            next({name: 'login'})
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
+})

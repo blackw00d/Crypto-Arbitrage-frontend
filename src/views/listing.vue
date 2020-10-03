@@ -38,7 +38,13 @@ export default {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listing = await fetch(`${this.$store.getters.getServerUrl}/listing`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
+      this.listing = await fetch(`${this.$store.getters.getServerUrl}/listing`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            return data
+          })
+      ).catch(() => router.push('error'))
     },
     GetDate(date) {
       let str = date.split('-')

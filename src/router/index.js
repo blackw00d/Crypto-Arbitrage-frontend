@@ -11,7 +11,6 @@ import login from "../views/login";
 import auth from "../views/auth";
 import logout from "../views/logout";
 import error from "../components/error";
-import store from "@/store";
 
 Vue.use(VueRouter)
 
@@ -101,20 +100,6 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     routes
-})
-
-router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresLogin)) {
-        // const log = store.state.accessToken != null && store.state.timeToken > new Date().setDate(new Date().getMinutes())
-        if (!store.getters.loggedIn) {
-            store.commit('destroyToken')
-            next({name: 'login'})
-        } else {
-            next()
-        }
-    } else {
-        next()
-    }
 })
 
 export default router

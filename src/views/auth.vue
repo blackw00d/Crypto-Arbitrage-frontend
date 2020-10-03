@@ -78,7 +78,7 @@ export default {
                 if (res.status === 201)
                   router.push({name: 'login'})
               }
-          ).catch(() => router.push('error')))
+          )).catch(() => router.push('error'))
     }
   }
 }

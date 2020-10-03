@@ -133,7 +133,13 @@ export default {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
+      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            return data
+          })
+      ).catch(() => router.push('error'))
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)

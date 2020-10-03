@@ -62,7 +62,13 @@ export default {
         },
         body: JSON.stringify(this.$store.state.username)
       }
-      this.listtrading = await fetch(`${this.$store.getters.getServerUrl}/trading`, requestOptions).then(responce => responce.json()).catch(() => router.push('error'))
+      this.listtrading = await fetch(`${this.$store.getters.getServerUrl}/trading`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            return data
+          })
+      ).catch(() => router.push('error'))
     }
   }
 }
