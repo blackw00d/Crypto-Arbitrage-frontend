@@ -167,6 +167,7 @@ export default {
     },
     show_usdt() {
       let usdt = document.querySelectorAll('[id^="' + this.activelink + 'USDT"]')
+      if (usdt.length === 0) usdt = document.querySelectorAll('[id^="' + this.activelink + 'USD"]')
       for (let j = 0; j < usdt.length; j++) {
         usdt[j].className = "visibled"
       }
