@@ -15,9 +15,6 @@
       <div class="menu"><a href="#" @click="setActive('hitbtc')" v-bind:class="[isActive('hitbtc') ? 'active' : '']">HitBTC</a>
       </div>
       <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('livecoin')"
-                           v-bind:class="[isActive('livecoin') ? 'active' : '']">Livecoin</a></div>
-      <div class="menu2"><br></div>
       <div class="menu"><a href="#" @click="setActive('kucoin')" v-bind:class="[isActive('kucoin') ? 'active' : '']">Kucoin</a>
       </div>
       <div class="menu2"><br></div>
@@ -45,6 +42,7 @@
 
     <template v-for="(exchange, exchange_name) in exchange">
       <div :id="exchange_name" :class="[isActive(exchange_name) ? 'table-visible' : 'table']">
+
         <div :id="exchange_name+'_div'" :class="[isActive(exchange_name) ? 'exchange_lite_div' : 'hidden']">
           <table :id="exchange_name+'_table'" border='1'
                  :class="[isActive(exchange_name) ? 'exchange_lite' : 'hidden']">
@@ -60,7 +58,7 @@
             <tbody>
             <template v-for="(coins, coin_name) in exchange">
               <template v-for="(coin, index) in coins">
-                <tr :id="exchange_name+coin_name+index" class="hidden">
+                <tr :id="exchange_name+coin_name+index" class="hidden" @dblclick="show_graph(exchange_name, coin.name)">
                   <td>{{ coin.name }}</td>
                   <td>{{ coin.price < 1 ? getScore(coin.price, 9) : getScore(coin.price, 2) }}</td>
                   <td>{{ coin.ask < 1 ? getScore(coin.ask, 9) : getScore(coin.ask, 2) }}</td>
@@ -86,12 +84,20 @@
 
       </div>
     </template>
+
+    <div id='graph' class="graph_off">
+      <a id='graph_href' onclick='this.parentElement.className="graph_off"'>X</a><br>
+      <div id="graph_label"></div>
+      <div id="chartContainer" style="height: 400px; width: 800px;"></div>
+    </div>
+
   </div>
 
 </template>
 
 <script>
 import router from "@/router";
+import CanvasJS from "@/assets/js/canvasjs.min"
 
 export default {
   name: "exchange",
@@ -99,6 +105,39 @@ export default {
     return {
       listexchange: [],
       activelink: 'binance',
+      graph: [],
+      chart: null,
+      chartOptions: {
+        animationEnabled: true,
+        zoomEnabled: true,
+        title: {
+          text: ""
+        },
+        axisX: {
+          valueFormatString: "DD MMM",
+        },
+        axisY: {
+          title: "Price",
+          includeZero: false,
+          valueFormatString: "#0.00",
+          lineThickness: 0
+        },
+        axisY2: {
+          title: "Volume"
+        },
+        data: [{
+          type: "line",
+          dataPoints: []
+        }, {
+          type: "stackedColumn",
+          axisYType: "secondary",
+          markerSize: 5,
+          xValueType: "dateTime",
+          yValueFormatString: "#,##0.0",
+          xValueFormatString: "DD MMM YYYY",
+          dataPoints: []
+        }]
+      },
     }
   },
   created() {
@@ -131,7 +170,10 @@ export default {
   methods: {
     async loadlistexchange() {
       const requestOptions = {
-        headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.$store.state.accessToken}`
+        }
       }
       this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange`, requestOptions).then(
           response => response.json().then(data => {
@@ -140,6 +182,26 @@ export default {
             return data
           })
       ).catch(() => router.push('error'))
+      console.log(this.listexchange)
+    },
+    async getgraph(exchange, coin) {
+      let data = {
+        coin: coin
+      }
+      const requestOptions = {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.$store.state.accessToken}`
+        },
+        body: JSON.stringify(data)
+      }
+      this.graph = await fetch(`${this.$store.getters.getServerUrl}/graph/${exchange}`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            return data
+          }))
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
@@ -149,6 +211,7 @@ export default {
     },
     setActive: function (link) {
       this.activelink = link
+      document.getElementById('graph').className = "graph_off"
     },
     isActiveTable: function (table) {
       return this.activetable === table
@@ -166,17 +229,52 @@ export default {
       }
     },
     show_usdt() {
+      let all_tr = document.querySelectorAll('[id^="' + this.activelink + '"].visibled')
+      for (let i = 0; i < all_tr.length; i++) {
+        if (!all_tr[i].id.includes('USDT')) return
+      }
       let usdt = document.querySelectorAll('[id^="' + this.activelink + 'USDT"]')
       if (usdt.length === 0) usdt = document.querySelectorAll('[id^="' + this.activelink + 'USD"]')
       for (let j = 0; j < usdt.length; j++) {
         usdt[j].className = "visibled"
       }
     },
+    async show_graph(exchange, coin) {
+      await this.getgraph(exchange, coin)
+      if (this.graph.length === 0) return
+      document.getElementById('graph').className = "graph_on"
+      document.getElementById('graph_label').innerHTML = coin
+      this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions)
+      this.chartOptions.data[0].dataPoints = this.graph[0]
+      this.chartOptions.data[1].dataPoints = this.graph[1]
+      this.chart.render()
+    },
   }
 }
+
+
 </script>
 
 <style scoped>
+
+.graph_on {
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  position: absolute;
+}
+
+.graph_off {
+  display: none;
+}
+
+#graph_href {
+  color: red;
+  float: right;
+  margin-top: 4px;
+  margin-right: 7px;
+}
 
 div {
   text-align: center;

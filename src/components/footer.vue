@@ -7,7 +7,7 @@
         </a>
       </div>
       <div class="copy">
-        Copyright© 2019-2020 Blackw00d ArtStudio
+        Copyright© 2019-2021 Blackw00d ArtStudio
       </div>
     </div>
   </section>

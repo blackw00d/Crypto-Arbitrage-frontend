@@ -11,7 +11,6 @@
               <option>Bittrex</option>
               <option>Poloniex</option>
               <option>HitBTC</option>
-              <option>Livecoin</option>
               <option>Kucoin</option>
               <option>Kraken</option>
               <option>Huobi</option>
