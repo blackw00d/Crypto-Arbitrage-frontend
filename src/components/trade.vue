@@ -35,7 +35,7 @@
           <td><input type="text" class="write"
                      onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
                      :value="list.price" maxlength="10" size="5"></td>
-          <td>Now price</td>
+          <td>{{ list.price_now }}</td>
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
                      :value=list.stoploss maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.trailingstoploss"></td>
@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import trading from "../views/trading";
 
 export default {
   name: "trade",

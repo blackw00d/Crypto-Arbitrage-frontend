@@ -7,7 +7,7 @@
           <td>
             <select :id="coin_name" @change="selecting_trade(coin_name)">
               <option selected>{{ coin_name }}</option>
-              <option v-for="coin in coins">{{ coin.name }}</option>
+              <option v-for="coin in coins":data-price="coin.price">{{ coin.name }}</option>
             </select>
           </td>
         </template>
@@ -64,7 +64,7 @@ export default {
         exchange: arr[0],
         pair: arr[1],
         amount: 0,
-        price: 0,
+        price: arr[2],
         stoploss: 0,
         trailingstoploss: 0,
         takeprofit: 0,
@@ -90,9 +90,10 @@ export default {
       })
     },
     selecting_trade(item) {
-      let el = document.getElementById(item)
-      let option = el.options[el.selectedIndex].text
-      this.sendexchange([this.exchange, option])
+      let el = $("#"+item).children('option:selected')
+      let pair = el.text() ? el.text() : ''
+      let price = el.attr('data-price') ? el.attr('data-price') : 0
+      this.sendexchange([this.exchange, pair, price])
     },
   }
 }
