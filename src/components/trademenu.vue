@@ -1,13 +1,13 @@
 <template>
   <div id="trading_menu">
     Монета<br>
-    <table style="border: solid 0px">
+    <table style="border: solid 0">
       <tr>
         <template v-for="(coins, coin_name) in pairs">
           <td>
             <select :id="coin_name" @change="selecting_trade(coin_name)">
               <option selected>{{ coin_name }}</option>
-              <option v-for="coin in coins":data-price="coin.price">{{ coin.name }}</option>
+              <option v-for="coin in coins" :data-price="coin.price">{{ coin.name }}</option>
             </select>
           </td>
         </template>

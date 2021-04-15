@@ -414,10 +414,9 @@ export default {
       return coinarr
     },
     profitArray: function () {
-      const profitarr = this.ArbitrageArray[0].sort((function (a, b) {
+      return this.ArbitrageArray[0].sort((function (a, b) {
         return b.profit - a.profit
       }))
-      return profitarr
     }
   },
   methods: {

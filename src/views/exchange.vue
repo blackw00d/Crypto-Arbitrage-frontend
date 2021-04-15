@@ -44,8 +44,7 @@
       <div :id="exchange_name" :class="[isActive(exchange_name) ? 'table-visible' : 'table']">
 
         <div :id="exchange_name+'_div'" :class="[isActive(exchange_name) ? 'exchange_lite_div' : 'hidden']">
-          <table :id="exchange_name+'_table'" border='1'
-                 :class="[isActive(exchange_name) ? 'exchange_lite' : 'hidden']">
+          <table :id="exchange_name+'_table'" :class="[isActive(exchange_name) ? 'exchange_lite' : 'hidden']">
             <thead>
             <tr>
               <th>Pair</th>
@@ -73,7 +72,7 @@
         </div>
 
         <div :id="exchange_name+'_div2'" class='exchange_lite_div2'>
-          <table :id="exchange_name+'_table2'" border='0' class='exchange_lite_table'>
+          <table :id="exchange_name+'_table2'" class='exchange_lite_table'>
             <template v-for="(coins, coin_name) in exchange">
               <tr @click="show_tr(exchange_name, (exchange_name+coin_name), coins.length)">
                 <td>{{ coin_name }}</td>
@@ -149,7 +148,7 @@ export default {
       let exchange = {}
       for (let [key, value] of Object.entries(this.listexchange)) {
         exchange[key] = {}
-        for (let [keyin, valuein] of Object.entries(value)) {
+        for (let [, valuein] of Object.entries(value)) {
           let coin = valuein.name.split('-')[0]
           if (!(coin in exchange[key])) exchange[key][coin] = []
           exchange[key][coin].push({
@@ -212,12 +211,6 @@ export default {
     setActive: function (link) {
       this.activelink = link
       document.getElementById('graph').className = "graph_off"
-    },
-    isActiveTable: function (table) {
-      return this.activetable === table
-    },
-    setActiveTable: function (table) {
-      this.activetable = table
     },
     show_tr(exchange, coin, count) {
       let all_tr = document.getElementById(exchange + '_table').getElementsByTagName("tbody")[0].rows

@@ -81,7 +81,7 @@ export default {
 
 #tracking_div table {
   border: none;
-  margin: 50px auto 0px
+  margin: 50px auto 0
 }
 
 </style>

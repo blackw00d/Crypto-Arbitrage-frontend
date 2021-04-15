@@ -47,10 +47,10 @@ export default {
 
 <style scoped>
 
-@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700,800');
-@import url('https://fonts.googleapis.com/css?family=Sahitya:400,700');
-@import url('http://fonts.googleapis.com/css?family=Lobster+Two:700italic,700');
-@import url('http://fonts.googleapis.com/css?family=Oswald:300');
+@import url("https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700,800");
+@import url("https://fonts.googleapis.com/css?family=Sahitya:400,700");
+@import url("http://fonts.googleapis.com/css?family=Lobster+Two:700italic,700");
+@import url("http://fonts.googleapis.com/css?family=Oswald:300");
 
 .container {
   width: 100%;

@@ -1,7 +1,7 @@
 <template>
   <div id="tracking_menu">
     Монета<br>
-    <table style="border: solid 0px">
+    <table style="border: solid 0">
       <tr>
         <template v-for="(coins, coin_name) in pairs">
           <td>
@@ -18,7 +18,6 @@
 
 <script>
 import exchange from "../views/exchange";
-import track from "../components/track";
 
 export default {
   name: "trackmenu",
@@ -88,7 +87,7 @@ export default {
       })
     },
     selecting_track(item) {
-      let el = $("#"+item).children('option:selected')
+      let el = $("#" + item).children('option:selected')
       let pair = el.text() ? el.text() : ''
       let price = el.attr('data-price') ? el.attr('data-price') : 0
       let volume = el.attr('data-volume') ? el.attr('data-volume') : 0

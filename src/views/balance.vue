@@ -9,7 +9,7 @@
         TOTAL<br><br>BTC: {{ getScore(totalbtc, 7) }}<br>USD: {{ getScore(totalusd, 2) }}<br>
       </div>
     </div>
-    {{ this.drawCircle(".box", 50, 350, 90, 310, 350) }}
+    {{ drawCircle(".box", 50, 350, 90, 310, 350) }}
   </div>
 </template>
 
@@ -71,7 +71,7 @@ export default {
       $(selector).each(function (index) {
         let theta = alpha * index
         let pointx = Math.floor(Math.cos(theta) * radius)
-        var pointy = Math.floor(Math.sin(theta) * radius)
+        let pointy = Math.floor(Math.sin(theta) * radius)
         $(this).css('margin-left', pointx + x + 'px')
         $(this).css('margin-top', pointy + y + 'px')
       })
@@ -90,7 +90,7 @@ export default {
 .box {
   -moz-border-radius: 300px;
   -webkit-border-radius: 300px;
-  background-position: 0px 0px;
+  background-position: 0 0;
   -moz-box-shadow: 1px 1px 1px #FFFFFF;
   -webkit-box-shadow: 1px 1px 1px #FFFFFF;
   background-color: yellow;
@@ -112,7 +112,7 @@ export default {
 .box_center {
   -moz-border-radius: 300px;
   -webkit-border-radius: 300px;
-  background-position: 0px 0px;
+  background-position: 0 0;
   -moz-box-shadow: 1px 1px 1px #FFFFFF;
   -webkit-box-shadow: 1px 1px 1px #FFFFFF;
   background-color: greenyellow;

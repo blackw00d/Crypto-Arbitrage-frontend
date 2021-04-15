@@ -23,16 +23,20 @@
           <li id="balance">
             <router-link to="balance">Balance</router-link>
           </li>
+          <li id="settings">
+            <router-link to="settings">Settings</router-link>
+          </li>
         </ul>
       </div>
     </div>
     <div class="login" v-if="accessToken != null">
       <span>Привет, {{ username }}</span><br>
-      <router-link :to = "{ name:'logout' }">Выход <i class="fas fa-sign-out-alt"></i></router-link>
+      <router-link :to="{ name:'logout' }">Выход <i class="fas fa-sign-out-alt"></i></router-link>
     </div>
     <div class="login" v-else>
-      <router-link :to = "{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link><br>
-      <router-link :to = "{ name:'auth' }">Регистрация <i class="fas fa-user-circle"></i></router-link>
+      <router-link :to="{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link>
+      <br>
+      <router-link :to="{ name:'auth' }">Регистрация <i class="fas fa-user-circle"></i></router-link>
     </div>
   </div>
 </template>

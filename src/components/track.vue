@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import tracking from "../views/tracking";
 
 export default {
   name: "trade",
@@ -113,7 +112,6 @@ export default {
     },
     write_table() {
       let data = []
-      let out = false
       $('#tracking_table tbody tr').each(function (i) {
         data[i] = []
         $(this).children('td').each(function (ii) {

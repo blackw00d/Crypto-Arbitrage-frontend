@@ -7,6 +7,7 @@ import arbitrage from "../views/arbitrage";
 import tracking from "../views/tracking";
 import listing from "../views/listing";
 import exchange from "../views/exchange";
+import settings from "../views/settings";
 import login from "../views/login";
 import auth from "../views/auth";
 import logout from "../views/logout";
@@ -64,6 +65,14 @@ const routes = [
         path: '/arbitrage',
         name: 'arbitrage',
         component: arbitrage,
+        meta: {
+            requiresLogin: true
+        }
+    },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: settings,
         meta: {
             requiresLogin: true
         }

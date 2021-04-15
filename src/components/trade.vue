@@ -144,18 +144,17 @@ export default {
         })
         data[i].splice(0, 1)
         data[i].splice(4, 1)
-        if (data[i][2] == 0) {
+        if (data[i][2] === 0) {
           $('#message').html("Количество не может быть ноль")
           out = true
           return
         }
-        if (data[i][3] == 0) {
+        if (data[i][3] === 0) {
           $('#message').html("Цена не может быть 0")
           out = true
-          return
         }
       })
-      if (out == true) return []
+      if (out === true) return []
       $('#message').html("")
       for (let i = 0; i < data.length; i++)
         this.sendlisttrading(data[i])
