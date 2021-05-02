@@ -45,8 +45,12 @@
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
                      :value=list.trailingtakeprofitprocent maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.active"></td>
-          <td>{{ list.stoplosstrailingvalue }}</td>
-          <td>{{ list.takeprofittrailingvalue }}</td>
+          <td>
+            {{ list.stoplossvalue > 1 ? getScore(list.stoplossvalue, 2) : getScore(list.stoplossvalue, 10) }}
+          </td>
+          <td>
+            {{ list.takeprofitvalue > 1 ? getScore(list.takeprofitvalue, 2) : getScore(list.takeprofitvalue, 10) }}
+          </td>
           <td style="display: none">{{ list.id }}</td>
         </tr>
         </tbody>
@@ -78,17 +82,18 @@ export default {
       let data = {
         amount: arr[2],
         price: arr[3],
-        stoploss: arr[4],
-        trailingstoploss: arr[5],
-        takeprofit: arr[6],
-        trailingtakeprofit: arr[7],
-        trailingtakeprofitprocent: arr[8],
-        active: arr[9],
-        stoplossvalue: arr[10],
-        stoplosstrailingvalue: arr[10],
-        takeprofitvalue: arr[11],
-        takeprofittrailingvalue: arr[11],
-        id: arr[12]
+        last_price: arr[4],
+        stoploss: arr[5],
+        trailingstoploss: arr[6],
+        takeprofit: arr[7],
+        trailingtakeprofit: arr[8],
+        trailingtakeprofitprocent: arr[9],
+        active: arr[10],
+        stoplossvalue: arr[3] * (1 - arr[5] / 100),
+        stoplosstrailingvalue: arr[3] * (1 - arr[5] / 100),
+        takeprofitvalue: arr[3] * (1 + arr[7] / 100),
+        takeprofittrailingvalue: 0,
+        id: arr[13]
       }
       const requestOptions = {
         method: "patch",
@@ -121,6 +126,9 @@ export default {
     offtable(item) {
       document.getElementById('table' + item).style.setProperty('visibility', 'hidden')
     },
+    getScore(val, p) {
+      return parseFloat(val).toFixed(p)
+    },
     write_table() {
       let data = []
       let out = false
@@ -143,7 +151,6 @@ export default {
           }
         })
         data[i].splice(0, 1)
-        data[i].splice(4, 1)
         if (data[i][2] === 0) {
           $('#message').html("Количество не может быть ноль")
           out = true

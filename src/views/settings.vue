@@ -30,10 +30,43 @@
                    @change="sendkeys($event)">
           </td>
         </tr>
+        <tr v-if="userkeys[id+'_password']">
+          <td>Password</td>
+          <td>
+            <input type="text" class="write" :id="id+'_password'" :value="userkeys[id+'_password']" maxlength="70"
+                   size="5"
+                   @change="sendkeys($event)">
+          </td>
+        </tr>
         </tbody>
       </template>
-
     </table>
+
+    <table>
+      <thead>
+      <tr>
+        <th colspan="5">Контакт для связи</th>
+      </tr>
+      </thead>
+
+      <tbody class="labels">
+      <tr onclick="$(this).parents('tbody').next('tbody').toggle()">
+        <td colspan="5">
+          Telegram
+        </td>
+      </tr>
+      </tbody>
+      <tbody class="hide">
+      <tr>
+        <td>nickname</td>
+        <td>
+          <input type="text" class="write" id="telegram" :value="userkeys['telegram']" maxlength="20" size="5"
+                 @change="sendkeys($event)">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
   </div>
 </template>
 
@@ -46,18 +79,18 @@ export default {
     return {
       userkeys: [],
       exchanges: {
-        binance: 'Binance',
-        bittrex: 'Bittrex',
+        binance: 'Binance API V3',
+        bittrex: 'Bittrex API V3',
         poloniex: 'Poloniex',
-        hitbtc: 'HitBTC',
-        kucoin: 'Kucoin',
+        hitbtc: 'HitBTC API V2',
+        kucoin: 'Kucoin API V1',
         kraken: 'Kraken',
-        huobi: 'Huobi',
-        okex: 'OKex',
+        huobi: 'Huobi API V1',
+        okex: 'OKex API V3',
         gateio: 'Gate.io',
-        coinex: 'Coinex',
-        bitz: 'Bit-Z',
-        bibox: 'Bibox'
+        coinex: 'Coinex API V1',
+        bitz: 'Bit-Z API V2',
+        bibox: 'Bibox API V3'
       },
     }
   },
@@ -103,6 +136,7 @@ export default {
 </script>
 
 <style scoped>
+
 table {
   width: 750px;
   border-collapse: collapse;
