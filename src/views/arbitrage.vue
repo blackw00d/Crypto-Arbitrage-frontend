@@ -15,81 +15,69 @@
     </table>
     <br><br><br>
     <div id="arb_menu" ref="arb_menu" :class="[isActive('menu') ? 'visible' : 'hidden']">
+      <br>
       <table class="arb_menu_table">
         <tbody>
         <tr>
           <td><a @click="setActiveTable('binance_bittrex')">Binance / Bittrex</a></td>
           <td><a @click="setActiveTable('binance_hitbtc')">Binance / HitBTC</a></td>
           <td><a @click="setActiveTable('binance_kucoin')">Binance / Kucoin</a></td>
-          <td><a @click="setActiveTable('binance_livecoin')">Binance / Livecoin</a></td>
           <td><a @click="setActiveTable('binance_poloniex')">Binance / Poloniex</a></td>
           <td><a @click="setActiveTable('binance_kraken')">Binance / Kraken</a></td>
           <td><a @click="setActiveTable('binance_okex')">Binance / OKex</a></td>
           <td><a @click="setActiveTable('binance_gateio')">Binance / Gate.io</a></td>
           <td><a @click="setActiveTable('binance_bitz')">Binance / Bit-Z</a></td>
+          <td><a @click="setActiveTable('binance_huobi')">Binance / Huobi</a></td>
         </tr>
         <tr>
-          <td><a @click="setActiveTable('binance_huobi')">Binance / Huobi</a></td>
           <td><a @click="setActiveTable('binance_coinex')">Binance / Coinex</a></td>
           <td><a @click="setActiveTable('binance_bibox')">Binance / Bibox</a></td>
+
           <td><a @click="setActiveTable('bittrex_hitbtc')">Bittrex / HitBTC</a></td>
           <td><a @click="setActiveTable('bittrex_kucoin')">Bittrex / Kucoin</a></td>
-          <td><a @click="setActiveTable('bittrex_livecoin')">Bittrex / Livecoin</a></td>
           <td><a @click="setActiveTable('bittrex_poloniex')">Bittrex / Poloniex</a></td>
           <td><a @click="setActiveTable('bittrex_kraken')">Bittrex / Kraken</a></td>
           <td><a @click="setActiveTable('bittrex_okex')">Bittrex / OKex</a></td>
-        </tr>
-        <tr>
           <td><a @click="setActiveTable('bittrex_gateio')">Bittrex / Gate.io</a></td>
           <td><a @click="setActiveTable('bittrex_bitz')">Bittrex / Bit-Z</a></td>
+        </tr>
+        <tr>
           <td><a @click="setActiveTable('bittrex_huobi')">Bittrex / Huobi</a></td>
           <td><a @click="setActiveTable('bittrex_coinex')">Bittrex / Coinex</a></td>
           <td><a @click="setActiveTable('bittrex_bibox')">Bittrex / Bibox</a></td>
+
           <td><a @click="setActiveTable('poloniex_hitbtc')">Poloniex / HitBTC</a></td>
           <td><a @click="setActiveTable('poloniex_kucoin')">Poloniex / Kucoin</a></td>
-          <td><a @click="setActiveTable('poloniex_livecoin')">Poloniex / Livecoin</a></td>
           <td><a @click="setActiveTable('poloniex_kraken')">Poloniex / Kraken</a></td>
-        </tr>
-        <tr>
           <td><a @click="setActiveTable('poloniex_okex')">Poloniex / OKex</a></td>
           <td><a @click="setActiveTable('poloniex_gateio')">Poloniex / Gate.io</a></td>
           <td><a @click="setActiveTable('poloniex_bitz')">Poloniex / Bit-Z</a></td>
+        </tr>
+        <tr>
           <td><a @click="setActiveTable('poloniex_huobi')">Poloniex / Huobi</a></td>
           <td><a @click="setActiveTable('poloniex_coinex')">Poloniex / Coinex</a></td>
           <td><a @click="setActiveTable('poloniex_bibox')">Poloniex / Bibox</a></td>
 
           <td><a @click="setActiveTable('hitbtc_kucoin')">HitBTC / Kucoin</a></td>
-          <td><a @click="setActiveTable('hitbtc_livecoin')">HitBTC / Livecoin</a></td>
           <td><a @click="setActiveTable('hitbtc_kraken')">HitBTC / Kraken</a></td>
-        </tr>
-        <tr>
           <td><a @click="setActiveTable('hitbtc_okex')">HitBTC / OKex</a></td>
           <td><a @click="setActiveTable('hitbtc_gateio')">HitBTC / Gate.io</a></td>
           <td><a @click="setActiveTable('hitbtc_bitz')">HitBTC / Bit-Z</a></td>
           <td><a @click="setActiveTable('hitbtc_huobi')">HitBTC / Huobi</a></td>
+        </tr>
+        <tr>
           <td><a @click="setActiveTable('hitbtc_coinex')">HitBTC / Coinex</a></td>
           <td><a @click="setActiveTable('hitbtc_bibox')">HitBTC / Bibox</a></td>
 
-          <td><a @click="setActiveTable('kucoin_livecoin')">Kucoin / Livecoin</a></td>
           <td><a @click="setActiveTable('kucoin_kraken')">Kucoin / Kraken</a></td>
           <td><a @click="setActiveTable('kucoin_okex')">Kucoin / OKex</a></td>
-        </tr>
-        <tr>
           <td><a @click="setActiveTable('kucoin_gateio')">Kucoin / Gate.io</a></td>
           <td><a @click="setActiveTable('kucoin_bitz')">Kucoin / Bit-Z</a></td>
           <td><a @click="setActiveTable('kucoin_huobi')">Kucoin / Huobi</a></td>
           <td><a @click="setActiveTable('kucoin_coinex')">Kucoin / Coinex</a></td>
           <td><a @click="setActiveTable('kucoin_bibox')">Kucoin / Bibox</a></td>
-
-          <td><a @click="setActiveTable('livecoin_kraken')">Livecoin / Kraken</a></td>
-          <td><a @click="setActiveTable('livecoin_okex')">Livecoin / OKex</a></td>
-          <td><a @click="setActiveTable('livecoin_gateio')">Livecoin / Gate.io</a></td>
-          <td><a @click="setActiveTable('livecoin_bitz')">Livecoin / Bit-Z</a></td>
         </tr>
         <tr>
-          <td><a @click="setActiveTable('livecoin_huobi')">Livecoin / Huobi</a></td>
-          <td><a @click="setActiveTable('livecoin_coinex')">Livecoin / Coinex</a></td>
-          <td><a @click="setActiveTable('livecoin_bibox')">Livecoin / Bibox</a></td>
 
           <td><a @click="setActiveTable('kraken_okex')">Kraken / OKex</a></td>
           <td><a @click="setActiveTable('kraken_gateio')">Kraken / Gate.io</a></td>
@@ -97,11 +85,12 @@
           <td><a @click="setActiveTable('kraken_huobi')">Kraken / Huobi</a></td>
           <td><a @click="setActiveTable('kraken_coinex')">Kraken / Coinex</a></td>
           <td><a @click="setActiveTable('kraken_bibox')">Kraken / Bibox</a></td>
-        </tr>
-        <tr>
+
           <td><a @click="setActiveTable('okex_gateio')">OKex / Gate.io</a></td>
           <td><a @click="setActiveTable('okex_bitz')">OKex / Bit-Z</a></td>
           <td><a @click="setActiveTable('okex_huobi')">OKex / Huobi</a></td>
+        </tr>
+        <tr>
           <td><a @click="setActiveTable('okex_coinex')">OKex / Coinex</a></td>
           <td><a @click="setActiveTable('okex_bibox')">OKex / Bibox</a></td>
 
@@ -109,12 +98,12 @@
           <td><a @click="setActiveTable('gateio_huobi')">Gate.io / Huobi</a></td>
           <td><a @click="setActiveTable('gateio_coinex')">Gate.io / Coinex</a></td>
           <td><a @click="setActiveTable('gateio_bibox')">Gate.io / Bibox</a></td>
-        </tr>
-        <tr>
+
           <td><a @click="setActiveTable('bitz_huobi')">Bit-Z / Huobi</a></td>
           <td><a @click="setActiveTable('bitz_coinex')">Bit-Z / Coinex</a></td>
           <td><a @click="setActiveTable('bitz_bibox')">Bit-Z / Bibox</a></td>
-
+        </tr>
+        <tr>
           <td><a @click="setActiveTable('huobi_coinex')">Huobi / Coinex</a></td>
           <td><a @click="setActiveTable('huobi_bibox')">Huobi / Bibox</a></td>
 
@@ -123,10 +112,10 @@
         </tbody>
       </table>
     </div>
-    <br><br><br><br>
+    <br>
 
     <!--    По Таблицам-->
-    <div v-for="(items, index) in listarbitrage" :id="index" :ref="index"
+    <div v-for="(items, index) in this.list_arbitrage" :id="index" :ref="index"
          :class="[isActiveTable(index) ? 'arbitrage_table-visible' : 'hidden']">
       <table cellpadding="2">
         <tr align="center">
@@ -171,7 +160,7 @@
       </tr>
       </thead>
       <tbody>
-      <template v-for="(coin, index) in coinArray">
+      <template v-for="coin in coinArray">
         <tr v-if="coin.index===0">
           <td v-if="coin.amount > 1" :id="coin.name+'_td'" class='td_icon' @mouseover="signs(coin.name)"
               @mouseout="sign_out(coin.name)">
@@ -266,7 +255,7 @@
       </tr>
       </thead>
       <tbody>
-      <template v-for="(profit, index) in profitArray">
+      <template v-for="profit in this.profit_array">
         <tr>
           <td>{{ profit.name }}</td>
           <template v-if="profit.price_a > profit.price_b">
@@ -316,87 +305,21 @@ export default {
     return {
       activelink: 'profit',
       activetable: '',
-      listarbitrage: []
+      arbitrage_data: [],
+      list_arbitrage: [],
+      coin_array: [],
+      profit_array: [],
     }
   },
   created() {
-    if (!this.$store.state.timeToken) router.push('login')
-    this.loadlistarbitrage()
+    if (!this.$store.state.timeToken)
+      router.push('login')
+    else
+      this.loadlistarbitrage()
   },
   computed: {
-    ArbitrageArray: function () {
-      const temp = {}
-      const unique = []
-      const all = []
-      const keys = Object.keys(this.listarbitrage)
-      const values = Object.values(this.listarbitrage)
-      if (this.listarbitrage === []) return [unique, all]
-      for (let i = 0; i < keys.length; i += 1) {
-        let exchange = keys[i].split('_')
-        for (let j = 0; j < values[i].length; j += 1) {
-          let name = values[i][j].name.split('-')[1]
-          all.push({
-            'name': name,
-            'price_a': values[i][j].price_a,
-            'price_b': values[i][j].price_b,
-            'profit': values[i][j].profit,
-            'link_a': values[i][j].link_a,
-            'link_b': values[i][j].link_b,
-            'exchange_a': exchange[0],
-            'exchange_b': exchange[1],
-            'index': 0,
-            'amount': 1
-          })
-          if (name in temp) {
-            if (temp[name].profit < values[i][j].profit) {
-              temp[name] = {
-                'price_a': values[i][j].price_a,
-                'price_b': values[i][j].price_b,
-                'profit': values[i][j].profit,
-                'link_a': values[i][j].link_a,
-                'link_b': values[i][j].link_b,
-                'exchange_a': exchange[0],
-                'exchange_b': exchange[1]
-              }
-            }
-          } else {
-            temp[name] = {
-              'price_a': values[i][j].price_a,
-              'price_b': values[i][j].price_b,
-              'profit': values[i][j].profit,
-              'link_a': values[i][j].link_a,
-              'link_b': values[i][j].link_b,
-              'exchange_a': exchange[0],
-              'exchange_b': exchange[1]
-            }
-          }
-        }
-      }
-      for (let key in temp) {
-        unique.push({
-          'name': key,
-          'price_a': temp[key].price_a,
-          'price_b': temp[key].price_b,
-          'profit': temp[key].profit,
-          'link_a': temp[key].link_a,
-          'link_b': temp[key].link_b,
-          'exchange_a': temp[key].exchange_a,
-          'exchange_b': temp[key].exchange_b
-        })
-
-      }
-      return [unique, all]
-    },
     coinArray: function () {
-      const coinarr = this.ArbitrageArray[1].sort((function (a, b) {
-        if (a.name < b.name) return -1
-        else if (a.name > b.name) return 1
-        return 0
-      })).sort((function (a, b) {
-        if (a.name === b.name && a.profit > b.profit) return -1
-        else if (a.name === b.name && a.profit < b.profit) return 1
-        return 0
-      }))
+      const coinarr = this.coin_array
       if (coinarr.length === 0) return []
       let index = 0
       for (let i = 1; i < coinarr.length; i += 1) {
@@ -413,68 +336,69 @@ export default {
       }
       return coinarr
     },
-    profitArray: function () {
-      return this.ArbitrageArray[0].sort((function (a, b) {
-        return b.profit - a.profit
-      }))
-    }
   },
   methods: {
     async loadlistarbitrage() {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listarbitrage = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(
+      this.arbitrage_data = await fetch(`${this.$store.getters.getServerUrl}/arbitrage`, requestOptions).then(
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            return data
+            else if (response.status === 200)
+              return data
+            else
+              router.push('error')
           })
       ).catch(() => router.push('error'))
-  },
-  getScore(val, p) {
-    return parseFloat(val).toFixed(p)
-  },
-  isActive: function (link) {
-    return this.activelink === link
-  },
-  setActive: function (link) {
-    this.activelink = link
-  },
-  isActiveTable: function (table) {
-    return this.activetable === table
-  },
-  setActiveTable: function (table) {
-    this.activetable = table
-  },
-  activate(text, item) {
-    let b = document.getElementById(text + "_td")
-    for (let i = 1; i < item; i++) {
-      let a = document.getElementById(text + i)
-      if (a.className === "visible") {
-        a.className = "hidden";
-        b.setAttribute("rowspan", "1")
-      } else {
-        a.className = "visible";
-        b.setAttribute("rowspan", item)
+      this.list_arbitrage = this.arbitrage_data[0]
+      this.profit_array = this.arbitrage_data[1]
+      this.coin_array = this.arbitrage_data[2]
+    },
+    getScore(val, p) {
+      return parseFloat(val).toFixed(p)
+    },
+    isActive: function (link) {
+      return this.activelink === link
+    },
+    setActive: function (link) {
+      this.activelink = link
+    },
+    isActiveTable: function (table) {
+      return this.activetable === table
+    },
+    setActiveTable: function (table) {
+      this.activetable = table
+    },
+    activate(text, item) {
+      let b = document.getElementById(text + "_td")
+      for (let i = 1; i < item; i++) {
+        let a = document.getElementById(text + i)
+        if (a.className === "visible") {
+          a.className = "hidden";
+          b.setAttribute("rowspan", "1")
+        } else {
+          a.className = "visible";
+          b.setAttribute("rowspan", item)
+        }
       }
+      b.style.backgroundImage = "";
+    },
+    signs(text) {
+      let a = document.getElementById(text + 1)
+      let b = document.getElementById(text + "_td")
+      if (a.className === "visible") {
+        b.style.backgroundImage = "url(" + require("../assets/img/minus.png") + ")"
+      } else {
+        b.style.backgroundImage = "url(" + require("../assets/img/plus.png") + ")"
+      }
+    },
+    sign_out(text) {
+      let b = document.getElementById(text + "_td")
+      b.style.backgroundImage = ""
     }
-    b.style.backgroundImage = "";
-  },
-  signs(text) {
-    let a = document.getElementById(text + 1)
-    let b = document.getElementById(text + "_td")
-    if (a.className === "visible") {
-      b.style.backgroundImage = "url(" + require("../assets/img/minus.png") + ")"
-    } else {
-      b.style.backgroundImage = "url(" + require("../assets/img/plus.png") + ")"
-    }
-  },
-  sign_out(text) {
-    let b = document.getElementById(text + "_td")
-    b.style.backgroundImage = ""
   }
-}
 }
 </script>
 

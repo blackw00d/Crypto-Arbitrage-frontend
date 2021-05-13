@@ -87,7 +87,7 @@
     <div id='graph' class="graph_off">
       <a id='graph_href' onclick='this.parentElement.className="graph_off"'>X</a><br>
       <div id="graph_label"></div>
-      <div id="chartContainer" style="height: 400px; width: 800px;"></div>
+      <div id="chartContainer" style="height: 500px; width: 1000px;"></div>
     </div>
 
   </div>
@@ -96,7 +96,7 @@
 
 <script>
 import router from "@/router";
-import CanvasJS from "@/assets/js/canvasjs.min"
+import CanvasJS from "@/assets/js/canvasjs.stock.min"
 
 export default {
   name: "exchange",
@@ -107,41 +107,60 @@ export default {
       graph: [],
       chart: null,
       chartOptions: {
-        animationEnabled: true,
-        zoomEnabled: true,
-        title: {
-          text: ""
-        },
-        axisX: {
-          valueFormatString: "DD MMM",
-        },
-        axisY: {
-          title: "Price",
-          includeZero: false,
-          valueFormatString: "#0.00",
-          lineThickness: 0
-        },
-        axisY2: {
-          title: "Volume"
-        },
-        data: [{
-          type: "line",
-          dataPoints: []
-        }, {
-          type: "stackedColumn",
-          axisYType: "secondary",
-          markerSize: 5,
-          xValueType: "dateTime",
-          yValueFormatString: "#,##0.0",
-          xValueFormatString: "DD MMM YYYY",
-          dataPoints: []
-        }]
+        "theme": "light2",
+        "charts": [
+          {
+            "axisX": {
+              "valueFormatString": "MMM-YY",
+            },
+            "axisY": {
+              "title": "Price"
+            },
+            "data": [{
+              "xValueType": "dateTime",
+              "type": "line",
+              "dataPoints": []
+            }]
+          },
+          {
+            "height": 100,
+            "axisX": {
+              "valueFormatString": "MMM-YY",
+            },
+            "axisY": {
+              "prefix": "$",
+              "labelFormatter": function (e) {
+                let suffixes = ["", "K", "M", "B"];
+                let order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+                if (order > suffixes.length - 1)
+                  order = suffixes.length - 1;
+                let suffix = suffixes[order];
+                return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+              },
+              "title": "Volume"
+            },
+            "legend": {
+              "verticalAlign": "top"
+            },
+            "data": [{
+              "xValueType": "dateTime",
+              "dataPoints": []
+            }]
+          }
+        ],
+        navigator: {
+          slider: {
+            minimum: new Date(new Date().getFullYear(), 0o1, 0o1)
+          }
+        }
       },
     }
   },
   created() {
-    if (!this.$store.state.timeToken) router.push('login')
-    this.loadlistexchange()
+    if (!this.$store.state.timeToken)
+      router.push('login')
+    else
+      this.loadlistexchange()
   },
   computed: {
     exchange() {
@@ -169,6 +188,7 @@ export default {
   methods: {
     async loadlistexchange() {
       const requestOptions = {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.$store.state.accessToken}`
@@ -178,10 +198,12 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            return data
+            else if (response.status === 200)
+              return data
+            else
+              router.push('error')
           })
       ).catch(() => router.push('error'))
-      console.log(this.listexchange)
     },
     async getgraph(exchange, coin) {
       let data = {
@@ -199,7 +221,10 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            return data
+            else if (response.status === 200)
+              return data
+            else
+              return []
           }))
     },
     getScore(val, p) {
@@ -237,10 +262,12 @@ export default {
       if (this.graph.length === 0) return
       document.getElementById('graph').className = "graph_on"
       document.getElementById('graph_label').innerHTML = coin
-      this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions)
-      this.chartOptions.data[0].dataPoints = this.graph[0]
-      this.chartOptions.data[1].dataPoints = this.graph[1]
+      this.chart = new CanvasJS.StockChart("chartContainer", this.chartOptions)
+      this.chartOptions.charts[0].data[0].dataPoints = this.graph[0]
+      this.chartOptions.charts[1].data[0].dataPoints = this.graph[1]
       this.chart.render()
+      $('.canvasjs-chart-canvas')[0].remove()
+      // $('.canvasjs-navigator-panel').remove()
     },
   }
 }
@@ -314,7 +341,7 @@ a { /* Цвет ссылок при наведении */
 
 .exchange_lite {
   font-size: 13px;
-  border: 0px solid; /* нет внешней границы таблицы */
+  border: 0 solid; /* нет внешней границы таблицы */
   border-collapse: collapse; /* нет двойных линий */
   text-align: center; /* выравнивание текста в ячейках */
   table-layout: auto; /*  Неподвижная шапка НАЧАЛО  */

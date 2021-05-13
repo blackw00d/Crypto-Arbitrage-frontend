@@ -1,36 +1,120 @@
 <template>
   <div class="home">
-    <div class="price">
-      <section class="pricing-section bg-6">
-        <div class="pricing pricing--pema">
-          <div class="pricing__item">
-            <h3 class="pricing__title">Basic</h3>
-            <p class="pricing__sentence">For try</p>
-            <div class="pricing__price"><span class="pricing__currency">$</span>20<span
-                class="pricing__period">/ month</span></div>
-            <br><br>
-            <button class="pricing__action">Choose plan</button>
-          </div>
-          <div class="pricing__item pricing__item--featured">
-            <h3 class="pricing__title">Standard</h3>
-            <p class="pricing__sentence">For beginners</p>
-            <div class="pricing__price"><span class="pricing__currency">$</span>55<span class="pricing__period">/ 3 month</span>
-            </div>
-            <br><br>
-            <button class="pricing__action">Choose plan</button>
 
-          </div>
-          <div class="pricing__item">
-            <h3 class="pricing__title">Enterprise</h3>
-            <p class="pricing__sentence">For traders</p>
-            <div class="pricing__price"><span class="pricing__currency">$</span>100<span class="pricing__period">/ 6 month</span>
-            </div>
-            <br><br>
-            <button class="pricing__action">Choose plan</button>
-          </div>
+    <section class="bg-6">
+      <div class="row">
+        <div class="col-5">
+          <h3 class="section-title">Exchange's Data</h3>
+          Данные о цене, объеме торгов и размере стакана<br>
+          Данные обновляются каждые 20 минут
         </div>
-      </section>
-    </div>
+        <div class="col-6">
+          <img src="../assets/img/home/exchange.png">
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-6 gray">
+      <div class="row">
+        <div class="col-5">
+          <h3 class="section-title">Price and Volume Chart</h3>
+          Подробный график с отображением цены и объема криптовалюты<br>
+          Настраеваемый диапазон отображения, данные напрямую с биржи
+        </div>
+        <div class="col-6">
+          <img src="../assets/img/home/chart.png">
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-6">
+      <div class="row">
+        <div class="col-5">
+          <h3 class="section-title">Tracking Assistant</h3>
+          Контроль за изменением параметров криптовалюты<br>
+          Укажи интересующие параметры и получи уведомление<br>
+          при их достижении
+        </div>
+        <div class="col-6">
+          <img src="../assets/img/home/tracking.png">
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-6 gray">
+      <div class="row">
+        <div class="col-5">
+          <h3 class="section-title">Trading Assistant</h3>
+          Биржа не поддерживает Trailing - не беда.<br>
+          Настрой требуемую доходность и защиту от потери депозита<br>
+          и получи торговый сигнал о продаже вовремя
+        </div>
+        <div class="col-6">
+          <img src="../assets/img/home/trading.png">
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-6">
+      <div class="row">
+        <div class="col-5">
+          <h3 class="section-title">Cryptocurrency Arbitrage</h3>
+          Межбиржевой арбитраж поддерживает 12 бирж<br>
+          Обновление каждые 20 минут
+        </div>
+        <div class="col-6">
+          <img src="../assets/img/home/arbitrage.png">
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-6 gray">
+      <div class="row">
+        <div class="col-5">
+          <h3 class="section-title">Total Balance</h3>
+          Общий баланс в одном месте<br>
+          Отслеживай свои доходы
+        </div>
+        <div class="col-6">
+          <img src="../assets/img/home/balance.png">
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-section bg-6">
+      <h3 class="section-title">Выбрать тарифный план</h3>
+      <div class="pricing pricing--pema">
+        <div class="pricing__item">
+          <h3 class="pricing__title">Basic</h3>
+          <p class="pricing__sentence">For try</p>
+          <div class="pricing__price">
+            <span class="pricing__currency">$</span>20<span class="pricing__period">/ месяц</span>
+          </div>
+          <br><br>
+          <button class="pricing__action">Выбрать</button>
+        </div>
+        <div class="pricing__item pricing__item--featured">
+          <h3 class="pricing__title">Standard</h3>
+          <p class="pricing__sentence">For beginners</p>
+          <div class="pricing__price">
+            <span class="pricing__currency">$</span>55<span class="pricing__period">/ 3 месяца</span>
+          </div>
+          <br><br>
+          <button class="pricing__action">Выбрать</button>
+        </div>
+        <div class="pricing__item">
+          <h3 class="pricing__title">Enterprise</h3>
+          <p class="pricing__sentence">For traders</p>
+          <div class="pricing__price">
+            <span class="pricing__currency">$</span>100<span class="pricing__period">/ 6 месяцев</span>
+          </div>
+          <br><br>
+          <button class="pricing__action">Выбрать</button>
+        </div>
+      </div>
+
+    </section>
+
   </div>
 </template>
 
@@ -52,8 +136,36 @@ export default {
 @import url("http://fonts.googleapis.com/css?family=Lobster+Two:700italic,700");
 @import url("http://fonts.googleapis.com/css?family=Oswald:300");
 
-.container {
-  width: 100%;
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 7%;
+  font-family: 'Space Grotesk',sans-serif;
+}
+
+.col-5 {
+  color: #adb5bd;
+  width: 40%;
+  float: left;
+}
+
+.col-6 {
+  width: 60%;
+  float: left;
+}
+
+.col-6 img {
+  width: 70%;
+  height: 70%;
+}
+
+.section-title {
+  font-weight: 700;
+  position: relative;
+  font-size: 24px;
+  line-height: 43px;
+  color: #6ed19f;
 }
 
 .pricing {
@@ -78,10 +190,6 @@ export default {
   text-align: center;
   -webkit-flex: 0 1 330px;
   flex: 0 1 330px;
-}
-
-.pricing__feature-list {
-  text-align: left;
 }
 
 .pricing__action {
@@ -124,13 +232,6 @@ export default {
   color: #1d211f;
 }
 
-.pricing--pema .icon {
-  display: inline-block;
-  min-width: 2em;
-  color: #8A9790;
-  vertical-align: middle;
-}
-
 .pricing--pema .pricing__price {
   font-size: 5em;
   font-weight: 800;
@@ -156,17 +257,6 @@ export default {
   margin: 0 0 1em 0;
   padding: 0 0 0.5em;
   color: #6ed19c;
-}
-
-.pricing--pema .pricing__feature-list {
-  font-size: 0.95em;
-  margin: 0;
-  padding: 1.5em 0.5em 2.5em;
-  list-style: none;
-}
-
-.pricing--pema .pricing__feature {
-  padding: 0.15em 0;
 }
 
 .pricing--pema .pricing__action {
@@ -207,7 +297,13 @@ export default {
 
 .bg-6 {
   background: #FFFFFF;
-  color: #6ed19f
+  text-align: center;
+  margin: 0 auto;
+  padding: 50px 0px 50px 0px;
+}
+
+.gray {
+  background: #f5f8fd;
 }
 
 section {

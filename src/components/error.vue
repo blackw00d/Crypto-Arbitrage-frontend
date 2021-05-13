@@ -1,13 +1,13 @@
 <template>
   <div class="page-container">
     <div class="row space-top-8 space-8">
-      <div class="col-5">
-        <h1 class="text-jumbo text-ginormous">Oops!</h1>
-        <h2>Something went wrong.<br>We are working on it</h2>
-        <h6>Error code: 404</h6>
+      <div class="col-6">
+        <h1 class="text-jumbo text-ginormous">Ой!</h1>
+        <h2>Что-то пошло не так.<br>Мы работаем над этим.</h2>
+        <h6>Ошибка 404</h6>
       </div>
       <div class="col-5 col-middle text-center">
-        <img src="../assets/img/bit.png" alt="Bitcoin - new GOLD" width="560">
+        <img alt="Bitcoin - new GOLD" src="../assets/img/bit.png" width="560">
       </div>
     </div>
   </div>
@@ -52,15 +52,22 @@ export default {
   line-height: 1.43;
   color: #484848;
   background-color: #fff;
-  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-left: -12px;
-  margin-right: -12px;
+  margin: 0 -12px;
 }
 
 .col-5 {
   width: 41.66667%;
+  float: left;
+  position: relative;
+  min-height: 1px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.col-6 {
+  width: 50%;
   float: left;
   position: relative;
   min-height: 1px;

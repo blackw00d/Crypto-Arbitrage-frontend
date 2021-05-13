@@ -42,7 +42,7 @@ a {
 
 .copy {
   color: #fa8602;
-  text-shadow: black 0.5px 0.5px 1px, black -0.5px -0.5px 1px, black 0.5px -0.5px 1px, black -0.5px 0.5px 1px;
+  text-shadow: black 1px 1px 1px, black -0.5px -0.5px 1px, black 1px -0.5px 1px, black -0.5px 1px 1px;
   font-size: 13px;
   margin: 0 auto;
   display: table

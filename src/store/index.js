@@ -22,7 +22,7 @@ const store = new Vuex.Store({
         updateStorage(state, {access, refresh, username}) {
             state.accessToken = access
             state.refreshToken = refresh
-            state.timeToken = new Date().setDate(new Date().getMinutes()+1440)
+            state.timeToken = new Date().setDate(new Date().getMinutes() + 1440)
             state.username = username
         },
         destroyToken(state) {
@@ -71,7 +71,10 @@ const store = new Vuex.Store({
         getServerUrl: state => {
             return state.backendUrl
         },
-        loggedIn: state =>  {
+        getServelHost: state => {
+            return new URL(state.backendUrl).hostname
+        },
+        loggedIn: state => {
             return (state.accessToken != null && state.timeToken > new Date().setDate(new Date().getMinutes()))
         }
     }

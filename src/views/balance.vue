@@ -26,13 +26,15 @@ export default {
     }
   },
   created() {
-    if (!this.$store.state.timeToken) router.push('login')
-    this.loadlistbalance()
+    if (!this.$store.state.timeToken)
+      router.push('login')
+    else
+      this.loadlistbalance()
   },
   computed: {
     BalanceArray: function () {
       let balance = []
-      if (typeof this.listbalance.balance === 'undefined' || this.listbalance.length === 0) {
+      if (this.listbalance.balance === "0" || this.listbalance.length === 0) {
         return balance
       }
       balance = this.listbalance.balance.split(",").map(pair => pair.split(":"))
@@ -58,7 +60,10 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            return data
+            else if (response.status === 200)
+              return data
+            else
+              router.push('error')
           })
       ).catch(() => router.push('error'))
     },

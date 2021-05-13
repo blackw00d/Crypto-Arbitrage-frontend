@@ -47,8 +47,10 @@ export default {
     }
   },
   created() {
-    if (!this.$store.state.timeToken) router.push('login')
-    this.loadlisttracking()
+    if (!this.$store.state.timeToken)
+      router.push('login')
+    else
+      this.loadlisttracking()
   },
   methods: {
     async loadlisttracking() {
@@ -64,7 +66,10 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            return data
+            else if (response.status === 200)
+              return data
+            else
+              router.push('error')
           })
       ).catch(() => router.push('error'))
     },

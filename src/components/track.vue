@@ -30,16 +30,16 @@
           <td>{{ list.pair }}</td>
           <td>{{ list.price }}</td>
           <td><input type="text" class="write"
-                     onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                     onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value="list.pricechangevalue" maxlength="10" size="5"></td>
           <td><input type="text" class="write"
-                     onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                     onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value="list.pricechangeprocent" maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.priceactive"></td>
           <td>{{ list.volume }}</td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.volumechangevalue maxlength="10" size="5"></td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.volumechangeprocent maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.volumeactive"></td>
           <td style="display: none">{{ list.id }}</td>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+
+import router from "@/router";
 
 export default {
   name: "trade",
@@ -87,7 +89,14 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${data["id"]}`, requestOptions).then()
+      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${data["id"]}`, requestOptions).then(
+          response => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 400)
+              $('#message').append("<br>Ошибка изменения<br>")
+          }
+      )
     },
     async dellisttracking(id) {
       const requestOptions = {
@@ -97,7 +106,16 @@ export default {
           Authorization: `Bearer ${this.$store.state.accessToken}`
         },
       }
-      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${id}`, requestOptions).then(responce => this.$emit('reLoad'))
+      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${id}`, requestOptions).then(
+          response => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 204)
+              this.$emit('reLoad')
+            else
+              $('#message').append("<br>Ошибка удаления<br>")
+          }
+      )
     },
     del(item) {
       $('#message').html("")
@@ -135,7 +153,7 @@ export default {
       $('#message').html("")
       for (let i = 0; i < data.length; i++)
         this.sendlisttracking(data[i])
-      $('#message').html("Данные обновлены")
+      $('#message').append("Данные обновлены")
     }
   }
 }
@@ -143,11 +161,6 @@ export default {
 </script>
 
 <style scoped>
-
-.bd_td {
-  outline: 2px solid red;
-  outline-offset: -2px
-}
 
 .write {
   font-size: 12px;

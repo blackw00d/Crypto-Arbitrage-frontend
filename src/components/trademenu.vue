@@ -18,6 +18,7 @@
 
 <script>
 import exchange from "../views/exchange";
+import router from "@/router";
 
 export default {
   name: "trademenu",
@@ -56,25 +57,22 @@ export default {
       const requestOptions = {
         headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.$store.state.accessToken}`}
       }
-      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange/${this.exchange}`, requestOptions).then(responce => responce.json())
+      this.listexchange = await fetch(`${this.$store.getters.getServerUrl}/exchange/${this.exchange}`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 200)
+              return data
+            else
+              router.push('error')
+          })
+      ).catch(() => router.push('error'))
     },
     async sendexchange(arr) {
       let data = {
-        user: this.$store.state.username,
         exchange: arr[0],
         pair: arr[1],
-        amount: 0,
         price: arr[2],
-        stoploss: 0,
-        trailingstoploss: 0,
-        takeprofit: 0,
-        trailingtakeprofit: 0,
-        trailingtakeprofitprocent: 0,
-        active: 0,
-        stoplossvalue: 0,
-        stoplosstrailingvalue: 0,
-        takeprofitvalue: 0,
-        takeprofittrailingvalue: 0
       }
       const requestOptions = {
         method: "post",
@@ -84,13 +82,19 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/trading/add`, requestOptions).then(responce => {
-        responce.json()
-        this.$emit('reLoad')
-      })
+      fetch(`${this.$store.getters.getServerUrl}/trading/add`, requestOptions).then(
+          response => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 201)
+              this.$emit('reLoad')
+            else
+              $('#message').append("<br>Ошибка создания<br>")
+          }
+      ).catch(() => router.push('error'))
     },
     selecting_trade(item) {
-      let el = $("#"+item).children('option:selected')
+      let el = $("#" + item).children('option:selected')
       let pair = el.text() ? el.text() : ''
       let price = el.attr('data-price') ? el.attr('data-price') : 0
       this.sendexchange([this.exchange, pair, price])

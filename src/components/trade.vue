@@ -30,19 +30,19 @@
           <td>{{ list.exchange }}</td>
           <td>{{ list.pair }}</td>
           <td><input type="text" class="write"
-                     onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                     onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value="list.amount" maxlength="10" size="5"></td>
           <td><input type="text" class="write"
-                     onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+                     onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value="list.price" maxlength="10" size="5"></td>
           <td>{{ list.price_now }}</td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.stoploss maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.trailingstoploss"></td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.takeprofit maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.trailingtakeprofit"></td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d\.]+/g,'')"
+          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.trailingtakeprofitprocent maxlength="10" size="5"></td>
           <td><input type="checkbox" :checked="list.active"></td>
           <td>
@@ -66,6 +66,8 @@
 </template>
 
 <script>
+
+import router from "@/router";
 
 export default {
   name: "trade",
@@ -103,7 +105,14 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/trading/change/${data["id"]}`, requestOptions).then()
+      fetch(`${this.$store.getters.getServerUrl}/trading/change/${data["id"]}`, requestOptions).then(
+          response => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 400)
+              $('#message').append("<br>Ошибка изменения<br>")
+          }
+      )
     },
     async dellisttrading(id) {
       const requestOptions = {
@@ -113,7 +122,16 @@ export default {
           Authorization: `Bearer ${this.$store.state.accessToken}`
         },
       }
-      fetch(`${this.$store.getters.getServerUrl}/trading/change/${id}`, requestOptions).then()
+      fetch(`${this.$store.getters.getServerUrl}/trading/change/${id}`, requestOptions).then(
+          response => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 204)
+              this.$emit('reLoad')
+            else
+              $('#message').append("<br>Ошибка удаления<br>")
+          }
+      )
     },
     del(item) {
       let data = document.getElementById(item).parentElement.children[14].innerHTML
@@ -165,7 +183,7 @@ export default {
       $('#message').html("")
       for (let i = 0; i < data.length; i++)
         this.sendlisttrading(data[i])
-      $('#message').html("Данные обновлены")
+      $('#message').append("Данные обновлены")
     }
   }
 }
@@ -173,11 +191,6 @@ export default {
 </script>
 
 <style scoped>
-
-.bd_td {
-  outline: 2px solid red;
-  outline-offset: -2px
-}
 
 .write {
   font-size: 12px;

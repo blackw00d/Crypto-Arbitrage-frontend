@@ -40,6 +40,16 @@
         </tr>
         </tbody>
       </template>
+      <thead>
+      <tr>
+        <th colspan="5">
+          API ключи без привязки к IP адресу действительны 90 дней<br>
+          Для неограниченного срока действия укажите IP адрес:
+          <span style="color: #2B3441">{{ this.$store.getters.getServelHost }}</span>
+        </th>
+      </tr>
+
+      </thead>
     </table>
 
     <table>
@@ -79,24 +89,26 @@ export default {
     return {
       userkeys: [],
       exchanges: {
-        binance: 'Binance API V3',
-        bittrex: 'Bittrex API V3',
+        binance: 'Binance',
+        bittrex: 'Bittrex',
         poloniex: 'Poloniex',
-        hitbtc: 'HitBTC API V2',
-        kucoin: 'Kucoin API V1',
+        hitbtc: 'HitBTC',
+        kucoin: 'Kucoin API V2',
         kraken: 'Kraken',
-        huobi: 'Huobi API V1',
+        huobi: 'Huobi',
         okex: 'OKex API V3',
-        gateio: 'Gate.io',
-        coinex: 'Coinex API V1',
-        bitz: 'Bit-Z API V2',
-        bibox: 'Bibox API V3'
+        gateio: 'Gate.io API V4',
+        coinex: 'Coinex',
+        bitz: 'Bit-Z',
+        bibox: 'Bibox'
       },
     }
   },
   created() {
-    if (!this.$store.state.timeToken) router.push('login')
-    this.loadkeys()
+    if (!this.$store.state.timeToken)
+      router.push('login')
+    else
+      this.loadkeys()
   },
   methods: {
     async loadkeys() {
@@ -112,14 +124,15 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            return data
+            else if (response.status === 200)
+              return data
+            else
+              router.push('error')
           })
       ).catch(() => router.push('error'))
     },
     async sendkeys(e) {
-      let data = {
-        user: this.$store.state.username
-      }
+      let data = {}
       data[e.target.id] = e.target.value
       const requestOptions = {
         method: "patch",
@@ -129,7 +142,14 @@ export default {
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/user`, requestOptions).then()
+      fetch(`${this.$store.getters.getServerUrl}/user`, requestOptions).then(
+          response => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 400)
+              router.push('error')
+          }
+      )
     },
   },
 }
