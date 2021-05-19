@@ -88,7 +88,7 @@
           <h3 class="pricing__title">Basic</h3>
           <p class="pricing__sentence">For try</p>
           <div class="pricing__price">
-            <span class="pricing__currency">$</span>20<span class="pricing__period">/ месяц</span>
+            <span class="pricing__currency">$</span>{{ this.prices.try }}<span class="pricing__period">/ месяц</span>
           </div>
           <br><br>
           <button class="pricing__action">Выбрать</button>
@@ -97,7 +97,8 @@
           <h3 class="pricing__title">Standard</h3>
           <p class="pricing__sentence">For beginners</p>
           <div class="pricing__price">
-            <span class="pricing__currency">$</span>55<span class="pricing__period">/ 3 месяца</span>
+            <span class="pricing__currency">$</span>{{ this.prices.begginer }}<span
+              class="pricing__period">/ 3 месяца</span>
           </div>
           <br><br>
           <button class="pricing__action">Выбрать</button>
@@ -106,7 +107,8 @@
           <h3 class="pricing__title">Enterprise</h3>
           <p class="pricing__sentence">For traders</p>
           <div class="pricing__price">
-            <span class="pricing__currency">$</span>100<span class="pricing__period">/ 6 месяцев</span>
+            <span class="pricing__currency">$</span>{{ this.prices.trader }}<span
+              class="pricing__period">/ 6 месяцев</span>
           </div>
           <br><br>
           <button class="pricing__action">Выбрать</button>
@@ -120,11 +122,44 @@
 
 <script>
 
+import router from "@/router";
+
 export default {
   name: 'Home',
+  data() {
+    return {
+      prices: {},
+    }
+  },
   created() {
     if (this.$store.getters.loggedIn)
       this.$router.push({name: 'balance'})
+    else
+      this.load_prices()
+  },
+  methods: {
+    async load_prices() {
+      const requestOptions = {
+        method: "GET"
+      }
+      this.prices = await fetch(`${this.$store.getters.getServerUrl}/prices`, requestOptions).then(
+          response => response.json().then(data => {
+            if (response.status === 401)
+              router.push({name: 'login'})
+            else if (response.status === 200)
+              if (Object.keys(data).length === 3)
+                return data
+              else
+                return {
+                  'try': 20,
+                  'begginer': 55,
+                  'trader': 100
+                }
+            else
+              router.push('error')
+          })
+      ).catch(() => router.push('error'))
+    },
   }
 }
 </script>
@@ -141,7 +176,7 @@ export default {
   justify-content: center;
   align-items: center;
   margin: auto 7%;
-  font-family: 'Space Grotesk',sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .col-5 {

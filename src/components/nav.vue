@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="top">
-      <img src="../assets/img/logo.png" alt="Crypto Arbitrage">
+      <a href="/">
+        <img src="../assets/img/logo.png" alt="Crypto Arbitrage">
+      </a>
       <span>Crypto Arbitrage</span>
       <div id="top_menu">
         <ul v-if="accessToken">
