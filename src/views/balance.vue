@@ -71,14 +71,15 @@ export default {
       return parseFloat(val).toFixed(p)
     },
     drawCircle(selector, center, radius, angle, x, y) {
-      let total = $(selector).length
+      const boxes = document.querySelectorAll(selector)
+      let total = boxes.length
       let alpha = Math.PI * 2 / total
-      $(selector).each(function (index) {
+      boxes.forEach(function (box, index) {
         let theta = alpha * index
         let pointx = Math.floor(Math.cos(theta) * radius)
         let pointy = Math.floor(Math.sin(theta) * radius)
-        $(this).css('margin-left', pointx + x + 'px')
-        $(this).css('margin-top', pointy + y + 'px')
+        box.style.marginLeft =  pointx + x + 'px'
+        box.style.marginTop = pointy + y + 'px'
       })
     }
   }
