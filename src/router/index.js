@@ -101,8 +101,8 @@ const routes = [
         component: error
     },
     {
-        path: '*',
-        redirect: '/404'
+        path: '**',
+        component: error
     }
 ]
 
