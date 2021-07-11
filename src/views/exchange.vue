@@ -57,7 +57,8 @@
             <tbody>
             <template v-for="(coins, coin_name) in exchange">
               <template v-for="(coin, index) in coins">
-                <tr :id="exchange_name+coin_name+index" class="hidden" @dblclick="show_graph(exchange_name, coin.name)">
+                <tr :id="exchange_name+coin_name+index" class="hidden" @dblclick="show_graph(exchange_name, coin.name)"
+                    title="Двойной клик для отображения графика">
                   <td>{{ coin.name }}</td>
                   <td>{{ coin.price < 1 ? getScore(coin.price, 9) : getScore(coin.price, 2) }}</td>
                   <td>{{ coin.ask < 1 ? getScore(coin.ask, 9) : getScore(coin.ask, 2) }}</td>
@@ -107,29 +108,45 @@ export default {
       graph: [],
       chart: null,
       chartOptions: {
-        "theme": "light2",
-        "charts": [
+        theme: "light2",
+        charts: [
           {
-            "axisX": {
-              "valueFormatString": "MMM-YY",
+            axisX: {
+              valueFormatString: "MMM-YY",
             },
-            "axisY": {
-              "title": "Price"
+            axisY: {
+              title: "Price"
             },
-            "data": [{
-              "xValueType": "dateTime",
-              "type": "line",
-              "dataPoints": []
-            }]
+            data: [
+              {
+                xValueType: "dateTime",
+                type: "line",
+                dataPoints: []
+              }, {
+                // name: "SMA10",
+                name: "MACD12",
+                showInLegend: true,
+                xValueType: "dateTime",
+                type: "line",
+                dataPoints: []
+              }, {
+                // name: "SMA30",
+                name: "MACD26",
+                showInLegend: true,
+                xValueType: "dateTime",
+                type: "line",
+                dataPoints: []
+              }
+            ]
           },
           {
-            "height": 100,
-            "axisX": {
-              "valueFormatString": "MMM-YY",
+            height: 80,
+            axisX: {
+              valueFormatString: "MMM-YY",
             },
-            "axisY": {
-              "prefix": "$",
-              "labelFormatter": function (e) {
+            axisY: {
+              prefix: "$",
+              labelFormatter: function (e) {
                 let suffixes = ["", "K", "M", "B"];
                 let order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
                 if (order > suffixes.length - 1)
@@ -137,18 +154,40 @@ export default {
                 let suffix = suffixes[order];
                 return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
               },
-              "title": "Volume"
+              title: "Volume"
             },
-            "legend": {
-              "verticalAlign": "top"
+            legend: {
+              verticalAlign: "top"
             },
-            "data": [{
-              "xValueType": "dateTime",
-              "dataPoints": []
+            data: [{
+              xValueType: "dateTime",
+              dataPoints: []
+            }]
+          },
+          {
+            height: 100,
+            axisX: {
+              valueFormatString: "MMM-YY",
+            },
+            axisY: {
+              title: "CMO"
+            },
+            legend: {
+              verticalAlign: "top"
+            },
+            data: [{
+              xValueType: "dateTime",
+              type: "line",
+              dataPoints: []
             }]
           }
         ],
         navigator: {
+          height: 30,
+          data: [{
+            xValueType: "dateTime",
+            dataPoints: []
+          }],
           slider: {
             minimum: new Date(new Date().getFullYear(), 0o1, 0o1)
           }
@@ -259,19 +298,28 @@ export default {
     },
     async show_graph(exchange, coin) {
       await this.getgraph(exchange, coin)
-      if (this.graph.length === 0) return
+      if (this.graph.length === 0 || this.graph[0].length === 0 || this.graph[1].length === 0) return
+
+      console.log(this.graph)
+
       document.getElementById('graph').className = "graph_on"
       document.getElementById('graph_label').innerHTML = coin
+
       this.chart = new CanvasJS.StockChart("chartContainer", this.chartOptions)
       this.chartOptions.charts[0].data[0].dataPoints = this.graph[0]
       this.chartOptions.charts[1].data[0].dataPoints = this.graph[1]
+      this.chartOptions.charts[2].data[0].dataPoints = this.graph[4]
+      this.chartOptions.charts[0].data[1].dataPoints = this.graph[2]
+      this.chartOptions.charts[0].data[2].dataPoints = this.graph[3]
+      this.chartOptions.navigator.data[0].dataPoints = this.graph[0]
       this.chart.render()
-      $('.canvasjs-chart-canvas')[0].remove()
-      // $('.canvasjs-navigator-panel').remove()
+
+      let menu = document.querySelectorAll('.canvasjs-chart-canvas')
+      menu.item(0).remove()
+      menu.item(0).remove()
     },
   }
 }
-
 
 </script>
 
@@ -396,22 +444,19 @@ a { /* Цвет ссылок при наведении */
 .exchange_lite thead th {
   border: 1px green solid;
   border-top-style: none; /* нет верхней границы thead */
+  padding-bottom: 10px;
 }
 
-.exchange_lite tbody tr td:first-child {
-  border-left-style: none; /* нет левой границы tbody */
+.exchange_lite tbody tr td:first-child, .exchange_lite thead tr th:first-child {
+  border-left-style: none; /* нет левой границы tbody, нет левой границы thead */
 }
 
-.exchange_lite thead tr th:first-child {
-  border-left-style: none; /* нет левой границы thead */
+.exchange_lite tbody tr td:last-child, .exchange_lite thead tr th:last-child {
+  border-right-style: none; /* нет правой границы tbody, нет правой границы thead */
 }
 
-.exchange_lite tbody tr td:last-child {
-  border-right-style: none; /* нет правой границы tbody */
-}
-
-.exchange_lite thead tr th:last-child {
-  border-right-style: none; /* нет правой границы tbody */
+.exchange_lite tbody tr td {
+  border-bottom-style: none; /* убираем двойные границы в строках */
 }
 
 .exchange_lite tbody tr:hover {
