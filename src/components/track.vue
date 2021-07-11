@@ -24,8 +24,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(list, index) in listtracking" class="tr_bd" @mouseover="ontable(index)" @mouseout="offtable(index)">
-          <td :id="'table'+index" class="td_del" @click="del('table'+index)" style="visibility: hidden">удалить</td>
+        <tr v-for="(list, index) in listtracking" @mouseover="ontable(index)" @mouseout="offtable(index)">
+          <td :id="'table'+index" class="td_del" @click="del('table'+index)">удалить</td>
           <td>{{ list.exchange }}</td>
           <td>{{ list.pair }}</td>
           <td>{{ list.price }}</td>
@@ -35,13 +35,23 @@
           <td><input type="text" class="write"
                      onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value="list.pricechangeprocent" maxlength="10" size="5"></td>
-          <td><input type="checkbox" :checked="list.priceactive"></td>
+          <td>
+            <label class="control control--checkbox">
+              <input type="checkbox" :checked="list.priceactive">
+              <div class="control__indicator"></div>
+            </label>
+          </td>
           <td>{{ list.volume }}</td>
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.volumechangevalue maxlength="10" size="5"></td>
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
                      :value=list.volumechangeprocent maxlength="10" size="5"></td>
-          <td><input type="checkbox" :checked="list.volumeactive"></td>
+          <td>
+            <label class="control control--checkbox">
+              <input type="checkbox" :checked="list.volumeactive">
+              <div class="control__indicator"></div>
+            </label>
+          </td>
           <td style="display: none">{{ list.id }}</td>
         </tr>
         </tbody>
@@ -51,7 +61,7 @@
     <br>
 
     <div id="message"></div>
-    <input type="button" value="Применить" @click="write_table()">
+    <input type="button" class="button" value="Применить" @click="write_table()">
 
   </div>
 </template>
@@ -130,26 +140,26 @@ export default {
     },
     write_table() {
       let data = []
-      $('#tracking_table tbody tr').each(function (i) {
+
+      let tr = document.querySelectorAll('#tracking_table tbody tr')
+      tr.forEach((tr_el, i) => {
         data[i] = []
-        $(this).children('td').each(function (ii) {
-          if ($(this).children().is('input')) {
-            if ($(this).children('input').val() === 'on') {
-              if ($(this).children('input').prop('checked'))
-                data[i][ii] = 1
-              else
-                data[i][ii] = 0
-            } else
-              data[i][ii] = parseFloat($(this).children('input').val())
+        let td = tr_el.querySelectorAll('td')
+        td.forEach((td_el, j) => {
+          let input = td_el.querySelector('input')
+          if (input) {
+            if (input.value === 'on') {
+              data[i][j] = input.checked ? 1 : 0
+            } else {
+              data[i][j] = parseFloat(input.value)
+            }
           } else {
-            if (!isNaN(parseFloat($(this).text())))
-              data[i][ii] = parseFloat($(this).text())
-            else
-              data[i][ii] = $(this).text()
+            data[i][j] = !isNaN(parseFloat(td_el.innerText)) ? parseFloat(td_el.innerText) : td_el.innerText
           }
         })
         data[i].splice(0, 1)
       })
+
       $('#message').html("")
       for (let i = 0; i < data.length; i++)
         this.sendlisttracking(data[i])
@@ -173,27 +183,43 @@ export default {
 }
 
 #tracking_table {
-  width: 750px;
-  border-collapse: collapse;
-  font-size: 13px;
-  text-align: center;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+#tracking_table tbody tr {
+  padding-bottom: 2px;
+}
+
+#tracking_table tbody tr td:nth-child(2){
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+#tracking_table tbody tr td:nth-child(11){
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 #tracking_table td, th {
-  padding: 3px;
-  border: 1px solid black;
+  padding: 10px;
   text-align: center;
   width: 80px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+#tracking_table th {
+  font-weight: 640;
+  font-size: 14px;
+}
+
+#tracking_table td {
+  font-weight: 400;
+  font-size: 12px;
 }
 
 #tracking_table thead th:first-child {
-  border: 1px solid;
-  border-bottom-style: hidden;
   width: 50px;
-}
-
-#tracking_table tbody tr td {
-  border: 1px solid;
 }
 
 #tracking_table tbody tr td:first-child {
@@ -201,18 +227,84 @@ export default {
   background: white;
 }
 
+#tracking_table tbody tr {
+  background: #dee8e4;
+}
+
+#tracking_table tbody tr:hover {
+  background: #b7c1bd;
+}
+
 select {
   width: 120px;
 }
 
-.tr_bd {
-  background: #dee8e4;
+.td_del {
+  color: red;
+  visibility: hidden;
 }
 
-.td_del {
-  background: none;
-  visibility: hidden;
-  color: red;
+.control {
+  display: inline-flex;
+}
+
+.control input {
+  z-index: -1;
+  opacity: 0;
+}
+
+.control__indicator {
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  border-radius: 4px;
+  border: 2px solid #a7a7a7;
+  background: transparent;
+}
+
+.control:hover input ~ .control__indicator {
+  border: 2px solid #007bff;
+}
+
+.control input:checked ~ .control__indicator {
+  border: 2px solid #007bff;
+  background: #007bff;
+}
+
+.control__indicator:after {
+  content: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20height%3D%2218px%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2218px%22%20fill%3D%22%23FFFFFF%22%3E%3Cpath%20d%3D%22M0%200h24v24H0V0z%22%20fill%3D%22none%22/%3E%3Cpath%20d%3D%22M9%2016.2L4.8%2012l-1.4%201.4L9%2019%2021%207l-1.4-1.4L9%2016.2z%22/%3E%3C/svg%3E);
+  position: absolute;
+  display: none;
+}
+
+.control input:checked ~ .control__indicator:after {
+  display: block;
+  color: #fff;
+}
+
+.control--checkbox .control__indicator:after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -45%);
+  -ms-transform: translate(-50%, -45%);
+  transform: translate(-50%, -45%);
+}
+
+.button {
+  border-radius: 5px;
+  display: inline-block;
+  background-color: #0084D4;
+  border: none;
+  color: white;
+  text-decoration: none;
+  line-height: 2.2;
+  font-size: 15px !important;
+  margin: 15px 0 5px 0;
+  padding: 0 20px;
+}
+
+.button:hover {
+  color: #111111;
 }
 
 </style>
