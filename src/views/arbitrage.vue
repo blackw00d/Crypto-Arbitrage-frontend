@@ -14,7 +14,7 @@
       </tbody>
     </table>
     <br><br><br>
-    <div id="arb_menu" ref="arb_menu" :class="[isActive('menu') ? 'visible' : 'hidden']">
+    <div id="arb_menu" ref="arb_menu" :class="[isActive('menu') ? 'arb_menu' : 'hidden']">
       <br>
       <table class="arb_menu_table">
         <tbody>
@@ -117,34 +117,39 @@
     <!--    По Таблицам-->
     <div v-for="(items, index) in this.list_arbitrage" :id="index" :ref="index"
          :class="[isActiveTable(index) ? 'arbitrage_table-visible' : 'hidden']">
-      <table cellpadding="2">
-        <tr align="center">
-          <td>Name</td>
-          <td>{{ index.split('_')[0].charAt(0).toUpperCase() + index.split('_')[0].substr(1) }}</td>
-          <td>{{ index.split('_')[1].charAt(0).toUpperCase() + index.split('_')[1].substr(1) }}</td>
-          <td>Profit,%</td>
-        </tr>
-        <tr v-for="item in items">
-          <td>{{ item.name }}</td>
-          <template v-if="item.price_a > item.price_b">
-            <td style='background-color: #FF6666;'>
-              <a :href="item.link_a" title='Продать' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
-            </td>
-            <td style='background-color: #00FF00;'>
-              <a :href="item.link_b" title='Купить' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
-            </td>
-          </template>
-          <template v-else>
-            <td style='background-color: #00FF00;'>
-              <a :href="item.link_a" title='Купить' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
-            </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="item.link_a" title='Продать' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
-            </td>
-          </template>
-          <td>{{ getScore(item.profit, 2) }}</td>
-        </tr>
-      </table>
+      <template v-if="items.length > 0">
+        <table cellpadding="2">
+          <tr align="center">
+            <td>Name</td>
+            <td>{{ index.split('_')[0].charAt(0).toUpperCase() + index.split('_')[0].substr(1) }}</td>
+            <td>{{ index.split('_')[1].charAt(0).toUpperCase() + index.split('_')[1].substr(1) }}</td>
+            <td>Profit,%</td>
+          </tr>
+          <tr v-for="item in items">
+            <td>{{ item.name }}</td>
+            <template v-if="item.price_a > item.price_b">
+              <td style='background-color: #FF6666;'>
+                <a :href="item.link_a" title='Продать' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
+              </td>
+              <td style='background-color: #00FF00;'>
+                <a :href="item.link_b" title='Купить' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
+              </td>
+            </template>
+            <template v-else>
+              <td style='background-color: #00FF00;'>
+                <a :href="item.link_a" title='Купить' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
+              </td>
+              <td style='background-color: #FF6666;'>
+                <a :href="item.link_a" title='Продать' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
+              </td>
+            </template>
+            <td>{{ getScore(item.profit, 2) }}</td>
+          </tr>
+        </table>
+      </template>
+      <template v-else>
+        No Arbitrage Data
+      </template>
     </div>
 
     <!--    По Монетам -->
@@ -410,7 +415,7 @@ a {
 }
 
 .visible {
-  visibility: visible;
+  display: table-row;
 }
 
 .hidden {
@@ -439,21 +444,27 @@ a {
   color: red;
 }
 
+.arb_menu {
+  display: block;
+}
+
 .arb_menu_style td {
   border: none;
   width: 120px;
 }
 
 .arb_menu_table {
-  border-collapse: collapse; /* Убираем двойные линии между ячейками */
+  border-collapse: separate;
+  border-spacing: 5px;
   font-size: 13px;
   margin: auto;
 }
 
 .arb_menu_table td {
-  padding: 3px; /* Поля вокруг содержимого таблицы */
+  padding: 5px 3px; /* Поля вокруг содержимого таблицы */
   border: 1px solid black; /* Параметры рамки */
   text-align: center;
+  border-radius: 5px;
   height: 20px;
 }
 
