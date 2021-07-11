@@ -10,7 +10,7 @@
       </thead>
       <template v-for="(exchange, id) in exchanges">
         <tbody class="labels">
-        <tr onclick="$(this).parents('tbody').next('tbody').toggle()">
+        <tr onclick="$(this).parents('tbody').next('tbody').toggle('')">
           <td colspan="5">
             {{ exchange }}
           </td>
@@ -20,23 +20,22 @@
         <tr>
           <td>API Key</td>
           <td>
-            <input type="text" class="write" :id="id+'_key'" :value="userkeys[id+'_key']" maxlength="70" size="5"
-                   @change="send_keys($event)">
+            <input class="write" :id="id+'_key'" :value="userkeys[id+'_key']" maxlength="70" size="5"
+                   @change="send_keys($event)" type="password" @focusin="focusin" @focusout="focusout">
           </td>
         </tr>
         <tr>
           <td>Secret Key</td>
           <td>
-            <input type="text" class="write" :id="id+'_secret'" :value="userkeys[id+'_secret']" maxlength="70" size="5"
-                   @change="send_keys($event)">
+            <input class="write" :id="id+'_secret'" :value="userkeys[id+'_secret']" maxlength="70" size="5"
+                   @change="send_keys($event)" type="password" @focusin="focusin" @focusout="focusout">
           </td>
         </tr>
         <tr v-if="userkeys[id+'_password']">
           <td>Password</td>
           <td>
-            <input type="text" class="write" :id="id+'_password'" :value="userkeys[id+'_password']" maxlength="70"
-                   size="5"
-                   @change="send_keys($event)">
+            <input class="write" :id="id+'_password'" :value="userkeys[id+'_password']" maxlength="70"
+                   size="5" @change="send_keys($event)" type="password" @focusin="focusin" @focusout="focusout">
           </td>
         </tr>
         </tbody>
@@ -60,7 +59,7 @@
       </tr>
       </thead>
       <tbody class="labels">
-      <tr onclick="$(this).parents('tbody').next('tbody').toggle()">
+      <tr onclick="$(this).parents('tbody').next('tbody').toggle('')">
         <td colspan="5">
           Telegram
         </td>
@@ -83,7 +82,7 @@
       <tr>
         <th colspan="5">
           Аккаунт
-          <a href="javascript:void(0)" onclick="$(this).parents('thead').next('tbody').toggle()"
+          <a href="javascript:void(0)" onclick="$(this).parents('thead').next('tbody').toggle('')"
              class="buy">Оплатить</a>
         </th>
       </tr>
@@ -114,7 +113,7 @@
         <td v-if="this.account.days_to_deadline > 0"><span style="color: forestgreen"> Активен </span></td>
         <td v-else><span style="color: red"> Не активен </span></td>
         <td>{{ this.account.days_to_deadline }}</td>
-        <td>{{ localeDate }}</td>
+        <td>{{ (new Date(this.account.deadline)).toLocaleDateString() }}</td>
       </tr>
       </tbody>
     </table>
@@ -143,7 +142,7 @@
         <tbody v-for="payment in this.payments">
         <tr>
           <td>
-            {{ payment.pay_time }}
+            {{ (new Date(payment.pay_time)).toLocaleDateString() }}
           </td>
           <td>
             {{ payment.money }}
@@ -205,12 +204,14 @@ export default {
       this.load_prices()
     }
   },
-  computed: {
-    localeDate() {
-      return (new Date(this.account.deadline)).toLocaleDateString()
-    },
-  },
+  computed: {},
   methods: {
+    focusin(e) {
+      e.target.type = 'text'
+    },
+    focusout(e) {
+      e.target.type = 'password'
+    },
     async load_keys() {
       const requestOptions = {
         method: "post",
@@ -328,6 +329,10 @@ export default {
               router.push({name: 'login'})
             else if (response.status === 400)
               router.push('error')
+            else {
+              this.load_account()
+              this.load_payments()
+            }
           }
       )
     },
