@@ -9,7 +9,7 @@
         TOTAL<br><br>BTC: {{ getScore(totalbtc, 7) }}<br>USD: {{ getScore(totalusd, 2) }}<br>
       </div>
     </div>
-    {{ drawCircle(".box", 50, 350, 90, 310, 350) }}
+    {{ drawCircle(".box") }}
   </div>
 </template>
 
@@ -70,15 +70,21 @@ export default {
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
     },
-    drawCircle(selector, center, radius, angle, x, y) {
+    drawCircle(selector) {
       const boxes = document.querySelectorAll(selector)
+      const container = document.querySelector(".container")
+      if (!container) return
+      const container_width = container.clientWidth
+      let radius = container_width / 2 - 50
+      let x = radius - 30
+      let y = radius
       let total = boxes.length
       let alpha = Math.PI * 2 / total
       boxes.forEach(function (box, index) {
         let theta = alpha * index
         let pointx = Math.floor(Math.cos(theta) * radius)
         let pointy = Math.floor(Math.sin(theta) * radius)
-        box.style.marginLeft =  pointx + x + 'px'
+        box.style.marginLeft = pointx + x + 'px'
         box.style.marginTop = pointy + y + 'px'
       })
     }
@@ -144,5 +150,36 @@ export default {
   width: 150px;
   font-size: 15px;
   transform: translate(-20px, -20px)
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: 600px;
+  }
+
+  .box_center {
+    width: 120px;
+    height: 120px;
+    font-size: 12px;
+    margin-left: 200px;
+    margin-top: 230px;
+    border: 7px solid #666666;
+  }
+
+  .box {
+    width: 80px;
+    height: 80px;
+    font-size: 11px;
+    border: 7px solid #666666;
+  }
+
+  .box:hover {
+    border: 7px solid #111;
+    z-index: 1;
+    height: 110px;
+    width: 110px;
+    font-size: 13px;
+    transform: translate(-10px, -10px)
+  }
 }
 </style>
