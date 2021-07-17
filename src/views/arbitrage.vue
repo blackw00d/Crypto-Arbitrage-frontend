@@ -118,33 +118,37 @@
     <div v-for="(items, index) in this.list_arbitrage" :id="index" :ref="index"
          :class="[isActiveTable(index) ? 'arbitrage_table-visible' : 'hidden']">
       <template v-if="items.length > 0">
-        <table cellpadding="2">
-          <tr align="center">
-            <td>Name</td>
-            <td>{{ index.split('_')[0].charAt(0).toUpperCase() + index.split('_')[0].substr(1) }}</td>
-            <td>{{ index.split('_')[1].charAt(0).toUpperCase() + index.split('_')[1].substr(1) }}</td>
-            <td>Profit,%</td>
+        <table>
+          <thead>
+          <tr>
+            <th>Coin</th>
+            <th>{{ index.split('_')[0].charAt(0).toUpperCase() + index.split('_')[0].substr(1) }}</th>
+            <th>{{ index.split('_')[1].charAt(0).toUpperCase() + index.split('_')[1].substr(1) }}</th>
+            <th>Profit,%</th>
           </tr>
+          </thead>
+          <tbody>
           <tr v-for="item in items">
             <td>{{ item.name }}</td>
             <template v-if="item.price_a > item.price_b">
-              <td style='background-color: #FF6666;'>
-                <a :href="item.link_a" title='Продать' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
+              <td>
+                <a :href="item.link_a" class="sell" title='Продать' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
               </td>
-              <td style='background-color: #00FF00;'>
-                <a :href="item.link_b" title='Купить' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
+              <td>
+                <a :href="item.link_b" class="buy" title='Купить' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
               </td>
             </template>
             <template v-else>
-              <td style='background-color: #00FF00;'>
-                <a :href="item.link_a" title='Купить' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
+              <td>
+                <a :href="item.link_a" class="buy" title='Купить' target='_blank'>{{ getScore(item.price_a, 10) }}</a>
               </td>
-              <td style='background-color: #FF6666;'>
-                <a :href="item.link_a" title='Продать' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
+              <td>
+                <a :href="item.link_a" class="sell" title='Продать' target='_blank'>{{ getScore(item.price_b, 10) }}</a>
               </td>
             </template>
             <td>{{ getScore(item.profit, 2) }}</td>
           </tr>
+          </tbody>
         </table>
       </template>
       <template v-else>
@@ -153,109 +157,160 @@
     </div>
 
     <!--    По Монетам -->
-    <table border="1" id="table_exchange" ref="table_exchange"
-           :class="[isActive('coin') ? 'table_exchange' : 'hidden']"
-           align="center">
+    <table id="table_exchange" ref="table_exchange" :class="[isActive('coin') ? 'table_exchange' : 'hidden']">
       <thead>
       <tr>
         <th>Coin</th>
-        <th>Buy Price</th>
-        <th>Sell Price</th>
+        <th colspan="2">Buy</th>
+        <th></th>
+        <th colspan="2">Sell</th>
         <th>Profit, %</th>
       </tr>
       </thead>
       <tbody>
       <template v-for="coin in coinArray">
-        <tr v-if="coin.index===0">
-          <td v-if="coin.amount > 1" :id="coin.name+'_td'" class='td_icon' @mouseover="signs(coin.name)"
+        <template v-if="coin.index===0">
+          <tr v-if="coin.amount > 1" @mouseover="signs(coin.name)"
               @mouseout="sign_out(coin.name)">
-            <a :id="coin.name+'_on'" :class="coin.name+'_on'" @click="activate(coin.name,coin.amount)">
+            <td :id="coin.name+'_td'" class='td_icon' @click="activate(coin.name,coin.amount)">
+              <a :id="coin.name+'_on'" :class="coin.name+'_on'">
+                {{ coin.name }}
+              </a>
+            </td>
+            <template v-if="coin.price_a > coin.price_b">
+              <td>
+                <img :src="img(coin.exchange_b)"><br>{{ capitalize(coin.exchange_b) }}
+              </td>
+              <td>
+                <a :href="coin.link_b" title="Go to Trade" target='_blank' class="buy">
+                  {{ coin.price_b > 1.1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
+                </a>
+              </td>
+              <td class="separate"></td>
+              <td>
+                <img :src="img(coin.exchange_a)"><br>{{ capitalize(coin.exchange_a) }}
+              </td>
+              <td>
+                <a :href="coin.link_a" title="Go to Trade" target='_blank' class="sell">
+                  {{ coin.price_a > 1.1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
+                </a>
+              </td>
+            </template>
+            <template v-else>
+              <td><img :src="img(coin.exchange_a)"><br>{{ capitalize(coin.exchange_a) }}</td>
+              <td>
+                <a :href="coin.link_a" title="Go to Trade" target='_blank' class="buy">
+                  {{ coin.price_a > 1.1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
+                </a>
+              </td>
+              <td class="separate"></td>
+              <td>
+                <img :src="img(coin.exchange_b)"><br>{{ capitalize(coin.exchange_b) }}
+              </td>
+              <td>
+                <a :href="coin.link_b" title="Go to Trade" target='_blank' class="sell">
+                  {{ coin.price_b > 1.1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
+                </a>
+              </td>
+            </template>
+            <td>{{ getScore(coin.profit, 2) }}</td>
+          </tr>
+          <tr v-else>
+            <td :id="coin.name+'_td'">
               {{ coin.name }}
-            </a>
-          </td>
-          <td v-else :id="coin.name+'_td'">
-            {{ coin.name }}
-          </td>
-          <template v-if="coin.price_a > coin.price_b">
-            <td style='background-color: #00FF00;'>
-              <a :href="coin.link_b"
-                 :title='coin.exchange_b.charAt(0).toUpperCase() + coin.exchange_b.substr(1)'
-                 target='_blank'>
-                {{ coin.price_b > 1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
-              </a>
             </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="coin.link_a"
-                 :title='coin.exchange_a.charAt(0).toUpperCase() + coin.exchange_a.substr(1)'
-                 target='_blank'>
-                {{ coin.price_a > 1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
-              </a>
-            </td>
-          </template>
-          <template v-else>
-            <td style='background-color: #00FF00;'>
-              <a :href="coin.link_a"
-                 :title='coin.exchange_a.charAt(0).toUpperCase() + coin.exchange_a.substr(1)'
-                 target='_blank'>
-                {{ coin.price_a > 1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
-              </a>
-            </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="coin.link_b"
-                 :title='coin.exchange_b.charAt(0).toUpperCase() + coin.exchange_b.substr(1)'
-                 target='_blank'>
-                {{ coin.price_b > 1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
-              </a>
-            </td>
-          </template>
-          <td>{{ getScore(coin.profit, 2) }}</td>
-        <tr v-else :id="coin.name+coin.index" class="hidden">
-          <template v-if="coin.price_a > coin.price_b">
-            <td style='background-color: #00FF00;'>
-              <a :href="coin.link_b"
-                 :title='coin.exchange_b.charAt(0).toUpperCase() + coin.exchange_b.substr(1)'
-                 target='_blank'>
-                {{ coin.price_b > 1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
-              </a>
-            </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="coin.link_a"
-                 :title='coin.exchange_a.charAt(0).toUpperCase() + coin.exchange_a.substr(1)'
-                 target='_blank'>
-                {{ coin.price_a > 1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
-              </a>
-            </td>
-          </template>
-          <template v-else>
-            <td style='background-color: #00FF00;'>
-              <a :href="coin.link_a"
-                 :title='coin.exchange_a.charAt(0).toUpperCase() + coin.exchange_a.substr(1)'
-                 target='_blank'>
-                {{ coin.price_a > 1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
-              </a>
-            </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="coin.link_b"
-                 :title='coin.exchange_b.charAt(0).toUpperCase() + coin.exchange_b.substr(1)'
-                 target='_blank'>
-                {{ coin.price_b > 1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
-              </a>
-            </td>
-          </template>
-          <td>{{ getScore(coin.profit, 2) }}</td>
-        </tr>
+            <template v-if="coin.price_a > coin.price_b">
+              <td>
+                <img :src="img(coin.exchange_b)"><br>{{ capitalize(coin.exchange_b) }}
+              </td>
+              <td>
+                <a :href="coin.link_b" title="Go to Trade" target='_blank' class="buy">
+                  {{ coin.price_b > 1.1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
+                </a>
+              </td>
+              <td class="separate"></td>
+              <td>
+                <img :src="img(coin.exchange_a)"><br>{{ capitalize(coin.exchange_a) }}
+              </td>
+              <td>
+                <a :href="coin.link_a" title="Go to Trade" target='_blank' class="sell">
+                  {{ coin.price_a > 1.1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
+                </a>
+              </td>
+            </template>
+            <template v-else>
+              <td><img :src="img(coin.exchange_a)"><br>{{ capitalize(coin.exchange_a) }}</td>
+              <td>
+                <a :href="coin.link_a" title="Go to Trade" target='_blank' class="buy">
+                  {{ coin.price_a > 1.1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
+                </a>
+              </td>
+              <td class="separate"></td>
+              <td>
+                <img :src="img(coin.exchange_b)"><br>{{ capitalize(coin.exchange_b) }}
+              </td>
+              <td>
+                <a :href="coin.link_b" title="Go to Trade" target='_blank' class="sell">
+                  {{ coin.price_b > 1.1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
+                </a>
+              </td>
+            </template>
+            <td>{{ getScore(coin.profit, 2) }}</td>
+          </tr>
+        </template>
+        <template v-else>
+          <tr :id="coin.name+coin.index" class="hidden">
+            <template v-if="coin.price_a > coin.price_b">
+              <td>
+                <img :src="img(coin.exchange_b)"><br>{{ capitalize(coin.exchange_b) }}
+              </td>
+              <td>
+                <a :href="coin.link_b" title="Go to Trade" target='_blank' class="buy">
+                  {{ coin.price_b > 1.1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
+                </a>
+              </td>
+              <td class="separate"></td>
+              <td>
+                <img :src="img(coin.exchange_a)"><br>{{ capitalize(coin.exchange_a) }}
+              </td>
+              <td>
+                <a :href="coin.link_a" title="Go to Trade" target='_blank' class="sell">
+                  {{ coin.price_a > 1.1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
+                </a>
+              </td>
+            </template>
+            <template v-else>
+              <td><img :src="img(coin.exchange_a)"><br>{{ capitalize(coin.exchange_a) }}</td>
+              <td>
+                <a :href="coin.link_a" title="Go to Trade" target='_blank' class="buy">
+                  {{ coin.price_a > 1.1 ? getScore(coin.price_a, 1) : getScore(coin.price_a, 10) }}
+                </a>
+              </td>
+              <td class="separate"></td>
+              <td>
+                <img :src="img(coin.exchange_b)"><br>{{ capitalize(coin.exchange_b) }}
+              </td>
+              <td>
+                <a :href="coin.link_b" title="Go to Trade" target='_blank' class="sell">
+                  {{ coin.price_b > 1.1 ? getScore(coin.price_b, 1) : getScore(coin.price_b, 10) }}
+                </a>
+              </td>
+            </template>
+            <td>{{ getScore(coin.profit, 2) }}</td>
+          </tr>
+        </template>
       </template>
       </tbody>
     </table>
 
     <!--    По Профиту -->
-    <table border="1" id="table_profit" ref="table_profit" :class="[isActive('profit') ? 'table_profit' : 'hidden']"
-           align="center">
+    <table id="table_profit" ref="table_profit" :class="[isActive('profit') ? 'table_profit' : 'hidden']">
       <thead>
       <tr>
         <th>Coin</th>
-        <th>Buy Price</th>
-        <th>Sell Price</th>
+        <th colspan="2">Buy</th>
+        <th></th>
+        <th colspan="2">Sell</th>
         <th>Profit, %</th>
       </tr>
       </thead>
@@ -263,31 +318,33 @@
       <template v-for="profit in this.profit_array">
         <tr>
           <td>{{ profit.name }}</td>
-          <template v-if="profit.price_a > profit.price_b">
-            <td style='background-color: #00FF00;'>
-              <a :href="profit.link_b" :title='profit.exchange_b.charAt(0).toUpperCase() + profit.exchange_b.substr(1)'
-                 target='_blank'>
-                {{ profit.price_b > 1 ? getScore(profit.price_b, 1) : getScore(profit.price_b, 10) }}
+          <template v-if="parseFloat(profit.price_a) > parseFloat(profit.price_b)">
+            <td><img :src="img(profit.exchange_b)"><br>{{ capitalize(profit.exchange_b) }}</td>
+            <td>
+              <a :href="profit.link_b" title="Go to Trade" target='_blank' class="buy">
+                {{ profit.price_b > 1.1 ? getScore(profit.price_b, 1) : getScore(profit.price_b, 10) }}
               </a>
             </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="profit.link_a" :title='profit.exchange_a.charAt(0).toUpperCase() + profit.exchange_a.substr(1)'
-                 target='_blank'>
-                {{ profit.price_a > 1 ? getScore(profit.price_a, 1) : getScore(profit.price_a, 10) }}
+            <td class="separate"></td>
+            <td><img :src="img(profit.exchange_a)"><br>{{ capitalize(profit.exchange_a) }}</td>
+            <td>
+              <a :href="profit.link_a" title="Go to Trade" target='_blank' class="sell">
+                {{ profit.price_a > 1.1 ? getScore(profit.price_a, 1) : getScore(profit.price_a, 10) }}
               </a>
             </td>
           </template>
           <template v-else>
-            <td style='background-color: #00FF00;'>
-              <a :href="profit.link_a" :title='profit.exchange_a.charAt(0).toUpperCase() + profit.exchange_a.substr(1)'
-                 target='_blank'>
-                {{ profit.price_a > 1 ? getScore(profit.price_a, 1) : getScore(profit.price_a, 10) }}
+            <td><img :src="img(profit.exchange_a)"><br>{{ capitalize(profit.exchange_a) }}</td>
+            <td>
+              <a :href="profit.link_a" title="Go to Trade" target='_blank' class="buy">
+                {{ profit.price_a > 1.1 ? getScore(profit.price_a, 1) : getScore(profit.price_a, 10) }}
               </a>
             </td>
-            <td style='background-color: #FF6666;'>
-              <a :href="profit.link_b" :title='profit.exchange_b.charAt(0).toUpperCase() + profit.exchange_b.substr(1)'
-                 target='_blank'>
-                {{ profit.price_b > 1 ? getScore(profit.price_b, 1) : getScore(profit.price_b, 10) }}
+            <td class="separate"></td>
+            <td><img :src="img(profit.exchange_b)"><br>{{ capitalize(profit.exchange_b) }}</td>
+            <td>
+              <a :href="profit.link_b" title="Go to Trade" target='_blank' class="sell">
+                {{ profit.price_b > 1.1 ? getScore(profit.price_b, 1) : getScore(profit.price_b, 10) }}
               </a>
             </td>
           </template>
@@ -402,6 +459,12 @@ export default {
     sign_out(text) {
       let b = document.getElementById(text + "_td")
       b.style.backgroundImage = ""
+    },
+    capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    },
+    img(name) {
+      return require("../assets/img/exchanges/" + name + ".png")
     }
   }
 }
@@ -474,40 +537,97 @@ a {
   background-position: left 15% center;
 }
 
-.table_exchange {
-  border-collapse: collapse;
-  font-size: 13px;
-  text-align: center;
-}
+/* Таблицы */
 
-.table_exchange td {
-  width: 111px;
-}
-
-.table_profit {
-  border-collapse: collapse;
-  font-size: 13px;
-  text-align: center;
-}
-
-.table_profit td {
-  width: 111px;
-}
-
-.arbitrage_table-visible { /* Таблицы арбитража */
+.arbitrage_table-visible {
   display: table;
   margin: 0 auto;
 }
 
-.arbitrage_table-visible table {
-  border-collapse: collapse;
+.table_exchange, .table_profit, .arbitrage_table-visible table {
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 13px;
   text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
 }
 
-.arbitrage_table-visible td {
-  border: 1px solid black;
+.arbitrage_table-visible table {
+  font-size: 12px;
+  border-spacing: 0;
+}
+
+.table_exchange thead th, .table_profit thead th, .arbitrage_table-visible table thead th {
+  padding-bottom: 20px;
+}
+
+.table_exchange td, .table_exchange th, .table_profit td, .table_profit th, .arbitrage_table-visible table td, .arbitrage_table-visible table th {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 10px 10px;
+}
+
+.arbitrage_table-visible table td, th {
+  padding: 20px 10px;
+}
+
+.table_exchange td:first-child, .table_exchange td:last-child, .table_profit td:first-child, .table_profit td:last-child {
+  width: 111px;
+}
+
+.table_exchange tbody tr:hover, .table_profit tbody tr:hover, .arbitrage_table-visible table tbody tr:hover {
+  background-color: #dee8e4;
+}
+
+.table_exchange td:first-child, .table_profit td:first-child, .arbitrage_table-visible table td:first-child {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.table_exchange td:last-child, .table_profit td:last-child, .arbitrage_table-visible table td:last-child {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.table_exchange tbody img, .table_profit tbody img, .arbitrage_table-visible table img {
+  width: 32px;
+}
+
+.buy {
+  background-color: #00FF00;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.sell {
+  background-color: #FF6666;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.separate {
+  width: 30px;
+}
+
+@media (max-width: 1024px) {
+  .table_exchange, .table_profit, .arbitrage_table-visible table {
+    font-size: 11px;
+  }
+
+  .table_exchange td, .table_exchange th, .table_profit td, .table_profit th {
+    padding: 5px 0;
+  }
+
+  .arb_menu_style {
+    font-size: 12px;
+  }
+
+  .arb_menu_style td {
+    width: 90px;
+  }
+
+  .arb_menu_table {
+    font-size: 10px;
+  }
 }
 
 </style>
