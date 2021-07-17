@@ -1,43 +1,16 @@
 <template>
 
   <div>
+
     <div id="left" class="left">
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('binance')" v-bind:class="[isActive('binance') ? 'active' : '']">Binance</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('bittrex')" v-bind:class="[isActive('bittrex') ? 'active' : '']">Bittrex</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('poloniex')"
-                           v-bind:class="[isActive('poloniex') ? 'active' : '']">Poloniex</a></div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('hitbtc')" v-bind:class="[isActive('hitbtc') ? 'active' : '']">HitBTC</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('kucoin')" v-bind:class="[isActive('kucoin') ? 'active' : '']">Kucoin</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('kraken')" v-bind:class="[isActive('kraken') ? 'active' : '']">Kraken</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('huobi')"
-                           v-bind:class="[isActive('huobi') ? 'active' : '']">Huobi</a></div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('okex')"
-                           v-bind:class="[isActive('okex') ? 'active' : '']">OKex</a></div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('gateio')" v-bind:class="[isActive('gateio') ? 'active' : '']">Gate.io</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('coinex')" v-bind:class="[isActive('coinex') ? 'active' : '']">Coinex</a>
-      </div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('bitz')"
-                           v-bind:class="[isActive('bitz') ? 'active' : '']">Bit-Z</a></div>
-      <div class="menu2"><br></div>
-      <div class="menu"><a href="#" @click="setActive('bibox')"
-                           v-bind:class="[isActive('bibox') ? 'active' : '']">Bibox</a></div>
+      <template v-for="(none , exchange_name) in exchange">
+        <div class="menu2"><br></div>
+        <div class="menu">
+          <a href="#" @click="setActive(exchange_name)" v-bind:class="[isActive(exchange_name) ? 'active' : '']">
+            {{ capitalize(exchange_name) }}
+          </a>
+        </div>
+      </template>
     </div>
 
     <template v-for="(exchange, exchange_name) in exchange">
@@ -105,7 +78,7 @@ export default {
     return {
       listexchange: [],
       activelink: 'binance',
-      graph: [],
+      graph: {},
       chart: null,
       chartOptions: {
         theme: "light2",
@@ -170,7 +143,7 @@ export default {
               valueFormatString: "MMM-YY",
             },
             axisY: {
-              title: "CMO"
+              title: "CMO14"
             },
             legend: {
               verticalAlign: "top"
@@ -263,7 +236,7 @@ export default {
             else if (response.status === 200)
               return data
             else
-              return []
+              return {}
           }))
     },
     getScore(val, p) {
@@ -275,6 +248,9 @@ export default {
     setActive: function (link) {
       this.activelink = link
       document.getElementById('graph').className = "graph_off"
+    },
+    capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
     show_tr(exchange, coin, count) {
       let all_tr = document.getElementById(exchange + '_table').getElementsByTagName("tbody")[0].rows
@@ -298,20 +274,18 @@ export default {
     },
     async show_graph(exchange, coin) {
       await this.getgraph(exchange, coin)
-      if (this.graph.length === 0 || this.graph[0].length === 0 || this.graph[1].length === 0) return
-
-      console.log(this.graph)
+      if (Object.keys(this.graph).length === 0) return
 
       document.getElementById('graph').className = "graph_on"
       document.getElementById('graph_label').innerHTML = coin
 
       this.chart = new CanvasJS.StockChart("chartContainer", this.chartOptions)
-      this.chartOptions.charts[0].data[0].dataPoints = this.graph[0]
-      this.chartOptions.charts[1].data[0].dataPoints = this.graph[1]
-      this.chartOptions.charts[2].data[0].dataPoints = this.graph[4]
-      this.chartOptions.charts[0].data[1].dataPoints = this.graph[2]
-      this.chartOptions.charts[0].data[2].dataPoints = this.graph[3]
-      this.chartOptions.navigator.data[0].dataPoints = this.graph[0]
+      this.chartOptions.charts[0].data[0].dataPoints = this.graph['exchange']['price']
+      this.chartOptions.charts[1].data[0].dataPoints = this.graph['exchange']['volume']
+      this.chartOptions.charts[2].data[0].dataPoints = this.graph['cmo14']
+      this.chartOptions.charts[0].data[1].dataPoints = this.graph['macd12']
+      this.chartOptions.charts[0].data[2].dataPoints = this.graph['macd26']
+      this.chartOptions.navigator.data[0].dataPoints = this.graph['exchange']['price']
       this.chart.render()
 
       let menu = document.querySelectorAll('.canvasjs-chart-canvas')
@@ -348,12 +322,16 @@ div {
   text-align: center;
 }
 
-a { /* Цвет ссылок при наведении */
+a {
   color: black;
   text-decoration: none;
 }
 
-.active { /* класс посещенной ссылки */
+.menu a:hover {
+  color: red;
+}
+
+.active {
   color: red;
 }
 
@@ -362,14 +340,6 @@ a { /* Цвет ссылок при наведении */
   width: 14%;
   height: 20%;
   float: left;
-}
-
-.menu {
-  /*background: #CCCCFF;*/
-}
-
-.menu:hover {
-  /*background: #CC99FF; !* Цвет фона при наведении *!*/
 }
 
 .menu2 {
