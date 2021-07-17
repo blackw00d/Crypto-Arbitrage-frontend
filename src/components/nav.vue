@@ -97,12 +97,6 @@ export default {
   float: left;
   background: url(../assets/img/nav/top_menu_h.jpg) no-repeat bottom;
   color: #fff;
-  text-transform: uppercase;
-  font-size: 11px;
-  font-weight: bold;
-  line-height: 59px;
-  text-decoration: none;
-  padding: 0 20px;
 }
 
 .top {
@@ -129,6 +123,50 @@ export default {
 .login a {
   color: black;
   text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+  #top_menu li a {
+    font-size: 9px;
+    padding: 0 15px;
+  }
+
+  .top {
+    font-size: 100px;
+  }
+
+  .top img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .login {
+    font-size: 12px;
+    width: 120px;
+    right: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  #top_menu li a {
+    font-size: 8px;
+    padding: 0 10px;
+  }
+
+  .top {
+    font-size: 70px;
+  }
+
+  .top img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .login {
+    font-size: 10px;
+    width: 100px;
+    right: 0;
+  }
 }
 
 </style>
