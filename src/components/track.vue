@@ -187,10 +187,6 @@ export default {
   border-spacing: 0 10px;
 }
 
-#tracking_table tbody tr {
-  padding-bottom: 2px;
-}
-
 #tracking_table tbody tr td:nth-child(2){
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
@@ -228,6 +224,7 @@ export default {
 }
 
 #tracking_table tbody tr {
+  padding-bottom: 2px;
   background: #dee8e4;
 }
 
