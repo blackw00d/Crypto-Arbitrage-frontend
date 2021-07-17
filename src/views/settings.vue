@@ -349,7 +349,7 @@ export default {
   color: white;
   text-decoration: none;
   line-height: 2.2;
-  font-size: 15px !important;
+  font-size: 15px;
   margin: 15px 0 5px 0;
   padding: 0 20px;
 }
@@ -430,6 +430,34 @@ tbody tr td:first-child {
   border: none;
   height: 32px;
   width: 99%
+}
+
+@media (max-width: 1024px) {
+  table {
+    width: 600px;
+  }
+
+  .labels tr td, table thead tr th, td, th {
+    font-size: 11px;
+  }
+
+  .write, .center select, .button {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 720px) {
+  table {
+    width: 500px;
+  }
+
+  .labels tr td, table thead tr th, td, th {
+    font-size: 10px;
+  }
+
+  .write, .center select, .button {
+    font-size: 10px;
+  }
 }
 
 </style>
