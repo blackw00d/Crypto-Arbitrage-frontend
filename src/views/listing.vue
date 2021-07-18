@@ -3,16 +3,22 @@
     <table class="coin_table">
       <thead>
       <tr>
-        <th>Биржа</th>
-        <th>Монета</th>
-        <th>Дата добавления</th>
+        <th @click='sort("exchange")'>
+          {{ sortBy === 'exchange' ? (sortOrder === 1 ? '&#129045;' : '&#129047;') : '' }} Биржа
+        </th>
+        <th @click='sort("name")'>
+          {{ sortBy === 'name' ? (sortOrder === 1 ? '&#129045;' : '&#129047;') : '' }} Монета
+        </th>
+        <th @click='sort("date")'>
+          {{ sortBy === 'date' ? (sortOrder === 1 ? '&#129045;' : '&#129047;') : '' }} Дата добавления
+        </th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="coin in listing">
+      <tr v-for="coin in sortedList">
         <td>{{ coin.exchange }}</td>
         <td style='width: 230px'>{{ coin.name }}</td>
-        <td>{{ GetDate(coin.date) }}</td>
+        <td>{{ getDate(coin.date) }}</td>
       </tr>
       </tbody>
     </table>
@@ -26,6 +32,8 @@ export default {
   name: "listing",
   data() {
     return {
+      sortBy: "date",
+      sortOrder: -1,
       listing: []
     }
   },
@@ -34,6 +42,17 @@ export default {
       router.push('login')
     else
       this.loadlisting()
+  },
+  computed: {
+    sortedList() {
+      return this.listing
+          .sort((a, b) => {
+            if (a[this.sortBy] >= b[this.sortBy]) {
+              return this.sortOrder
+            }
+            return -this.sortOrder
+          })
+    }
   },
   methods: {
     async loadlisting() {
@@ -51,9 +70,15 @@ export default {
           })
       ).catch(() => router.push('error'))
     },
-    GetDate(date) {
+    getDate(date) {
       let str = date.split('-')
       return str[2] + "-" + str[1] + "-" + str[0]
+    },
+    sort(sortBy) {
+      if (this.sortBy === sortBy)
+        this.sortOrder = -this.sortOrder
+      else
+        this.sortBy = sortBy
     }
   }
 }
