@@ -427,6 +427,8 @@ tbody tr td:first-child {
 
 .write {
   font-size: 13px;
+  background: var(--white-color);
+  color: var(--black-color);
   border: none;
   height: 32px;
   width: 99%

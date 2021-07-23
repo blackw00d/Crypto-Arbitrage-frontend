@@ -84,6 +84,16 @@ export default {
   margin: 0 auto
 }
 
+select {
+  width: 120px;
+  padding: 2px;
+  border-radius: 1rem;
+}
+
+select:hover, select:focus {
+  background: #ccc;
+}
+
 #tracking_div table {
   border: none;
   margin: 50px auto 0

@@ -9,7 +9,8 @@ const store = new Vuex.Store({
         accessToken: null,
         refreshToken: null,
         timeToken: null,
-        username: ""
+        username: "",
+        darkTheme: false,
     },
     mutations: {
         initialiseStore(state) {
@@ -30,6 +31,10 @@ const store = new Vuex.Store({
             state.refreshToken = null
             state.timeToken = null
             state.username = ""
+            state.darkTheme = false
+        },
+        setTheme(state) {
+            state.darkTheme = !state.darkTheme
         }
     },
     actions: {
@@ -64,7 +69,10 @@ const store = new Vuex.Store({
                         reject(err)
                     })
             })
-        }
+        },
+        changeTheme(context) {
+            context.commit('setTheme')
+        },
     },
     modules: {},
     getters: {
@@ -77,7 +85,7 @@ const store = new Vuex.Store({
         loggedIn: state => {
             return (state.accessToken != null && state.timeToken > new Date().setDate(new Date().getMinutes()))
         }
-    }
+    },
 })
 
 store.subscribe((mutation, state) => {

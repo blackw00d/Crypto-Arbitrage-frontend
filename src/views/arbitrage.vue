@@ -473,7 +473,7 @@ export default {
 <style scoped>
 
 a {
-  color: black;
+  color: var(--black-color);
   text-decoration: none;
 }
 
@@ -487,12 +487,12 @@ a {
 
 .arb_menu_table td:hover {
   background: #f3bd48; /* Цвет фона при наведении */
-  color: #fff; /* Цвет текста при наведении */
+  color: var(--white-color); /* Цвет текста при наведении */
 }
 
 .activetable {
   background: #f3bd48; /* Цвет фона при наведении */
-  color: #fff; /* Цвет текста при наведении */
+  color: var(--white-color); /* Цвет текста при наведении */
 }
 
 .arb_menu_style {
@@ -525,7 +525,7 @@ a {
 
 .arb_menu_table td {
   padding: 5px 3px; /* Поля вокруг содержимого таблицы */
-  border: 1px solid black; /* Параметры рамки */
+  border: 1px solid var(--black-color); /* Параметры рамки */
   text-align: center;
   border-radius: 5px;
   height: 20px;
@@ -575,7 +575,7 @@ a {
 }
 
 .table_exchange tbody tr:hover, .table_profit tbody tr:hover, .arbitrage_table-visible table tbody tr:hover {
-  background-color: #dee8e4;
+  background-color: var(--arb-hover);
 }
 
 .table_exchange td:first-child, .table_profit td:first-child, .arbitrage_table-visible table td:first-child {

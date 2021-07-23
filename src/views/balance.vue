@@ -76,7 +76,7 @@ export default {
       if (!container) return
       const container_width = container.clientWidth
       let radius = container_width / 2 - 50
-      let x = radius - 30
+      let x = radius * 0.9
       let y = radius
       let total = boxes.length
       let alpha = Math.PI * 2 / total
@@ -103,11 +103,10 @@ export default {
   -moz-border-radius: 300px;
   -webkit-border-radius: 300px;
   background-position: 0 0;
-  -moz-box-shadow: 1px 1px 1px #FFFFFF;
-  -webkit-box-shadow: 1px 1px 1px #FFFFFF;
   background-color: yellow;
   position: absolute;
   background-repeat: no-repeat;
+  color: var(--always-black);
   border: 10px solid #666666;
   float: left;
   height: 120px;
@@ -125,12 +124,11 @@ export default {
   -moz-border-radius: 300px;
   -webkit-border-radius: 300px;
   background-position: 0 0;
-  -moz-box-shadow: 1px 1px 1px #FFFFFF;
-  -webkit-box-shadow: 1px 1px 1px #FFFFFF;
   background-color: greenyellow;
   position: absolute;
   background-repeat: no-repeat;
   border: 10px solid #666666;
+  color: var(--always-black);
   height: 180px;
   width: 180px;
   padding: 5px;

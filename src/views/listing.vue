@@ -111,7 +111,7 @@ export default {
 
 .coin_table td, th {
   padding: 3px; /* Поля вокруг содержимого таблицы */
-  border: 1px solid black; /* Параметры рамки */
+  border: 1px solid var(--black-color); /* Параметры рамки */
   text-align: center;
   width: 80px;
 }

@@ -34,6 +34,17 @@
     <div class="login" v-if="accessToken != null">
       <span>Привет, {{ username }}</span><br>
       <router-link :to="{ name:'logout' }">Выход <i class="fas fa-sign-out-alt"></i></router-link>
+
+      <div id="dark-btn">
+        <input type="checkbox" class="checkbox" id="chk" @click="changeTheme"
+               v-bind:class="[darkTheme ? 'dark-btn-on' : '']">
+        <label class="label" for="chk">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+          <div class="ball"></div>
+        </label>
+      </div>
+
     </div>
     <div class="login" v-else>
       <router-link :to="{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link>
@@ -48,16 +59,75 @@ import {mapState} from 'vuex'
 
 export default {
   name: "NavBar",
-  computed: mapState(['accessToken', 'username'])
+  computed: mapState(['accessToken', 'username', 'darkTheme']),
+  methods: {
+    changeTheme() {
+      this.$store.dispatch('changeTheme')
+    }
+  },
 }
 </script>
 
 <style scoped>
 
+#dark-btn {
+  position: relative;
+  right: 20px;
+  float: right;
+}
+
+.checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+.label {
+  background-color: #ccc;
+  border-radius: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.2rem;
+  position: relative;
+  height: 1rem;
+  width: 2.6rem;
+  transform: scale(0.9);
+  transition: background-color 0.3s;
+}
+
+.label .ball {
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 2px;
+  height: 1.1rem;
+  width: 1.1rem;
+  transform: translateX(0);
+  transition: transform 0.3s linear;
+}
+
+.dark-btn-on + .label {
+  background-color: #fff;
+}
+
+.dark-btn-on + .label .ball {
+  transform: translateX(1.6rem);
+  background-color: #111;
+}
+
+.fa-moon {
+  color: #f1c40f;
+}
+
+.fa-sun {
+  color: #f39c12;
+}
+
 #top_menu {
   width: 100%;
   height: 59px;
-  background: url(../assets/img/nav/top_menu_bg.jpg) repeat-x;
+  background: url(../assets/img/nav/top_menu_bg.png) repeat-x;
   font: 12px/18px Tahoma, Arial, Helvetica, sans-serif;
 }
 
@@ -89,14 +159,14 @@ export default {
 
 #top_menu li a:hover {
   color: #fff;
-  background: url(../assets/img/nav/top_menu_h.jpg) no-repeat bottom;
+  background: url(../assets/img/nav/top_menu_h.png) no-repeat bottom;
 }
 
 #top_menu li a.router-link-exact-active {
   display: block;
   float: left;
-  background: url(../assets/img/nav/top_menu_h.jpg) no-repeat bottom;
-  color: #fff;
+  background: url(../assets/img/nav/top_menu_h.png) no-repeat bottom;
+  color: var(--always-white);
 }
 
 .top {
@@ -121,8 +191,12 @@ export default {
 }
 
 .login a {
-  color: black;
+  color: var(--black-color);
   text-decoration: none;
+}
+
+.login a:hover {
+  color: red;
 }
 
 @media (max-width: 1024px) {
@@ -141,9 +215,16 @@ export default {
   }
 
   .login {
-    font-size: 12px;
     width: 120px;
     right: 0;
+  }
+
+  .login span, a {
+    font-size: 12px;
+  }
+
+  .label {
+    transform: scale(0.7);
   }
 }
 
@@ -163,9 +244,20 @@ export default {
   }
 
   .login {
-    font-size: 10px;
     width: 100px;
     right: 0;
+  }
+
+  .login span, a {
+    font-size: 10px;
+  }
+
+  #dark-btn {
+    right: 0;
+  }
+
+  .label {
+    transform: scale(0.6);
   }
 }
 

@@ -211,7 +211,7 @@ export default {
   font-size: 12px;
   border: none;
   height: 31px;
-  background: rgb(222, 232, 228);
+  background: var(--track-trade-color);
   outline: 2px solid red;
   outline-offset: 1px;
   width: 80px
@@ -259,15 +259,19 @@ export default {
 
 #trading_table tbody tr td:first-child {
   border: none;
-  background: white;
+  background: var(--white-color);
 }
 
 #trading_table tbody tr {
-  background: #dee8e4;
+  background: var(--track-trade-color);
 }
 
 #trading_table tbody tr:hover {
-  background: #b7c1bd;
+  background: var(--track-trade-hover);
+}
+
+#trading_table tbody tr:hover td input{
+  background: var(--track-trade-hover);
 }
 
 select {
@@ -330,7 +334,7 @@ select {
   display: inline-block;
   background-color: #0084D4;
   border: none;
-  color: white;
+  color: var(--always-white);
   text-decoration: none;
   line-height: 2.2;
   font-size: 15px !important;
