@@ -3,7 +3,7 @@
     Монета<br>
     <table style="border: solid 0">
       <tr>
-        <template v-for="(coins, coin_name) in pairs">
+        <template v-for="(coins, coin_name) in listexchange">
           <td>
             <select :id="coin_name" @change="selecting_trade(coin_name)">
               <option selected>{{ coin_name }}</option>
@@ -38,20 +38,7 @@ export default {
   },
   updated() {
   },
-  computed: {
-    pairs() {
-      let exchange = {}
-      for (let i = 0; i < this.listexchange.length; i++) {
-        let coin = this.listexchange[i].name.split('-')[0]
-        if (!(coin in exchange)) exchange[coin] = []
-        exchange[coin].push({
-          name: this.listexchange[i].name,
-          price: this.listexchange[i].price
-        })
-      }
-      return exchange
-    }
-  },
+  computed: {},
   methods: {
     async loadexchange() {
       const requestOptions = {
@@ -107,7 +94,13 @@ export default {
 <style scoped>
 
 select {
-  width: 120px
+  width: 120px;
+  padding: 2px;
+  border-radius: 1rem;
+}
+
+select:hover, select:focus {
+  background: #ccc;
 }
 
 #trading_menu {
