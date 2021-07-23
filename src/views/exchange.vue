@@ -1,9 +1,8 @@
 <template>
-
   <div>
 
     <div id="left" class="left">
-      <template v-for="(none , exchange_name) in exchange">
+      <template v-for="(none , exchange_name) in listexchange">
         <div class="menu2"><br></div>
         <div class="menu">
           <a href="#" @click="setActive(exchange_name)" v-bind:class="[isActive(exchange_name) ? 'active' : '']">
@@ -13,7 +12,7 @@
       </template>
     </div>
 
-    <template v-for="(exchange, exchange_name) in exchange">
+    <template v-for="(exchange, exchange_name) in listexchange">
       <div :id="exchange_name" :class="[isActive(exchange_name) ? 'table-visible' : 'table']">
 
         <div :id="exchange_name+'_div'" :class="[isActive(exchange_name) ? 'exchange_lite_div' : 'hidden']">
@@ -65,12 +64,12 @@
     </div>
 
   </div>
-
 </template>
 
 <script>
 import router from "@/router";
 import CanvasJS from "@/assets/js/canvasjs.stock.min"
+import {mapState} from "vuex";
 
 export default {
   name: "exchange",
@@ -171,27 +170,19 @@ export default {
   created() {
     if (!this.$store.state.timeToken)
       router.push('login')
-    else
+    else {
       this.loadlistexchange()
+      if (this.darkTheme)
+        this.chartOptions.backgroundColor = "#252830"
+    }
   },
-  computed: {
-    exchange() {
-      let exchange = {}
-      for (let [key, value] of Object.entries(this.listexchange)) {
-        exchange[key] = {}
-        for (let [, valuein] of Object.entries(value)) {
-          let coin = valuein.name.split('-')[0]
-          if (!(coin in exchange[key])) exchange[key][coin] = []
-          exchange[key][coin].push({
-            name: valuein.name,
-            price: valuein.price,
-            ask: valuein.ask,
-            bid: valuein.bid,
-            volume: valuein.volume,
-          })
-        }
-      }
-      return exchange
+  computed: mapState(['darkTheme']),
+  watch: {
+    darkTheme: function () {
+      this.chartOptions.backgroundColor = "white"
+      if (this.darkTheme)
+        this.chartOptions.backgroundColor = "#252830"
+      if (this.chart) this.chart.render()
     }
   },
   updated() {
@@ -290,7 +281,8 @@ export default {
 
       let menu = document.querySelectorAll('.canvasjs-chart-canvas')
       menu.item(0).remove()
-      menu.item(0).remove()
+      menu.item(1).remove()
+
     },
   }
 }
@@ -302,9 +294,10 @@ export default {
 .graph_on {
   left: 50%;
   transform: translate(-50%, 0);
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background: var(--white-color);
+  box-shadow: 0 0 10px var(--black-color);
   position: absolute;
+  color: var(--black-color);
 }
 
 .graph_off {
@@ -323,7 +316,7 @@ div {
 }
 
 a {
-  color: black;
+  color: var(--black-color);
   text-decoration: none;
 }
 
@@ -406,6 +399,7 @@ a {
 
 /* фф (свойство больше не работает, других способов тоже нет)*/
 .exchange_lite td, th {
+  color: var(--always-black);
   border: 1px green solid;
   width: 80px; /* ширина ячеек */
   padding: 0.2em; /* отступ от границ в ячейках */
@@ -431,7 +425,7 @@ a {
 
 .exchange_lite tbody tr:hover {
   background: #f3bd48; /* Цвет фона при наведении */
-  color: #fff; /* Цвет текста при наведении */
+  color: var(--always-black); /* Цвет текста при наведении */
 }
 
 .exchange_lite_div { /* DIV, в котором таблица */
@@ -456,9 +450,9 @@ a {
   text-align: center;
 }
 
-.exchange_lite_table tr:hover { /* при наведении на BTC/ETH/USDT меняется цвет фона */
-  background: #e8ffdb;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+.exchange_lite_table tr:hover td { /* при наведении на BTC/ETH/USDT меняется цвет фона */
+  background: #f3bd48;
+  box-shadow: 0 0 5px var(--black-color);
 }
 
 .visibled {
