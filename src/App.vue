@@ -26,8 +26,6 @@ export default {
   created() {
     if (this.darkTheme) {
       document.querySelector('body').classList.add('dark-theme')
-    } else {
-      document.querySelector('body').classList.remove('dark-theme')
     }
   },
 

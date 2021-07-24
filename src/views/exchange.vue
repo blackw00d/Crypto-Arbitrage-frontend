@@ -434,7 +434,7 @@ a {
   padding: 50px;
   background: #e8ffdb;
   float: left;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px var(--black-color);
 }
 
 .exchange_lite_div2 { /* DIV, в котором ссылки пар */

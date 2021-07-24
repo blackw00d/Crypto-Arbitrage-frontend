@@ -101,7 +101,7 @@ export default {
 }
 
 .coin_table {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px var(--black-color);
   width: 500px;
   border-collapse: collapse; /* Убираем двойные линии между ячейками */
   font-size: 13px;
