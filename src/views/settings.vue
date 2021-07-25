@@ -127,41 +127,25 @@
       </thead>
       <tbody class="labels">
       <tr>
-        <td>
-          Дата платежа
-        </td>
-        <td>
-          Оплачено, $
-        </td>
-        <td>
-          Дней оплачено
+        <td> Дата платежа </td>
+        <td> Оплачено, $ </td>
+        <td> Дней оплачено </td>
+      </tr>
+      </tbody>
+      <tbody v-if="this.payments && this.payments.length > 0">
+      <tr v-for="payment in this.payments">
+        <td> {{ (new Date(payment.pay_time)).toLocaleDateString() }} </td>
+        <td> {{ payment.money }} </td>
+        <td> {{ payment.pay_days }} </td>
+      </tr>
+      </tbody>
+      <tbody v-else class="labels">
+      <tr>
+        <td colspan="5">
+          Нет платежей
         </td>
       </tr>
       </tbody>
-      <template v-if="this.payments && this.payments.length > 0">
-        <tbody v-for="payment in this.payments">
-        <tr>
-          <td>
-            {{ (new Date(payment.pay_time)).toLocaleDateString() }}
-          </td>
-          <td>
-            {{ payment.money }}
-          </td>
-          <td>
-            {{ payment.pay_days }}
-          </td>
-        </tr>
-        </tbody>
-      </template>
-      <template v-else>
-        <tbody class="labels">
-        <tr>
-          <td colspan="5">
-            Нет платежей
-          </td>
-        </tr>
-        </tbody>
-      </template>
     </table>
 
   </div>
