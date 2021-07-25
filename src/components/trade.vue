@@ -74,8 +74,13 @@
 
     <br>
 
-    <div id="message"></div>
-    <input type="button" class="button" value="Применить" @click="write_table()">
+    <template v-if="listtrading.length > 0">
+      <div id="message"></div>
+      <input type="button" class="button" value="Применить" @click="write_table()">
+    </template>
+    <template v-else>
+      No Trading Data
+    </template>
 
   </div>
 </template>
@@ -214,32 +219,33 @@ export default {
   background: var(--track-trade-color);
   outline: 2px solid red;
   outline-offset: 1px;
-  width: 80px
+  width: var(--width-td-th);
 }
 
 #trading_table {
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 var(--td-spacing);
+  margin-right: calc(var(--width-td-th) + var(--td-spacing) * 2);
 }
 
 #trading_table tbody tr {
   padding-bottom: 2px;
 }
 
-#trading_table tbody tr td:nth-child(2){
+#trading_table tbody tr td:nth-child(2) {
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
 
-#trading_table tbody tr td:nth-child(14){
+#trading_table tbody tr td:nth-child(14) {
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 #trading_table td, th {
-  padding: 10px;
+  padding: var(--td-spacing);
   text-align: center;
-  width: 80px;
+  width: var(--width-td-th);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -270,7 +276,7 @@ export default {
   background: var(--track-trade-hover);
 }
 
-#trading_table tbody tr:hover td input{
+#trading_table tbody tr:hover td input {
   background: var(--track-trade-hover);
 }
 
@@ -344,6 +350,22 @@ select {
 
 .button:hover {
   color: #111111;
+}
+
+@media (max-width: 1280px) {
+
+  #trading_table td {
+    font-size: 10px;
+  }
+
+  #trading_table th {
+    font-size: 12px;
+  }
+
+  .write {
+    font-size: 10px;
+  }
+
 }
 
 </style>

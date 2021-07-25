@@ -60,8 +60,13 @@
 
     <br>
 
-    <div id="message"></div>
-    <input type="button" class="button" value="Применить" @click="write_table()">
+    <template v-if="listtracking.length > 0">
+      <div id="message"></div>
+      <input type="button" class="button" value="Применить" @click="write_table()">
+    </template>
+    <template v-else>
+      No Tracking Data
+    </template>
 
   </div>
 </template>
@@ -179,12 +184,13 @@ export default {
   background: var(--track-trade-color);
   outline: 2px solid red;
   outline-offset: 1px;
-  width: 80px
+  width: var(--width-td-th)
 }
 
 #tracking_table {
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 var(--td-spacing);
+  margin-right:  calc(var(--width-td-th) + var(--td-spacing) * 2);
 }
 
 #tracking_table tbody tr td:nth-child(2) {
@@ -198,9 +204,9 @@ export default {
 }
 
 #tracking_table td, th {
-  padding: 10px;
+  padding: var(--td-spacing);
   text-align: center;
-  width: 80px;
+  width: var(--width-td-th);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -228,11 +234,11 @@ export default {
   background: var(--track-trade-color);
 }
 
-#tracking_table tbody tr:hover{
+#tracking_table tbody tr:hover {
   background: var(--track-trade-hover);
 }
 
-#tracking_table tbody tr:hover td input{
+#tracking_table tbody tr:hover td input {
   background: var(--track-trade-hover);
 }
 
@@ -306,6 +312,23 @@ select {
 
 .button:hover {
   color: #111111;
+}
+
+
+@media (max-width: 1280px) {
+
+  #tracking_table td {
+    font-size: 10px;
+  }
+
+  #tracking_table th {
+    font-size: 12px;
+  }
+
+  .write {
+    font-size: 10px;
+  }
+
 }
 
 </style>

@@ -44,6 +44,9 @@ export default {
   --arb-hover: #dee8e4;
   --track-trade-color: #dee8e4;
   --track-trade-hover: #b7c1bd;
+
+  --width-td-th: 80px;
+  --td-spacing: 10px;
 }
 
 body {
@@ -72,6 +75,24 @@ body::-webkit-scrollbar {
   position: absolute;
   bottom: -18vw;
   width: 100%;
+}
+
+@media (max-width: 1280px) {
+
+  :root {
+    --width-td-th: 60px;
+    --td-spacing: 7px;
+  }
+
+}
+
+@media (max-width: 1024px) {
+
+  :root {
+    --width-td-th: 60px;
+    --td-spacing: 5px;
+  }
+
 }
 
 </style>

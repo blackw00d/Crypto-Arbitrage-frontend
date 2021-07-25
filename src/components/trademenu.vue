@@ -120,4 +120,22 @@ select option {
   margin-left: 20px
 }
 
+@media (max-width: 1024px) {
+
+  select {
+    width: 100px;
+    font-size: 12px;
+  }
+
+}
+
+@media (max-width: 720px) {
+
+  select {
+    width: 90px;
+    font-size: 11px;
+  }
+
+}
+
 </style>

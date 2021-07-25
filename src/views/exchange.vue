@@ -60,7 +60,7 @@
     <div id='graph' class="graph_off">
       <a id='graph_href' onclick='this.parentElement.className="graph_off"'>X</a><br>
       <div id="graph_label"></div>
-      <div id="chartContainer" style="height: 500px; width: 1000px;"></div>
+      <div id="chartContainer"></div>
     </div>
 
   </div>
@@ -293,6 +293,7 @@ export default {
 
 .graph_on {
   left: 50%;
+  top: 25%;
   transform: translate(-50%, 0);
   background: var(--white-color);
   box-shadow: 0 0 10px var(--black-color);
@@ -344,11 +345,11 @@ a {
 }
 
 .table-visible { /* Блок отображения таблицы биржи */
-  position: absolute;
-  left: 33%;
+  display: table;
+  margin: 0 auto;
+  transform: translateX(+50px);
   padding: 10px;
 }
-
 
 .exchange_lite {
   font-size: 13px;
@@ -366,8 +367,8 @@ a {
   table-layout: fixed;
 }
 
-.exchange_lite thead {
-  width: calc(567px - 17px);
+.exchange_lite thead, .exchange_lite tbody tr {
+  width: 550px;
 }
 
 .exchange_lite tbody {
@@ -375,10 +376,6 @@ a {
   display: block;
   overflow-y: auto;
   font-size: 12px;
-}
-
-.exchange_lite tbody tr {
-  width: 550px;
 }
 
 /*  Неподвижная шапка КОНЕЦ  */
@@ -461,6 +458,58 @@ a {
 
 .hidden {
   display: none;
+}
+
+#chartContainer {
+  width: 1024px;
+  height: 550px;
+}
+
+@media (max-width: 1280px) {
+
+  #chartContainer {
+    width: 850px;
+    height: 450px;
+  }
+
+}
+
+@media (max-width: 1024px) {
+
+  .exchange_lite_table {
+    font-size: 11px;
+  }
+
+  .menu a {
+    font-size: 13px;
+  }
+
+  .exchange_lite_div {
+    padding: 30px;
+  }
+
+  .exchange_lite, .exchange_lite tbody {
+    font-size: 11px;
+  }
+
+  .exchange_lite_div, .exchange_lite thead, .exchange_lite tbody tr {
+    width: 450px;
+  }
+
+  #chartContainer {
+    width: 680px;
+    height: 420px;
+  }
+
+}
+
+@media (max-width: 720px) {
+
+  #chartContainer {
+    width: 600px;
+    height: 400px;
+  }
+
 }
 
 </style>
