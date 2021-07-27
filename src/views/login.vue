@@ -62,16 +62,12 @@ export default {
 
 <style scoped>
 
-body {
-  background-color: #f4f4f4;
-}
-
 p {
   text-align: center;
 }
 
 .login {
-  background-color: #fff;
+  background-color: var(--white-color);
   margin-top: 10%;
 }
 
@@ -118,6 +114,7 @@ input {
 
 .h3 {
   font-size: 1.75rem;
+  color: var(--black-color);
 }
 
 .mb-3 {

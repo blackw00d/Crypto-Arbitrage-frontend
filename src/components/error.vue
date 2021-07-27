@@ -7,7 +7,7 @@
         <h6>Ошибка 404</h6>
       </div>
       <div class="col-5 col-middle text-center">
-        <img alt="Bitcoin - new GOLD" src="../assets/img/bit.png" width="560">
+        <img alt="Bitcoin - new GOLD" src="../assets/img/bit.png">
       </div>
     </div>
   </div>
@@ -51,7 +51,6 @@ export default {
   font-size: 14px;
   line-height: 1.43;
   color: #484848;
-  background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0 -12px;
@@ -64,6 +63,10 @@ export default {
   min-height: 1px;
   padding-left: 12px;
   padding-right: 12px;
+}
+
+.col-5 img {
+  width: 560px;
 }
 
 .col-6 {

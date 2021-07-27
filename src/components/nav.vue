@@ -6,7 +6,7 @@
       </a>
       <span>Crypto Arbitrage</span>
       <div id="top_menu">
-        <ul v-if="accessToken">
+        <ul v-if="loggedIn">
           <li id="exc">
             <router-link to="exchange">Exchange</router-link>
           </li>
@@ -31,10 +31,9 @@
         </ul>
       </div>
     </div>
-    <div class="login" v-if="accessToken != null">
+    <div class="login" v-if="loggedIn">
       <span>Привет, {{ username }}</span><br>
       <router-link :to="{ name:'logout' }">Выход <i class="fas fa-sign-out-alt"></i></router-link>
-
       <div id="dark-btn">
         <input type="checkbox" class="checkbox" id="chk" @click="changeTheme"
                v-bind:class="[darkTheme ? 'dark-btn-on' : '']">
@@ -44,22 +43,23 @@
           <div class="ball"></div>
         </label>
       </div>
-
     </div>
     <div class="login" v-else>
-      <router-link :to="{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link>
-      <br>
+      <router-link :to="{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link><br>
       <router-link :to="{ name:'auth' }">Регистрация <i class="fas fa-user-circle"></i></router-link>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 
 export default {
   name: "NavBar",
-  computed: mapState(['accessToken', 'username', 'darkTheme']),
+  computed: {
+    ...mapState(['username', 'darkTheme']),
+    ...mapGetters(['loggedIn']),
+  },
   methods: {
     changeTheme() {
       this.$store.dispatch('changeTheme')

@@ -32,7 +32,6 @@ export default {
 }
 </script>
 
-
 <style>
 @import "assets/css/style.css";
 
@@ -75,6 +74,68 @@ body::-webkit-scrollbar {
   position: absolute;
   bottom: -18vw;
   width: 100%;
+}
+
+.fab, .fas {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(assets/fonts/fa-brands-400.ttf) format("truetype")
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url(assets/fonts/fa-solid-900.ttf) format("truetype")
+}
+
+.fab {
+  font-family: "Font Awesome 5 Brands"
+}
+
+.fab {
+  font-weight: 400
+}
+
+.fas {
+  font-family: "Font Awesome 5 Free"
+}
+
+.fas {
+  font-weight: 900
+}
+
+.fa-sign-out-alt:before {
+  content: "\f2f5"
+}
+
+.fa-user-circle:before {
+  content: "\f2bd"
+}
+
+.fa-telegram:before {
+  content: "\f2c6"
+}
+
+.fa-moon:before {
+  content: "\f186"
+}
+
+.fa-sun:before {
+  content: "\f185"
 }
 
 @media (max-width: 1280px) {

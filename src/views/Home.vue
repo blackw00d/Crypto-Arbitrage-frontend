@@ -298,7 +298,7 @@ export default {
   font-weight: bold;
   margin-top: auto;
   padding: 1em 2em;
-  color: #fff;
+  color: var(--white-color);
   border-radius: 5px;
   background: #6ed19c;
   -webkit-transition: background-color 0.3s;
@@ -331,7 +331,7 @@ export default {
 }
 
 .bg-6 {
-  background: #FFFFFF;
+  background: var(--white-color);
   text-align: center;
   margin: 0 auto;
   padding: 50px 0px 50px 0px;

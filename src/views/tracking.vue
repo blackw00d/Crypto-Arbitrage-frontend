@@ -47,7 +47,7 @@ export default {
     }
   },
   created() {
-    if (!this.$store.state.timeToken)
+    if (!this.$store.getters.loggedIn)
       router.push('login')
     else
       this.loadlisttracking()
