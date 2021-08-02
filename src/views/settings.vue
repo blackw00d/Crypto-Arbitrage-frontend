@@ -69,7 +69,7 @@
       <tr>
         <td>nickname</td>
         <td>
-          <input type="text" class="write" id="telegram" :value="userkeys['telegram']" maxlength="20" size="5"
+          <input type="number" class="write" id="telegram" :value="userkeys['telegram']" maxlength="11" size="5"
                  @change="send_keys($event)">
         </td>
       </tr>
@@ -127,16 +127,16 @@
       </thead>
       <tbody class="labels">
       <tr>
-        <td> Дата платежа </td>
-        <td> Оплачено, $ </td>
-        <td> Дней оплачено </td>
+        <td> Дата платежа</td>
+        <td> Оплачено, $</td>
+        <td> Дней оплачено</td>
       </tr>
       </tbody>
       <tbody v-if="this.payments && this.payments.length > 0">
       <tr v-for="payment in this.payments">
-        <td> {{ (new Date(payment.pay_time)).toLocaleDateString() }} </td>
-        <td> {{ payment.money }} </td>
-        <td> {{ payment.pay_days }} </td>
+        <td> {{ (new Date(payment.pay_time)).toLocaleDateString() }}</td>
+        <td> {{ payment.money }}</td>
+        <td> {{ payment.pay_days }}</td>
       </tr>
       </tbody>
       <tbody v-else class="labels">
@@ -278,7 +278,10 @@ export default {
     },
     async send_keys(e) {
       let data = {}
-      data[e.target.id] = e.target.value
+      if (e.target.value.length > e.target.maxLength)
+        e.target.value = e.target.value.slice(0, e.target.maxLength)
+
+      data[e.target.id] = parseInt(e.target.value)
       const requestOptions = {
         method: "patch",
         headers: {
@@ -416,6 +419,16 @@ tbody tr td:first-child {
   border: none;
   height: 32px;
   width: 99%
+}
+
+.write::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.write[type=number] {
+  -moz-appearance: textfield;
 }
 
 @media (max-width: 1024px) {
