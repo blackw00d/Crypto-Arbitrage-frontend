@@ -26,37 +26,39 @@
         </thead>
         <tbody>
         <tr v-for="(list, index) in listtrading" @mouseover="ontable(index)" @mouseout="offtable(index)">
-          <td :id="'table'+index" class="td_del" @click="del('table'+index)" style="visibility: hidden">удалить</td>
+          <td :id="'table'+index" class="td_del" @click="del(index)">удалить</td>
           <td>{{ list.exchange }}</td>
           <td>{{ list.pair }}</td>
           <td><input type="text" class="write"
                      onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value="list.amount" maxlength="10" size="5"></td>
+                     v-model.number.lazy="list.amount" maxlength="10" size="5" @change=trackChange(index)></td>
           <td><input type="text" class="write"
                      onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value="list.price" maxlength="10" size="5"></td>
-          <td>{{ list.price_now }}</td>
+                     v-model.number.lazy="list.price" maxlength="10" size="5" @change=trackChange(index)></td>
+          <td>{{ list.last_price }}</td>
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value=list.stoploss maxlength="10" size="5"></td>
+                     v-model.number.lazy="list.stoploss" maxlength="10" size="5" @change=trackChange(index)>
+          </td>
           <td>
             <label class="control control--checkbox">
-              <input type="checkbox" :checked="list.trailingstoploss">
+              <input type="checkbox" v-model.number="list.trailingstoploss" :true-value="1" :false-value="0">
               <div class="control__indicator"></div>
             </label>
           </td>
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value=list.takeprofit maxlength="10" size="5"></td>
+                     v-model.number.lazy=list.takeprofit maxlength="10" size="5" @change=trackChange(index)></td>
           <td>
             <label class="control control--checkbox">
-              <input type="checkbox" :checked="list.trailingtakeprofit">
+              <input type="checkbox" v-model.number="list.trailingtakeprofit" :true-value="1" :false-value="0">
               <div class="control__indicator"></div>
             </label>
           </td>
           <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value=list.trailingtakeprofitprocent maxlength="10" size="5"></td>
+                     v-model.number.lazy=list.trailingtakeprofitprocent maxlength="10" size="5"
+                     @change=trackChange(index)></td>
           <td>
             <label class="control control--checkbox">
-              <input type="checkbox" :checked="list.active">
+              <input type="checkbox" v-model.number="list.active" :true-value="1" :false-value="0">
               <div class="control__indicator"></div>
             </label>
           </td>
@@ -66,7 +68,6 @@
           <td>
             {{ list.takeprofitvalue > 1 ? getScore(list.takeprofitvalue, 2) : getScore(list.takeprofitvalue, 10) }}
           </td>
-          <td style="display: none">{{ list.id }}</td>
         </tr>
         </tbody>
       </table>
@@ -76,7 +77,7 @@
 
     <template v-if="listtrading.length > 0">
       <div id="message"></div>
-      <input type="button" class="button" value="Применить" @click="write_table()">
+      <input type="button" class="button" value="Применить" @click="write_table">
     </template>
     <template v-else>
       No Trading Data
@@ -95,42 +96,25 @@ export default {
   data() {
     return {}
   },
-  created() {
-  },
-  updated() {
-  },
   methods: {
-    async sendlisttrading(arr) {
-      let data = {
-        amount: arr[2],
-        price: arr[3],
-        last_price: arr[4],
-        stoploss: arr[5],
-        trailingstoploss: arr[6],
-        takeprofit: arr[7],
-        trailingtakeprofit: arr[8],
-        trailingtakeprofitprocent: arr[9],
-        active: arr[10],
-        stoplossvalue: arr[3] * (1 - arr[5] / 100),
-        stoplosstrailingvalue: arr[3] * (1 - arr[5] / 100),
-        takeprofitvalue: arr[3] * (1 + arr[7] / 100),
-        takeprofittrailingvalue: 0,
-        id: arr[13]
-      }
+    async sendlisttrading(data) {
       const requestOptions = {
-        method: "patch",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.$store.state.accessToken}`
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/trading/change/${data["id"]}`, requestOptions).then(
+      fetch(`${this.$store.getters.getServerUrl}/trading/add`, requestOptions).then(
           response => {
             if (response.status === 401)
               router.push({name: 'login'})
-            else if (response.status === 400)
-              $('#message').append("<br>Ошибка изменения<br>")
+            else if (response.status === 200) {
+              document.querySelector('#message').innerHTML = "Данные обновлены"
+              this.$emit('reLoad')
+            } else
+              document.querySelector('#message').innerHTML = "Ошибка создания"
           }
       )
     },
@@ -147,16 +131,19 @@ export default {
             if (response.status === 401)
               router.push({name: 'login'})
             else if (response.status === 204)
-              this.$emit('reLoad')
+              document.querySelector('#message').innerHTML = "Данные удалены"
             else
-              $('#message').append("<br>Ошибка удаления<br>")
+              document.querySelector('#message').innerHTML = "Ошибка удаления"
           }
       )
     },
-    del(item) {
-      let data = document.getElementById(item).parentElement.children[14].innerHTML
-      this.dellisttrading(data)
-      document.getElementById(item).parentElement.remove()
+    del(index) {
+      let id = this.listtrading[index].id
+      if (id > 0) {
+        document.querySelector('#message').innerHTML = ''
+        this.dellisttrading(id)
+      }
+      this.listtrading.splice(index, 1)
     },
     ontable(item) {
       document.getElementById('table' + item).style.setProperty('visibility', 'visible')
@@ -168,42 +155,31 @@ export default {
       return parseFloat(val).toFixed(p)
     },
     write_table() {
-      let data = []
-      let out = false
-
-      let tr = document.querySelectorAll('#trading_table tbody tr')
-      tr.forEach((tr_el, i) => {
-        data[i] = []
-        let td = tr_el.querySelectorAll('td')
-        td.forEach((td_el, j) => {
-          let input = td_el.querySelector('input')
-          if (input) {
-            if (input.value === 'on') {
-              data[i][j] = input.checked ? 1 : 0
-            } else {
-              data[i][j] = parseFloat(input.value)
-            }
-          } else {
-            data[i][j] = !isNaN(parseFloat(td_el.innerText)) ? parseFloat(td_el.innerText) : td_el.innerText
-          }
-        })
-        data[i].splice(0, 1)
-
-        if (data[i][2] === 0) {
-          $('#message').html("Количество не может быть ноль")
-          out = true
-          return
+      let error = {
+        price_error: '',
+        amount_error: '',
+        err: false
+      }
+      this.listtrading.map(function (trade) {
+        if (trade.price === 0 || trade.price === '') {
+          error.price_error = "Цена не может быть 0<br>"
+          error.err = true
         }
-        if (data[i][3] === 0) {
-          $('#message').html("Цена не может быть 0")
-          out = true
+        if (trade.amount === 0 || trade.amount === '') {
+          error.amount_error = "Количество не может быть 0<br>"
+          error.err = true
         }
       })
-      if (out === true) return []
-      $('#message').html("")
-      for (let i = 0; i < data.length; i++)
-        this.sendlisttrading(data[i])
-      $('#message').append("Данные обновлены")
+
+      document.querySelector('#message').innerHTML = error.price_error + error.amount_error
+      if (!error.err) this.sendlisttrading(this.listtrading)
+    },
+    trackChange(index) {
+      this.listtrading[index].stoploss = isNaN(parseInt(this.listtrading[index].stoploss)) ? 0 : this.listtrading[index].stoploss
+      this.listtrading[index].takeprofit = isNaN(parseInt(this.listtrading[index].takeprofit)) ? 0 : this.listtrading[index].takeprofit
+      this.listtrading[index].trailingtakeprofitprocent = isNaN(parseInt(this.listtrading[index].trailingtakeprofitprocent)) ? 0 : this.listtrading[index].trailingtakeprofitprocent
+      this.listtrading[index].amount = isNaN(parseInt(this.listtrading[index].amount)) ? 0 : this.listtrading[index].amount
+      this.listtrading[index].price = isNaN(parseInt(this.listtrading[index].price)) ? 0 : this.listtrading[index].price
     }
   }
 }

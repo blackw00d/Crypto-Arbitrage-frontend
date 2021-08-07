@@ -4,7 +4,6 @@
       <table>
         <tbody>
         <tr>
-          <form></form>
           <td>
             Биржа<br>
             <select v-model="selected" id="exchange_select_trade">
@@ -20,15 +19,16 @@
               <option>Coinex</option>
               <option>Bit-Z</option>
               <option>Bibox</option>
-            </select></td>
+            </select>
+          </td>
           <td>
-            <TradeMenu :exchange="selected" @reLoad="loadlisttrading"/>
+            <TradeMenu :exchange="selected" :list_trading=listtrading @reLoad="loadlisttrading"/>
           </td>
         </tr>
         </tbody>
       </table>
       <br><br>
-      <Trade :listtrading="listtrading"/>
+      <Trade :listtrading="listtrading" @reLoad="loadlisttrading"/>
     </div>
   </div>
 </template>
