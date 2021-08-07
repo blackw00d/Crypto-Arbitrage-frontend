@@ -45,7 +45,7 @@
         <th colspan="5">
           API ключи без привязки к IP адресу действительны 90 дней<br>
           Для неограниченного срока действия укажите IP адрес:
-          <span style="color: #2B3441">{{ this.$store.getters.getServelHost }}</span>
+          <span>{{ this.$store.getters.getServelHost }}</span>
         </th>
       </tr>
       </thead>
@@ -74,6 +74,14 @@
         </td>
       </tr>
       </tbody>
+      <thead>
+      <tr>
+        <th colspan="5">
+          Для получения оповещений по Telegram напишите боту
+          <span><a href="https://t.me/crypto_arbitrage_crypto_bot" target="_blank">CryptoArbitrageBot</a></span>
+        </th>
+      </tr>
+      </thead>
     </table>
 
     <!-- ТАБЛИЦА АККАУНТ   -->
@@ -371,6 +379,15 @@ table {
   width: 750px;
   border-collapse: collapse;
   margin: 50px auto;
+}
+
+table span, table span a:visited {
+  color: #2B3441
+}
+
+table span a {
+  color: #2B3441;
+  text-decoration: none;
 }
 
 th {
