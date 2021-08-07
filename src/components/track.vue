@@ -25,34 +25,41 @@
         </thead>
         <tbody>
         <tr v-for="(list, index) in listtracking" @mouseover="ontable(index)" @mouseout="offtable(index)">
-          <td :id="'table'+index" class="td_del" @click="del('table'+index)">удалить</td>
+          <td :id="'table'+index" class="td_del" @click="del(index)">удалить</td>
           <td>{{ list.exchange }}</td>
           <td>{{ list.pair }}</td>
           <td>{{ list.price }}</td>
-          <td><input type="text" class="write"
-                     onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value="list.pricechangevalue" maxlength="10" size="5"></td>
-          <td><input type="text" class="write"
-                     onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value="list.pricechangeprocent" maxlength="10" size="5"></td>
+          <td>
+            <input type="text" class="write"
+                   onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')" maxlength="10" size="5"
+                   v-model.number.lazy="list.pricechangevalue" @change=trackChange(index)>
+          </td>
+          <td>
+            <input type="text" class="write"
+                   onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')" maxlength="10" size="5"
+                   v-model.number.lazy="list.pricechangeprocent" @change=trackChange(index)>
+          </td>
           <td>
             <label class="control control--checkbox">
-              <input type="checkbox" :checked="list.priceactive">
+              <input type="checkbox" v-model.number="list.priceactive" :true-value="1" :false-value="0">
               <div class="control__indicator"></div>
             </label>
           </td>
           <td>{{ list.volume }}</td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value=list.volumechangevalue maxlength="10" size="5"></td>
-          <td><input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
-                     :value=list.volumechangeprocent maxlength="10" size="5"></td>
+          <td>
+            <input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
+                   v-model.number.lazy="list.volumechangevalue" maxlength="10" size="5" @change=trackChange(index)>
+          </td>
+          <td>
+            <input type="text" class="write" onkeyup="this.value=this.value.replace(/[^\d.]+/g,'')"
+                   v-model.number.lazy="list.volumechangeprocent" maxlength="10" size="5" @change=trackChange(index)>
+          </td>
           <td>
             <label class="control control--checkbox">
-              <input type="checkbox" :checked="list.volumeactive">
+              <input type="checkbox" v-model.number="list.volumeactive" :true-value="1" :false-value="0">
               <div class="control__indicator"></div>
             </label>
           </td>
-          <td style="display: none">{{ list.id }}</td>
         </tr>
         </tbody>
       </table>
@@ -62,7 +69,7 @@
 
     <template v-if="listtracking.length > 0">
       <div id="message"></div>
-      <input type="button" class="button" value="Применить" @click="write_table()">
+      <input type="button" class="button" value="Применить" @click="write_table">
     </template>
     <template v-else>
       No Tracking Data
@@ -81,37 +88,27 @@ export default {
   data() {
     return {}
   },
-  created() {
-  },
-  updated() {
-  },
   methods: {
-    async sendlisttracking(arr) {
-      let data = {
-        pricechangevalue: arr[3],
-        pricechangeprocent: arr[4],
-        priceactive: arr[5],
-        volumechangevalue: arr[7],
-        volumechangeprocent: arr[8],
-        volumeactive: arr[9],
-        id: arr[10]
-      }
+    async sendlisttracking(data) {
       const requestOptions = {
-        method: "patch",
+        method: "post",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.$store.state.accessToken}`
         },
         body: JSON.stringify(data)
       }
-      fetch(`${this.$store.getters.getServerUrl}/tracking/change/${data["id"]}`, requestOptions).then(
+      fetch(`${this.$store.getters.getServerUrl}/tracking/add`, requestOptions).then(
           response => {
             if (response.status === 401)
               router.push({name: 'login'})
-            else if (response.status === 400)
-              $('#message').append("<br>Ошибка изменения<br>")
+            else if (response.status === 200) {
+              document.querySelector('#message').innerHTML = "Данные обновлены"
+              this.$emit('reLoad')
+            } else
+              document.querySelector('#message').innerHTML = "Ошибка создания"
           }
-      )
+      ).catch(() => router.push('error'))
     },
     async dellisttracking(id) {
       const requestOptions = {
@@ -126,16 +123,19 @@ export default {
             if (response.status === 401)
               router.push({name: 'login'})
             else if (response.status === 204)
-              this.$emit('reLoad')
+              document.querySelector('#message').innerHTML = "Данные удалены"
             else
-              $('#message').append("<br>Ошибка удаления<br>")
+              document.querySelector('#message').innerHTML = "Ошибка удаления"
           }
       )
     },
-    del(item) {
-      $('#message').html("")
-      let data = document.getElementById(item).parentElement.children[11].innerHTML
-      this.dellisttracking(data)
+    del(index) {
+      let id = this.listtracking[index].id
+      if (id > 0) {
+        document.querySelector('#message').innerHTML = ''
+        this.dellisttracking(id)
+      }
+      this.listtracking.splice(index, 1)
     },
     ontable(item) {
       document.getElementById('table' + item).style.setProperty('visibility', 'visible')
@@ -144,31 +144,14 @@ export default {
       document.getElementById('table' + item).style.setProperty('visibility', 'hidden')
     },
     write_table() {
-      let data = []
-
-      let tr = document.querySelectorAll('#tracking_table tbody tr')
-      tr.forEach((tr_el, i) => {
-        data[i] = []
-        let td = tr_el.querySelectorAll('td')
-        td.forEach((td_el, j) => {
-          let input = td_el.querySelector('input')
-          if (input) {
-            if (input.value === 'on') {
-              data[i][j] = input.checked ? 1 : 0
-            } else {
-              data[i][j] = parseFloat(input.value)
-            }
-          } else {
-            data[i][j] = !isNaN(parseFloat(td_el.innerText)) ? parseFloat(td_el.innerText) : td_el.innerText
-          }
-        })
-        data[i].splice(0, 1)
-      })
-
-      $('#message').html("")
-      for (let i = 0; i < data.length; i++)
-        this.sendlisttracking(data[i])
-      $('#message').append("Данные обновлены")
+      document.querySelector('#message').innerHTML = ''
+      this.sendlisttracking(this.listtracking)
+    },
+    trackChange(index) {
+      this.listtracking[index].pricechangevalue = isNaN(parseInt(this.listtracking[index].pricechangevalue)) ? 0 : this.listtracking[index].pricechangevalue
+      this.listtracking[index].pricechangeprocent = isNaN(parseInt(this.listtracking[index].pricechangeprocent)) ? 0 : this.listtracking[index].pricechangeprocent
+      this.listtracking[index].volumechangevalue = isNaN(parseInt(this.listtracking[index].volumechangevalue)) ? 0 : this.listtracking[index].volumechangevalue
+      this.listtracking[index].volumechangeprocent = isNaN(parseInt(this.listtracking[index].volumechangeprocent)) ? 0 : this.listtracking[index].volumechangeprocent
     }
   }
 }
@@ -190,7 +173,7 @@ export default {
 #tracking_table {
   border-collapse: separate;
   border-spacing: 0 var(--td-spacing);
-  margin-right:  calc(var(--width-td-th) + var(--td-spacing) * 2);
+  margin-right: calc(var(--width-td-th) + var(--td-spacing) * 2);
 }
 
 #tracking_table tbody tr td:nth-child(2) {
