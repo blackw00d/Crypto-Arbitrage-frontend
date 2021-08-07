@@ -18,7 +18,7 @@ import router from "@/router";
 
 export default {
   name: "trackmenu",
-  props: ['exchange'],
+  props: ['exchange', 'list_tracking'],
   watch: {
     'exchange'() {
       this.loadexchange()
@@ -32,9 +32,6 @@ export default {
   created() {
     this.loadexchange()
   },
-  updated() {
-  },
-  computed: {},
   methods: {
     async loadexchange() {
       const requestOptions = {
@@ -51,38 +48,25 @@ export default {
           })
       ).catch(() => router.push('error'))
     },
-    async sendexchange(arr) {
-      let data = {
-        exchange: arr[0],
-        pair: arr[1],
-        price: arr[2],
-        volume: arr[3],
-      }
-      const requestOptions = {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.$store.state.accessToken}`
-        },
-        body: JSON.stringify(data)
-      }
-      fetch(`${this.$store.getters.getServerUrl}/tracking/add`, requestOptions).then(
-          response => {
-            if (response.status === 401)
-              router.push({name: 'login'})
-            else if (response.status === 201)
-              this.$emit('reLoad')
-            else
-              $('#message').append("<br>Ошибка создания<br>")
-          }
-      ).catch(() => router.push('error'))
-    },
     selecting_track(item) {
-      let el = $("#" + item).children('option:selected')
-      let pair = el.text() ? el.text() : ''
-      let price = el.attr('data-price') ? el.attr('data-price') : 0
-      let volume = el.attr('data-volume') ? el.attr('data-volume') : 0
-      this.sendexchange([this.exchange, pair, price, volume])
+      let el = document.querySelector('#' + item).selectedOptions[0]
+      let pair = el.innerHTML ? el.innerHTML : ''
+      let price = el.getAttribute('data-price') ? el.getAttribute('data-price') : 0
+      let volume = el.getAttribute('data-volume') ? el.getAttribute('data-volume') : 0
+
+      this.list_tracking.push({
+        exchange: this.exchange,
+        id: 0,
+        pair: pair,
+        price: parseFloat(price),
+        priceactive: 0,
+        pricechangeprocent: 0,
+        pricechangevalue: 0,
+        volume: parseFloat(volume),
+        volumeactive: 0,
+        volumechangeprocent: 0,
+        volumechangevalue: 0
+      })
     },
   }
 }

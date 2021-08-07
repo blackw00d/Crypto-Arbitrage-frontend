@@ -19,9 +19,10 @@
               <option>Coinex</option>
               <option>Bit-Z</option>
               <option>Bibox</option>
-            </select></td>
+            </select>
+          </td>
           <td>
-            <Trackmenu :exchange="selected" @reLoad="loadlisttracking"/>
+            <Trackmenu :exchange="selected" :list_tracking="listtracking" @reLoad="loadlisttracking"/>
           </td>
         </tr>
         </tbody>
