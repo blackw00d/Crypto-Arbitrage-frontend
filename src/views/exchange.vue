@@ -57,10 +57,13 @@
       </div>
     </template>
 
-    <div id='graph' class="graph_off">
-      <a id='graph_href' onclick='this.parentElement.className="graph_off"'>X</a><br>
-      <div id="graph_label"></div>
-      <div id="chartContainer"></div>
+    <div id="popup" class="graph_off">
+      <a class="popup_area" @click="closeWindow"></a>
+      <div class="graph_on">
+        <a id='graph_href' @click="closeWindow">X</a><br>
+        <div id="graph_label"></div>
+        <div id="chartContainer"></div>
+      </div>
     </div>
 
   </div>
@@ -191,7 +194,7 @@ export default {
   methods: {
     async loadlistexchange() {
       const requestOptions = {
-        method: "GET",
+        method: "get",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.$store.state.accessToken}`
@@ -230,6 +233,9 @@ export default {
               return {}
           }))
     },
+    closeWindow() {
+      document.getElementById('popup').className='graph_off'
+    },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
     },
@@ -238,7 +244,6 @@ export default {
     },
     setActive: function (link) {
       this.activelink = link
-      document.getElementById('graph').className = "graph_off"
     },
     capitalize(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
@@ -267,7 +272,7 @@ export default {
       await this.getgraph(exchange, coin)
       if (Object.keys(this.graph).length === 0) return
 
-      document.getElementById('graph').className = "graph_on"
+      document.getElementById('popup').className = "popup"
       document.getElementById('graph_label').innerHTML = coin
 
       this.chart = new CanvasJS.StockChart("chartContainer", this.chartOptions)
@@ -303,6 +308,14 @@ export default {
 
 .graph_off {
   display: none;
+}
+
+.popup_area {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0
 }
 
 #graph_href {
