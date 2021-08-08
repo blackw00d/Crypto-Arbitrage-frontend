@@ -49,12 +49,11 @@ export default {
   methods: {
     async loadlistbalance() {
       const requestOptions = {
-        method: "post",
+        method: "get",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${this.$store.state.accessToken}`
-        },
-        body: JSON.stringify(this.$store.state.username)
+        }
       }
       this.listbalance = await fetch(`${this.$store.getters.getServerUrl}/balance`, requestOptions).then(
           response => response.json().then(data => {
