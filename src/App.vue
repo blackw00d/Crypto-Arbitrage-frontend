@@ -43,6 +43,7 @@ export default {
   --arb-hover: #dee8e4;
   --track-trade-color: #dee8e4;
   --track-trade-hover: #b7c1bd;
+  --chart-background: white;
 
   --width-td-th: 80px;
   --td-spacing: 10px;
@@ -63,6 +64,7 @@ body {
   --arb-hover: #b7c1bd;
   --track-trade-color: #b7c1bd;
   --track-trade-hover: #808784;
+  --chart-background: #2A2A2A;
 }
 
 body::-webkit-scrollbar {
@@ -103,7 +105,7 @@ body::-webkit-scrollbar {
 }
 
 .fab {
-  font-family: "Font Awesome 5 Brands"
+  font-family: "Font Awesome 5 Brands", sans-serif;
 }
 
 .fab {
@@ -111,7 +113,7 @@ body::-webkit-scrollbar {
 }
 
 .fas {
-  font-family: "Font Awesome 5 Free"
+  font-family: "Font Awesome 5 Free", sans-serif;
 }
 
 .fas {
@@ -136,6 +138,16 @@ body::-webkit-scrollbar {
 
 .fa-sun:before {
   content: "\f185"
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("assets/img/loading.gif") center / 50px no-repeat;
 }
 
 @media (max-width: 1280px) {
