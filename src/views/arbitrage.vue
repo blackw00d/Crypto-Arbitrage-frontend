@@ -1,5 +1,14 @@
 <template>
-  <div id="arbitrage">
+  <div id="arbitrage" class="loading">
+    <span class="last_update">
+      Last Update:
+      <template v-if="last_update">
+        {{ (new Date(last_update)).toLocaleString() }}
+      </template>
+      <template v-else>
+        None
+      </template>
+    </span>
     <table class="arb_menu_style">
       <tbody>
       <tr>
@@ -371,6 +380,7 @@ export default {
       list_arbitrage: [],
       coin_array: [],
       profit_array: [],
+      last_update: null,
     }
   },
   created() {
@@ -408,15 +418,18 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            else if (response.status === 200)
+            else if (response.status === 200) {
+              document.getElementById('arbitrage').classList.remove('loading')
               return data
-            else
+            } else
               router.push('error')
           })
       ).catch(() => router.push('error'))
+      console.log(this.arbitrage_data)
       this.list_arbitrage = this.arbitrage_data[0]
       this.profit_array = this.arbitrage_data[1]
       this.coin_array = this.arbitrage_data[2]
+      this.last_update = this.arbitrage_data[3]['last_update']
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
@@ -471,6 +484,11 @@ export default {
 </script>
 
 <style scoped>
+
+.last_update {
+  text-align: center;
+  display: block;
+}
 
 a {
   color: var(--black-color);
