@@ -31,7 +31,7 @@
                    @change="send_keys($event)" type="password" @focusin="focusin" @focusout="focusout">
           </td>
         </tr>
-        <tr v-if="userkeys[id+'_password']">
+        <tr v-if="typeof userkeys[id+'_password'] !== 'undefined'">
           <td>Password</td>
           <td>
             <input class="write" :id="id+'_password'" :value="userkeys[id+'_password']" maxlength="70"
@@ -120,7 +120,8 @@
       <tr>
         <td v-if="this.account.days_to_deadline > 0"><span style="color: forestgreen"> Активен </span></td>
         <td v-else><span style="color: red"> Не активен </span></td>
-        <td>{{ this.account.days_to_deadline }}</td>
+        <td v-if="this.account.days_to_deadline > 0">{{ this.account.days_to_deadline }}</td>
+        <td v-else>0</td>
         <td>{{ (new Date(this.account.deadline)).toLocaleDateString() }}</td>
       </tr>
       </tbody>
@@ -286,10 +287,11 @@ export default {
     },
     async send_keys(e) {
       let data = {}
+      e.target.value = isNaN(parseInt(e.target.value)) ? 0 : e.target.value
       if (e.target.value.length > e.target.maxLength)
         e.target.value = e.target.value.slice(0, e.target.maxLength)
 
-      data[e.target.id] = parseInt(e.target.value)
+      data[e.target.id] = e.target.value
       const requestOptions = {
         method: "patch",
         headers: {
