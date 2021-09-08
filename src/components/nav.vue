@@ -45,14 +45,15 @@
       </div>
     </div>
     <div class="login" v-else>
-      <router-link :to="{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link><br>
+      <router-link :to="{ name:'login' }">Войти <i class="fas fa-sign-out-alt"></i></router-link>
+      <br>
       <router-link :to="{ name:'auth' }">Регистрация <i class="fas fa-user-circle"></i></router-link>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 
 export default {
   name: "NavBar",
@@ -61,9 +62,7 @@ export default {
     ...mapGetters(['loggedIn']),
   },
   methods: {
-    changeTheme() {
-      this.$store.dispatch('changeTheme')
-    }
+    ...mapActions(['changeTheme'])
   },
 }
 </script>
