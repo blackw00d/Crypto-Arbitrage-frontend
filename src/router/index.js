@@ -1,5 +1,3 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import balance from '../views/balance'
 import trading from '../views/trading'
@@ -12,21 +10,21 @@ import login from "../views/login";
 import auth from "../views/auth";
 import logout from "../views/logout";
 import error from "../components/error";
-
-Vue.use(VueRouter)
+import store from "@/store";
+import {createRouter, createWebHistory} from 'vue-router';
 
 const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
     },
     {
         path: '/exchange',
         name: 'exchange',
         component: exchange,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -34,7 +32,7 @@ const routes = [
         name: 'balance',
         component: balance,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -42,7 +40,7 @@ const routes = [
         name: 'trading',
         component: trading,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -50,7 +48,7 @@ const routes = [
         name: 'tracking',
         component: tracking,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -58,7 +56,7 @@ const routes = [
         name: 'listing',
         component: listing,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -66,7 +64,7 @@ const routes = [
         name: 'arbitrage',
         component: arbitrage,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -74,7 +72,7 @@ const routes = [
         name: 'settings',
         component: settings,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
@@ -92,23 +90,37 @@ const routes = [
         name: 'logout',
         component: logout,
         meta: {
-            requiresLogin: true
+            requiresAuth: true
         }
     },
     {
-        path: '/404',
+        path: '/error',
         name: 'error',
         component: error
     },
     {
-        path: '**',
+        path: '/:pathMatch(.*)*',
         component: error
-    }
+    },
 ]
 
-const router = new VueRouter({
-    mode: 'history',
-    routes
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth) {
+        const log = store.state.accessToken != null && store.state.timeToken > new Date().setDate(new Date().getMinutes())
+        if (!log) {
+            store.commit('destroyToken')
+            next({name: 'login'})
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
 })
 
 export default router
