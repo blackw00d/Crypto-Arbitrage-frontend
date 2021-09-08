@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="exchange_div" class="loading">
 
     <div id="left" class="left">
       <template v-for="(none , exchange_name) in listexchange">
@@ -14,7 +14,15 @@
 
     <template v-for="(exchange, exchange_name) in listexchange">
       <div :id="exchange_name" :class="[isActive(exchange_name) ? 'table-visible' : 'table']">
-
+          <span class="last_update">
+            Last Update:
+            <template v-if="exchange['update']['last_update']">
+            {{ (new Date(exchange['update']['last_update'])).toLocaleString() }}
+            </template>
+            <template v-else>
+              None
+            </template>
+          </span>
         <div :id="exchange_name+'_div'" :class="[isActive(exchange_name) ? 'exchange_lite_div' : 'hidden']">
           <table :id="exchange_name+'_table'" :class="[isActive(exchange_name) ? 'exchange_lite' : 'hidden']">
             <thead>
@@ -27,7 +35,7 @@
             </tr>
             </thead>
             <tbody>
-            <template v-for="(coins, coin_name) in exchange">
+            <template v-for="(coins, coin_name) in exchange['data']">
               <template v-for="(coin, index) in coins">
                 <tr :id="exchange_name+coin_name+index" class="hidden" @dblclick="show_graph(exchange_name, coin.name)"
                     title="Двойной клик для отображения графика">
@@ -46,7 +54,7 @@
 
         <div :id="exchange_name+'_div2'" class='exchange_lite_div2'>
           <table :id="exchange_name+'_table2'" class='exchange_lite_table'>
-            <template v-for="(coins, coin_name) in exchange">
+            <template v-for="(coins, coin_name) in exchange['data']">
               <tr @click="show_tr(exchange_name, (exchange_name+coin_name), coins.length)">
                 <td>{{ coin_name }}</td>
               </tr>
@@ -84,6 +92,7 @@ export default {
       chart: null,
       chartOptions: {
         theme: "light2",
+        // backgroundColor: "white",
         charts: [
           {
             axisX: {
@@ -176,16 +185,15 @@ export default {
     else {
       this.loadlistexchange()
       if (this.darkTheme)
-        this.chartOptions.backgroundColor = "#252830"
+        this.chartOptions.theme = "dark1"
     }
   },
   computed: mapState(['darkTheme']),
   watch: {
     darkTheme: function () {
-      this.chartOptions.backgroundColor = "white"
+      this.chartOptions.theme = "light2"
       if (this.darkTheme)
-        this.chartOptions.backgroundColor = "#252830"
-      if (this.chart) this.chart.render()
+        this.chartOptions.theme = "dark1"
     }
   },
   updated() {
@@ -204,9 +212,10 @@ export default {
           response => response.json().then(data => {
             if (response.status === 401)
               router.push({name: 'login'})
-            else if (response.status === 200)
+            else if (response.status === 200) {
+              document.getElementById('exchange_div').classList.remove('loading')
               return data
-            else
+            } else
               router.push('error')
           })
       ).catch(() => router.push('error'))
@@ -234,7 +243,7 @@ export default {
           }))
     },
     closeWindow() {
-      document.getElementById('popup').className='graph_off'
+      document.getElementById('popup').className = 'graph_off'
     },
     getScore(val, p) {
       return parseFloat(val).toFixed(p)
@@ -296,11 +305,18 @@ export default {
 
 <style scoped>
 
+.last_update {
+  position: absolute;
+  top: 20px;
+  color: var(--always-black);
+  font-size: 14px;
+}
+
 .graph_on {
   left: 50%;
   top: 25%;
   transform: translate(-50%, 0);
-  background: var(--white-color);
+  background: var(--chart-background);
   box-shadow: 0 0 10px var(--black-color);
   position: absolute;
   color: var(--black-color);
@@ -315,7 +331,7 @@ export default {
   width: 100%;
   height: 100%;
   top: 0;
-  left: 0
+  left: 0;
 }
 
 #graph_href {
@@ -418,6 +434,7 @@ a {
 .exchange_lite thead th {
   border: 1px green solid;
   border-top-style: none; /* нет верхней границы thead */
+  border-bottom-style: none;
   padding-bottom: 10px;
 }
 
@@ -489,7 +506,7 @@ a {
 
 @media (max-width: 1024px) {
 
-  .exchange_lite_table {
+  .exchange_lite_table, .last_update {
     font-size: 11px;
   }
 
